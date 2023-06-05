@@ -1,3 +1,4 @@
+package fr.ensisa.ensiblog.models;
 public class Topic {
 
     private String name;

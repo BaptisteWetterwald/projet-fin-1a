@@ -1,3 +1,5 @@
+package fr.ensisa.ensiblog.models;
+
 import java.util.List;
 
 public class Content {
