@@ -1,3 +1,3 @@
 package fr.ensisa.ensiblog.models;
-public class Image {
+public class Image extends Content {
 }
