@@ -1,4 +1,5 @@
 package fr.ensisa.ensiblog.models;
+import java.util.regex.Pattern;
 public class Email {
 
     private final String address;
@@ -8,7 +9,10 @@ public class Email {
     }
 
     public static boolean isValid(String address){
-        return true;
+        String emailRegex = "^[a-zA-Z]+\\.[a-zA-Z]+@uha\\.fr$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        boolean isMatch = pattern.matcher(address).matches();
+        return isMatch;
     }
 
     public String getAddress(){
