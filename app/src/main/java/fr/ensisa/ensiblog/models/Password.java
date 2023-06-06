@@ -16,6 +16,7 @@ public class Password {
         return matcher.matches();
     }
 
+
     public Password(){
         // empty constructor required for firebase
     }
