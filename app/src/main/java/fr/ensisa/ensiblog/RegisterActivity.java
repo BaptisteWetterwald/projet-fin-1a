@@ -21,6 +21,7 @@ public class RegisterActivity extends AppCompatActivity {
         edUsername = findViewById(R.id.editTextLoginUsername);
         edPassword = findViewById(R.id.editTextLoginPassword);
         Button buttonReg = (Button) findViewById(R.id.buttonRegister);
+        Button buttonLog = (Button) findViewById(R.id.buttonLogin);
         buttonReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -32,6 +33,13 @@ public class RegisterActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(), "Wrong username/password", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        buttonLog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
+                startActivity(intent);
             }
         });
     }
