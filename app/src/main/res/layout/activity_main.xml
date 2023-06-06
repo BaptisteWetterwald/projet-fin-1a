@@ -7,63 +7,74 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints">
+
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize">
+
             <HorizontalScrollView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="1"
-                android:orientation="horizontal"
-                >
-                <Button
-                    android:layout_width="wrap_content"
-                    android:text="button1"
-                    android:layout_height="wrap_content"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:text="button1"
-                    android:layout_height="wrap_content"/>
-                <Button
-                    android:layout_width="wrap_content"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="button1"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="button1"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="button1"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="button1"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="button1"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="button1"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="button1"/>
-            </LinearLayout>
-            </HorizontalScrollView>>
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Theme1" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Theme1" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Theme1" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Theme1" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Theme1" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Theme1" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Theme1" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Theme1" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Theme1" />
+                </LinearLayout>
+            </HorizontalScrollView>
+            >
         </com.google.android.material.appbar.MaterialToolbar>
-
-
     </com.google.android.material.appbar.AppBarLayout>
 
 
@@ -79,5 +90,124 @@
         app:layout_constraintRight_toRightOf="parent"
         app:menu="@menu/bottom_nav_menu" />
 
+    <RelativeLayout
+        android:layout_width="407dp"
+        android:layout_height="610dp"
+        app:layout_constraintBottom_toTopOf="@+id/nav_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical"
+                android:weightSum="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PREMIER POSTd
+dgdfvdfvdvdvfdvfdfvdfvdvdfvdfvdvfdfvdvfdvfdvfdfvddfvdfvdfvdfvfvdfvvffvfvdfvdfvfv
+dfvdfvdffffffffffffffffffffffffffffffffffffffffffdfvdfvdfvdfvdfvdv
+dfvdfvddddddddddddddddddddddddddddddddddddddfvdfvdfv
+dfvdfvvvvvvvvvvvvvvvvvvvvvvvvvvvfdd
+                               g                     "/>
+             <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PREMIER POSTd
+dgdfvdfvdvdvfdvfdfvdfvdvdfvdfvdvfdfvdvfdvfdvfdfvddfvdfvdfvdfvfvdfvvffvfvdfvdfvfv
+dfvdfvdffffffffffffffffffffffffffffffffffffffffffdfvdfvdfvdfvdfvdv
+dfvdfvddddddddddddddddddddddddddddddddddddddfvdfvdfv
+dfvdfvvvvvvvvvvvvvvvvvvvvvvvvvvvfdd
+                               g                     "/><TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PREMIER POSTd
+dgdfvdfvdvdvfdvfdfvdfvdvdfvdfvdvfdfvdvfdvfdvfdfvddfvdfvdfvdfvfvdfvvffvfvdfvdfvfv
+dfvdfvdffffffffffffffffffffffffffffffffffffffffffdfvdfvdfvdfvdfvdv
+dfvdfvddddddddddddddddddddddddddddddddddddddfvdfvdfv
+dfvdfvvvvvvvvvvvvvvvvvvvvvvvvvvvfdd
+                               g                     "/><TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PREMIER POSTd
+dgdfvdfvdvdvfdvfdfvdfvdvdfvdfvdvfdfvdvfdvfdvfdfvddfvdfvdfvdfvfvdfvvffvfvdfvdfvfv
+dfvdfvdffffffffffffffffffffffffffffffffffffffffffdfvdfvdfvdfvdfvdv
+dfvdfvddddddddddddddddddddddddddddddddddddddfvdfvdfv
+dfvdfvvvvvvvvvvvvvvvvvvvvvvvvvvvfdd
+                               g                     "/><TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PREMIER POSTd
+dgdfvdfvdvdvfdvfdfvdfvdvdfvdfvdvfdfvdvfdvfdvfdfvddfvdfvdfvdfvfvdfvvffvfvdfvdfvfv
+dfvdfvdffffffffffffffffffffffffffffffffffffffffffdfvdfvdfvdfvdfvdv
+dfvdfvddddddddddddddddddddddddddddddddddddddfvdfvdfv
+dfvdfvvvvvvvvvvvvvvvvvvvvvvvvvvvfdd
+                               g                     "/><TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PREMIER POSTd
+dgdfvdfvdvdvfdvfdfvdfvdvdfvdfvdvfdfvdvfdvfdvfdfvddfvdfvdfvdfvfvdfvvffvfvdfvdfvfv
+dfvdfvdffffffffffffffffffffffffffffffffffffffffffdfvdfvdfvdfvdfvdv
+dfvdfvddddddddddddddddddddddddddddddddddddddfvdfvdfv
+dfvdfvvvvvvvvvvvvvvvvvvvvvvvvvvvfdd
+                               g                     "/><TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PREMIER POSTd
+dgdfvdfvdvdvfdvfdfvdfvdvdfvdfvdvfdfvdvfdvfdvfdfvddfvdfvdfvdfvfvdfvvffvfvdfvdfvfv
+dfvdfvdffffffffffffffffffffffffffffffffffffffffffdfvdfvdfvdfvdfvdv
+dfvdfvddddddddddddddddddddddddddddddddddddddfvdfvdfv
+dfvdfvvvvvvvvvvvvvvvvvvvvvvvvvvvfdd
+                               g                     "/><TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PREMIER POSTd
+dgdfvdfvdvdvfdvfdfvdfvdvdfvdfvdvfdfvdvfdvfdvfdfvddfvdfvdfvdfvfvdfvvffvfvdfvdfvfv
+dfvdfvdffffffffffffffffffffffffffffffffffffffffffdfvdfvdfvdfvdfvdv
+dfvdfvddddddddddddddddddddddddddddddddddddddfvdfvdfv
+dfvdfvvvvvvvvvvvvvvvvvvvvvvvvvvvfdd
+                               g                     "/><TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PREMIER POSTd
+dgdfvdfvdvdvfdvfdfvdfvdvdfvdfvdvfdfvdvfdvfdvfdfvddfvdfvdfvdfvfvdfvvffvfvdfvdfvfv
+dfvdfvdffffffffffffffffffffffffffffffffffffffffffdfvdfvdfvdfvdfvdv
+dfvdfvddddddddddddddddddddddddddddddddddddddfvdfvdfv
+dfvdfvvvvvvvvvvvvvvvvvvvvvvvvvvvfdd
+                               g                     "/><TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PREMIER POSTd
+dgdfvdfvdvdvfdvfdfvdfvdvdfvdfvdvfdfvdvfdvfdvfdfvddfvdfvdfvdfvfvdfvvffvfvdfvdfvfv
+dfvdfvdffffffffffffffffffffffffffffffffffffffffffdfvdfvdfvdfvdfvdv
+dfvdfvddddddddddddddddddddddddddddddddddddddfvdfvdfv
+dfvdfvvvvvvvvvvvvvvvvvvvvvvvvvvvfdd
+                               g                     "/><TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PREMIER POSTd
+dgdfvdfvdvdvfdvfdfvdfvdvdfvdfvdvfdfvdvfdvfdvfdfvddfvdfvdfvdfvfvdfvvffvfvdfvdfvfv
+dfvdfvdffffffffffffffffffffffffffffffffffffffffffdfvdfvdfvdfvdfvdv
+dfvdfvddddddddddddddddddddddddddddddddddddddfvdfvdfv
+dfvdfvvvvvvvvvvvvvvvvvvvvvvvvvvvfdd
+                               g                     "/><TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PREMIER POSTd
+dgdfvdfvdvdvfdvfdfvdfvdvdfvdfvdvfdfvdvfdvfdvfdfvddfvdfvdfvdfvfvdfvvffvfvdfvdfvfv
+dfvdfvdffffffffffffffffffffffffffffffffffffffffffdfvdfvdfvdfvdfvdv
+dfvdfvddddddddddddddddddddddddddddddddddddddfvdfvdfv
+dfvdfvvvvvvvvvvvvvvvvvvvvvvvvvvvfdd
+                               g                     "/>
 
+            </LinearLayout>
+
+
+        </ScrollView>
+
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
