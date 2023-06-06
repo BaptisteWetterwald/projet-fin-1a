@@ -15,8 +15,7 @@ public class Email {
     public static boolean isValid(String address){
         String emailRegex = "^[a-zA-Z]+\\.[a-zA-Z]+@uha\\.fr$";
         Pattern pattern = Pattern.compile(emailRegex);
-        boolean isMatch = pattern.matcher(address).matches();
-        return isMatch;
+        return pattern.matcher(address).matches();
     }
 
     public String getAddress(){
