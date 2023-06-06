@@ -8,5 +8,13 @@ public class Content {
     public Content(){
         // empty constructor required for firebase
     }
+
+    public List<Byte> getData() {
+        return data;
+    }
+
+    public void setData(List<Byte> data) {
+        this.data = data;
+    }
 }
 

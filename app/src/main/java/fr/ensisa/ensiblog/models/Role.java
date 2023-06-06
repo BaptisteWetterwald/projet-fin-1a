@@ -5,4 +5,12 @@ public class Role {
     public Role(){
         // empty constructor required for firebase
     }
+
+    public short getRole() {
+        return role;
+    }
+
+    public void setRole(short role) {
+        this.role = role;
+    }
 }

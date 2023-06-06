@@ -2,7 +2,7 @@ package fr.ensisa.ensiblog.models;
 import java.util.regex.Pattern;
 public class Email {
 
-    private final String address;
+    private String address;
 
     public Email(){
         // empty constructor required for firebase
