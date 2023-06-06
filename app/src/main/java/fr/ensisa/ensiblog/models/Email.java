@@ -3,6 +3,10 @@ public class Email {
 
     private final String address;
 
+    public Email(){
+        // empty constructor required for firebase
+    }
+
     public Email(String address) {
         this.address = address;
     }

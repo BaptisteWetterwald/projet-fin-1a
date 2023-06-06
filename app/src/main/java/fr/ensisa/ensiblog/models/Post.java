@@ -9,5 +9,9 @@ public class Post {
     private User author;
     private List<Content> content;
     private Date expiration;
+
+    public Post(){
+        // empty constructor required for firebase
+    }
     
 }
