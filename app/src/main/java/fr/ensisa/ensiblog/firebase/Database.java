@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -13,6 +14,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 import fr.ensisa.ensiblog.models.Topic;
@@ -93,6 +95,79 @@ public class Database {
         });
     }
 
+    public void removeFrom(String tableName, String[] fields, String[] values, final AlreadyInListener listener) {
+        CollectionReference dbTable = db.collection(tableName);
 
+        // Map fields and values to a query
+        Query query = dbTable.whereEqualTo(fields[0], values[0]);
+        for (int i = 1; i < fields.length; i++) {
+            query = query.whereEqualTo(fields[i], values[i]);
+        }
+
+        // Execute the query
+        Task<QuerySnapshot> task = query.get();
+        task.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                QuerySnapshot querySnapshot = task.getResult();
+                boolean exists = !querySnapshot.isEmpty();
+                if (exists) {
+                    querySnapshot.getDocuments().get(0).getReference().delete();
+                }
+                listener.onCheckComplete(exists);
+            }
+        });
+    }
+
+    public void removeFrom(String tableName, Object object){
+        CollectionReference dbTable = db.collection(tableName);
+        dbTable.document(object.toString()).delete();
+    }
+
+    public void update(String tableName, Object object){
+        CollectionReference dbTable = db.collection(tableName);
+        dbTable.document(object.toString()).set(object);
+    }
+
+    public void update(String tableName, String[] fields, String[] values, Object object){
+        CollectionReference dbTable = db.collection(tableName);
+        Query query = dbTable.whereEqualTo(fields[0], values[0]);
+        for (int i = 1; i < fields.length; i++) {
+            query = query.whereEqualTo(fields[i], values[i]);
+        }
+        query.get().addOnCompleteListener(task -> {
+            QuerySnapshot querySnapshot = task.getResult();
+            boolean exists = !querySnapshot.isEmpty();
+            if (exists) {
+                querySnapshot.getDocuments().get(0).getReference().set(object);
+            }
+        });
+    }
+
+    public <T> Task<List<T>> getObjects(String tableName, final Class<T> objectClass, String[] fields, Object[] values) {
+        final TaskCompletionSource<List<T>> taskCompletionSource = new TaskCompletionSource<>();
+
+        CollectionReference dbTable = db.collection(tableName);
+        Query query = dbTable.orderBy("name", Query.Direction.ASCENDING);
+
+        for (int i = 0; i < fields.length; i++) {
+            query = query.whereEqualTo(fields[i], values[i]);
+        }
+
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    QuerySnapshot querySnapshot = task.getResult();
+                    List<T> objects = querySnapshot.toObjects(objectClass);
+                    taskCompletionSource.setResult(objects);
+                } else {
+                    taskCompletionSource.setException(Objects.requireNonNull(task.getException()));
+                }
+            }
+        });
+
+        return taskCompletionSource.getTask();
+    }
 
 }

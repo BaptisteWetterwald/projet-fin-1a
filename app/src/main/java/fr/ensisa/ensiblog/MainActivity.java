@@ -3,13 +3,18 @@ package fr.ensisa.ensiblog;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import java.util.List;
 
 import fr.ensisa.ensiblog.databinding.ActivityMainBinding;
 import fr.ensisa.ensiblog.firebase.AlreadyInListener;
@@ -61,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         });*/
 
         // check if a topic with name "ENSISA" already exists
-        Database.getInstance().alreadyIn("Topics", new String[]{"name"}, new String[]{"ENSISA"}, new AlreadyInListener() {
+        /*Database.getInstance().alreadyIn("Topics", new String[]{"name"}, new String[]{"ENSISA"}, new AlreadyInListener() {
             @Override
             public void onCheckComplete(boolean exists) {
                 if (exists) {
@@ -77,6 +82,25 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckFailed(Exception e) {
                 // Handle any errors that occurred during the query
                 Log.i("n6a","Error: " + e.getMessage());
+            }
+        });*/
+
+        String[] fields = new String[]{"name", "defaultRole"};
+        Object[] values = new Object[]{"ENSISA", new Role(0)};
+
+        Database.getInstance().getObjects("Topics", Topic.class, fields, values).addOnSuccessListener(new OnSuccessListener<List<Topic>>() {
+            @Override
+            public void onSuccess(List<Topic> topics) {
+                // Handle the retrieved topics
+                for (Topic topic : topics) {
+                    // Process each topic instance
+                    Log.i("n6a", topic.getName());
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Handle any errors that occurred during the query
             }
         });
 
