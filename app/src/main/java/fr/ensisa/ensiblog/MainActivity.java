@@ -13,6 +13,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import fr.ensisa.ensiblog.databinding.ActivityMainBinding;
 import fr.ensisa.ensiblog.firebase.Database;
+import fr.ensisa.ensiblog.firebase.TopicListener;
 import fr.ensisa.ensiblog.models.Role;
 import fr.ensisa.ensiblog.models.Topic;
 
@@ -36,9 +37,28 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-        Database.getInstance().addTopic(new Topic("ENSISA", new Role(0)));
+        //Database.getInstance().addTopic(new Topic("ENSISA", new Role(0)));
         //Topic topic = Database.getInstance().getTopic("ENSISA");
-        //Log.i("ENSIBLOG",topic.getName());
+
+        Database.getInstance().getTopic("ENSISA", new TopicListener() {
+            @Override
+            public void onTopicRetrieved(Topic topic) {
+                if (topic != null) {
+                    // Do something with the retrieved topic
+                    Log.i("n6a", topic.getName());
+                } else {
+                    // Handle the case when no topic is found
+                    Log.i("n6a","No topic found");
+                }
+            }
+
+            @Override
+            public void onTopicRetrievalFailed(Exception e) {
+                // Handle any errors that occurred during the query
+                Log.i("n6a","Error: " + e.getMessage());
+            }
+        });
+
     }
 
 }
