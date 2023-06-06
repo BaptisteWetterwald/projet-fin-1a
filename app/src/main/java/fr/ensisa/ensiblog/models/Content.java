@@ -17,13 +17,5 @@ public abstract class Content {
         this.data = data;
     }
 
-    public List<Byte> getData() {
-        return data;
-    }
-
-    public void setData(List<Byte> data) {
-        this.data = data;
-    }
-
 }
 
