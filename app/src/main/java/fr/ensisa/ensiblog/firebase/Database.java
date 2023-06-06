@@ -1,31 +1,33 @@
 package fr.ensisa.ensiblog.firebase;
 
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import fr.ensisa.ensiblog.models.Topic;
 
 public class Database {
-    private FirebaseFirestore db;
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private static Database instance;
 
-    public Database(){
-        db = FirebaseFirestore.getInstance();
+    private static final String NAME_DB_TOPICS = "Database";
+
+    private Database() {} // Singleton
+
+    public static Database getInstance(){
+        if (instance == null){
+            instance = new Database();
+        }
+        return instance;
     }
 
-    public String addTopic(Topic topic){
+    public boolean addTopic(Topic topic) {
+        CollectionReference dbTopics = db.collection(NAME_DB_TOPICS);
+        return dbTopics.add(topic).isSuccessful();
+    }
 
-        CollectionReference dbTopics = db.collection("Topics");
-
-        dbTopics.add(topic).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(DocumentReference documentReference) {
-                Toast.makeText(MainActivity.this, "Your Course has been added to Firebase Firestore", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MainActivity.this, "Fail to add course \n" + e, Toast.LENGTH_SHORT).show();
-            }
-        });
+    public Topic getTopic(String id) {
+        CollectionReference dbTopics = db.collection(NAME_DB_TOPICS);
+        return dbTopics.document(id).get().getResult().toObject(Topic.class);
     }
 
 }
