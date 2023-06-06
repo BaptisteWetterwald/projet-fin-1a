@@ -6,7 +6,8 @@
     <com.google.android.material.navigation.NavigationView
         android:layout_width="250dp"
         android:layout_height="610dp"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints"
+        tools:showIn="navigation_view">
 
         <ScrollView
             android:layout_width="match_parent"
