@@ -22,6 +22,10 @@ public class Email {
         return this.address;
     }
 
+    public void setAddress(String address){
+        this.address = address;
+    }
+
     public String[] getNames(){
         String beforeAt = address.split("@")[0];
         return beforeAt.split(".");

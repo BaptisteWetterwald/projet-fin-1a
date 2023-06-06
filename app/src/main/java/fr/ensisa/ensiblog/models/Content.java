@@ -2,7 +2,7 @@ package fr.ensisa.ensiblog.models;
 
 import java.util.List;
 
-public class Content {
+public abstract class Content {
     private List<Byte> data;
 
     public Content(){
@@ -16,5 +16,14 @@ public class Content {
     public void setData(List<Byte> data) {
         this.data = data;
     }
+
+    public List<Byte> getData() {
+        return data;
+    }
+
+    public void setData(List<Byte> data) {
+        this.data = data;
+    }
+
 }
 
