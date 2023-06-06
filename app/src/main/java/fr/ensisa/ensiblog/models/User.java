@@ -12,6 +12,12 @@ public class User {
         // empty constructor required for firebase
     }
 
+    public User(Email email){
+        this.email = email;
+        this.registered = new Date();
+        this.password = new Password();
+    }
+
     public Date getRegistered() {
         return registered;
     }

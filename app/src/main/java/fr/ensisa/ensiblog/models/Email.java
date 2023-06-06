@@ -26,16 +26,16 @@ public class Email {
         this.address = address;
     }
 
-    public String[] getNames(){
+    public String[] names(){
         String beforeAt = address.split("@")[0];
         return beforeAt.split(".");
     }
 
-    public String getFirstName(){
-        return getNames()[0];
+    public String firstName(){
+        return names()[0];
     }
 
-    public String getLastName(){
-        return getNames()[1];
+    public String lastName(){
+        return names()[1];
     }
 }

@@ -8,6 +8,11 @@ public class Topic {
         // empty constructor required for firebase
     }
 
+    public Topic(Topic topic){
+        this.name = topic.getName();
+        this.defaultRole = topic.getDefaultRole();
+    }
+
     public Topic(String name, Role defaultRole){
         this.name = name;
         this.defaultRole = defaultRole;

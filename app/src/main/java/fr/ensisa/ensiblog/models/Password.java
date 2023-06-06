@@ -19,4 +19,8 @@ public class Password {
     public Password(){
         // empty constructor required for firebase
     }
+
+    public String getPassword(){
+        return this.password;
+    }
 }
