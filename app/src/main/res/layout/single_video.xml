@@ -12,9 +12,9 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="wrap_content">
-        <ImageView
+        <VideoView
             android:layout_width="match_parent"
-            android:id="@+id/ivPostmage"
+            android:id="@+id/simpleVideoView"
             android:scaleType="centerCrop"
             android:src="@drawable/ensisa"
             android:layout_height="220dp"/>
