@@ -1,16 +1,20 @@
 package fr.ensisa.ensiblog.models;
 public class Role {
-    private short role;
+    private int role;
 
     public Role(){
         // empty constructor required for firebase
     }
 
-    public short getRole() {
+    public Role(int role){
+        this.role = role;
+    }
+
+    public int getRole() {
         return role;
     }
 
-    public void setRole(short role) {
+    public void setRole(int role) {
         this.role = role;
     }
 }

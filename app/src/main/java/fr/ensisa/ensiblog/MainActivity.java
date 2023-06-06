@@ -1,6 +1,7 @@
 package fr.ensisa.ensiblog;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -11,6 +12,9 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import fr.ensisa.ensiblog.databinding.ActivityMainBinding;
+import fr.ensisa.ensiblog.firebase.Database;
+import fr.ensisa.ensiblog.models.Role;
+import fr.ensisa.ensiblog.models.Topic;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+        Database.getInstance().addTopic(new Topic("ENSISA", new Role(0)));
+        //Topic topic = Database.getInstance().getTopic("ENSISA");
+        //Log.i("ENSIBLOG",topic.getName());
     }
 
 }
