@@ -31,7 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Wrong username/password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Wrong mail/password", Toast.LENGTH_SHORT).show();
                 }
             }
         });

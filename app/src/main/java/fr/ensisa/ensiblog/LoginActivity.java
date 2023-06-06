@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(intent);
                 }else{
-                    Toast.makeText(getApplicationContext(),"Wrong username/password",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Wrong mail/password",Toast.LENGTH_SHORT).show();
                 }
             }
         });
