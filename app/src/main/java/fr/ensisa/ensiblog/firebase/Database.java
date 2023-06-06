@@ -33,6 +33,31 @@ public class Database {
         return instance;
     }
 
+    public void alreadyIn(String tableName, String[] fields, String[] values, final AlreadyInListener listener) {
+        CollectionReference dbTable = db.collection(tableName);
+
+        // Map fields and values to a query
+        Query query = dbTable.whereEqualTo(fields[0], values[0]);
+        for (int i = 1; i < fields.length; i++) {
+            query = query.whereEqualTo(fields[i], values[i]);
+        }
+
+        // Execute the query
+        Task<QuerySnapshot> task = query.get();
+        task.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    QuerySnapshot querySnapshot = task.getResult();
+                    boolean exists = !querySnapshot.isEmpty();
+                    listener.onCheckComplete(exists);
+                } else {
+                    listener.onCheckFailed(task.getException());
+                }
+            }
+        });
+    }
+
     public boolean addTopic(Topic topic) {
         CollectionReference dbTopics = db.collection(NAME_DB_TOPICS);
         try {
@@ -50,23 +75,20 @@ public class Database {
         CollectionReference dbTopics = db.collection(NAME_DB_TOPICS);
         Query query = dbTopics.whereEqualTo("name", name);
 
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    QuerySnapshot querySnapshot = task.getResult();
-                    List<DocumentSnapshot> documents = querySnapshot.getDocuments();
-                    if (!documents.isEmpty()) {
-                        DocumentSnapshot document = documents.get(0);
-                        Topic topic = document.toObject(Topic.class);
-                        Log.i("n6a", topic.getName());
-                        listener.onTopicRetrieved(topic);
-                    } else {
-                        listener.onTopicRetrieved(null); // No matching topic found
-                    }
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                QuerySnapshot querySnapshot = task.getResult();
+                List<DocumentSnapshot> documents = querySnapshot.getDocuments();
+                if (!documents.isEmpty()) {
+                    DocumentSnapshot document = documents.get(0);
+                    Topic topic = document.toObject(Topic.class);
+                    Log.i("n6a", topic.getName());
+                    listener.onTopicRetrieved(topic);
                 } else {
-                    listener.onTopicRetrievalFailed(task.getException()); // Error occurred
+                    listener.onTopicRetrieved(null); // No matching topic found
                 }
+            } else {
+                listener.onTopicRetrievalFailed(task.getException()); // Error occurred
             }
         });
     }

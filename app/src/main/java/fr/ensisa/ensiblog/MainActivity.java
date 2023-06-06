@@ -12,6 +12,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import fr.ensisa.ensiblog.databinding.ActivityMainBinding;
+import fr.ensisa.ensiblog.firebase.AlreadyInListener;
 import fr.ensisa.ensiblog.firebase.Database;
 import fr.ensisa.ensiblog.firebase.TopicListener;
 import fr.ensisa.ensiblog.models.Role;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         //Database.getInstance().addTopic(new Topic("ENSISA", new Role(0)));
         //Topic topic = Database.getInstance().getTopic("ENSISA");
 
-        Database.getInstance().getTopic("ENSISA", new TopicListener() {
+        /*Database.getInstance().getTopic("ENSISA", new TopicListener() {
             @Override
             public void onTopicRetrieved(Topic topic) {
                 if (topic != null) {
@@ -57,7 +58,28 @@ public class MainActivity extends AppCompatActivity {
                 // Handle any errors that occurred during the query
                 Log.i("n6a","Error: " + e.getMessage());
             }
+        });*/
+
+        // check if a topic with name "ENSISA" already exists
+        Database.getInstance().alreadyIn("Topics", new String[]{"name"}, new String[]{"ENSISA"}, new AlreadyInListener() {
+            @Override
+            public void onCheckComplete(boolean exists) {
+                if (exists) {
+                    // Do something if the topic already exists
+                    Log.i("n6a","Topic already exists");
+                } else {
+                    // Do something if the topic does not exist
+                    Log.i("n6a","Topic does not exist");
+                }
+            }
+
+            @Override
+            public void onCheckFailed(Exception e) {
+                // Handle any errors that occurred during the query
+                Log.i("n6a","Error: " + e.getMessage());
+            }
         });
+
 
     }
 
