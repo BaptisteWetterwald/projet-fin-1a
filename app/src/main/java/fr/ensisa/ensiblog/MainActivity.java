@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         Database.getInstance().add(Table.USERS.getName(), new User(new Email(email)), User.class,true);
 
         Database.getInstance().add(Table.USERS.getName(), new User(new Email(email)), User.class,false);
-        
+
         String[] fields = new String[]{"name", "defaultRole"};
         Object[] values = new Object[]{"ENSISA", new Role(0)};
 
