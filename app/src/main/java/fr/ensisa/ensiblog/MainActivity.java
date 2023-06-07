@@ -1,28 +1,18 @@
 package fr.ensisa.ensiblog;
 
 import android.os.Bundle;
-import android.util.Log;
-import androidx.appcompat.app.ActionBarDrawerToggle;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.ui.AppBarConfiguration;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
+
 import fr.ensisa.ensiblog.databinding.ActivityMainBinding;
-import fr.ensisa.ensiblog.firebase.Authentication;
-import fr.ensisa.ensiblog.firebase.Database;
-import fr.ensisa.ensiblog.firebase.Table;
-import fr.ensisa.ensiblog.models.Email;
-import fr.ensisa.ensiblog.models.User;
 
 public class MainActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
     private ActivityMainBinding binding;
 
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
-    ActionBarDrawerToggle drawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.i("n6a","Topic does not exist");
                 }
             }
-        });*/
+        });
 
         String email = "test.michel@uha.fr";
         String mdp = "2bjbkjbSBHCD%ckd@hdbzj";
@@ -75,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
 
         Database.getInstance().add(Table.USERS.getName(), new User(new Email(email)), User.class,false);
 
-        /*
         String[] fields = new String[]{"name", "defaultRole"};
         Object[] values = new Object[]{"ENSISA", new Role(0)};
 
@@ -125,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         //User user = new User(new Email("baptiste.wetterwald@uha.fr"));
         //Database.getInstance().add(Table.USERS.getName(), user, User.class);
 
-        Authentication auth = new Authentication();
+        //Authentication auth = new Authentication();
         //String email = "test.michel@uha.fr";
         //String mdp = "2bjbkjbSBHCD%ckd@hdbzj";
 
@@ -143,14 +132,14 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 Log.i("ENSIBLOG","ERREUR : utilisateur existant !");
             }
-        });*/
+        });
         auth.signInUser(email,mdp).addOnCompleteListener(task -> {
            if (task.isSuccessful()){
                Log.i("ENSISABLOG","SUCCESSFULLY LOGIN");
            } else {
                Log.i("ENSISABLOG","FAIL TO LOGIN");
            }
-        });
+        });*/
 
     }
 
