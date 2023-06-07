@@ -119,7 +119,7 @@
     </com.google.android.material.navigation.NavigationView>
 
     <!--<com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
+        android:id="@+id/nav_right_view"
         android:layout_width="350dp"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -182,5 +182,4 @@
             </LinearLayout>
         </ScrollView>
     </com.google.android.material.navigation.NavigationView>-->
-
 </androidx.drawerlayout.widget.DrawerLayout>
