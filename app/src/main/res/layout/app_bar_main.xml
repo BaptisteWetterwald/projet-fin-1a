@@ -13,7 +13,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/content_main" />
-    <androidx.appcompat.widget.Toolbar
+     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -26,7 +26,6 @@
             android:layout_height="match_parent"
             android:text="Profil"
             android:layout_marginLeft="220dp" />
-
     </androidx.appcompat.widget.Toolbar>
 
 

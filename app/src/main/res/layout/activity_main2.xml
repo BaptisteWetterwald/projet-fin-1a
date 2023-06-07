@@ -14,172 +14,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.google.android.material.navigation.NavigationView
-        android:layout_width="250dp"
-        android:id="@+id/nav_view"
-        android:layout_height="match_parent"
-        tools:ignore="MissingConstraints"
-        tools:showIn="navigation_view"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true">
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="40dp" />
+    <include
+    android:id="@+id/left_nav_view"
+    layout="@layout/left_nav_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    tools:context=".MainActivity2"/>
 
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="40dp" />
+    <include
+    android:id="@+id/right_nav_view"
+    layout="@layout/right_nav_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="end"
+    app:layout_constraintEnd_toEndOf="parent"
+    tools:context=".MainActivity2"/>
 
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="40dp" />
-
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="40dp" />
-
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="40dp"
-                    android:text="theme test" />
-
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="40dp" />
-
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="40dp"
-                    android:text="theme test" />
-
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="40dp" />
-
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="40dp" />
-
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="40dp" />
-
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="40dp" />
-
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="40dp"
-                    android:text="theme test" />
-
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="40dp" />
-
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="40dp" />
-
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="40dp"
-                    android:text="theme test" />
-
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="40dp"
-                    android:text="theme test" />
-
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="40dp" />
-
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="40dp" />
-
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="40dp" />
-
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="40dp"
-                    android:text="theme test" />
-            </LinearLayout>
-        </ScrollView>
-    </com.google.android.material.navigation.NavigationView>
-
-    <!--<com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_right_view"
-        android:layout_width="350dp"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        tools:ignore="MissingConstraints">
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:src="@drawable/ensisa" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:text="Ceci est ma bio
-                    I jsbdvksjnckjbsksbndvjbsvkjbsdkjbcsks
-                    jksbcdkjscscskjcdnsdjcscnscdjscbdsjbcd
-                    csdijosicjscdsbcdsdcscsdcjnsodcjcdincc"
-                    tools:ignore="HardcodedText" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:text="Thèmes Favori  :" />
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:text="theme test" />
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:text="theme test" />
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:text="theme test" />
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:text="Gestion Compte" />
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:text="Disconnect" />
-            </LinearLayout>
-        </ScrollView>
-    </com.google.android.material.navigation.NavigationView>-->
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity2">
+
+    <com.google.android.material.navigation.NavigationView
+         android:id="@+id/nav_right_view"
+         android:layout_width="350dp"
+         android:layout_height="match_parent"
+         android:layout_marginLeft="63dp"
+         android:layout_gravity="start"
+         android:fitsSystemWindows="true"
+         tools:ignore="MissingConstraints">
+
+         <ScrollView
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:orientation="vertical">
+
+                 <ImageView
+                     android:layout_width="match_parent"
+                     android:layout_height="200dp"
+                     android:src="@drawable/ensisa" />
+
+                 <TextView
+                     android:layout_width="match_parent"
+                     android:layout_height="100dp"
+                     android:text="Ceci est ma bio
+                     I jsbdvksjnckjbsksbndvjbsvkjbsdkjbcsks
+                     jksbcdkjscscskjcdnsdjcscnscdjscbdsjbcd
+                     csdijosicjscdsbcdsdcscsdcjnsodcjcdincc"
+                     tools:ignore="HardcodedText" />
+
+                 <TextView
+                     android:layout_width="match_parent"
+                     android:layout_height="30dp"
+                     android:text="Thèmes Favori  :" />
+
+                 <Button
+                     android:layout_width="match_parent"
+                     android:layout_height="40dp"
+                     android:text="theme test" />
+
+                 <Button
+                     android:layout_width="match_parent"
+                     android:layout_height="40dp"
+                     android:text="theme test" />
+
+                 <Button
+                     android:layout_width="match_parent"
+                     android:layout_height="40dp"
+                     android:text="theme test" />
+
+                 <Button
+                     android:layout_width="match_parent"
+                     android:layout_height="40dp"
+                     android:text="Gestion Compte" />
+
+                 <Button
+                     android:layout_width="match_parent"
+                     android:layout_height="40dp"
+                     android:text="Disconnect" />
+             </LinearLayout>
+         </ScrollView>
+     </com.google.android.material.navigation.NavigationView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

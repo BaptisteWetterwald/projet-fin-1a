@@ -29,17 +29,28 @@ public class MainActivity2 extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar);
-       /* binding.appBarMain.rightNavView.setOnClickListener(new View.OnClickListener() {
+
+
+        binding.appBarMain.navViewRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                DrawerLayout drawer = binding.drawerLayout;
+                NavigationView navigationView = binding.rightNavView.navRightView;
+                mAppBarConfigurationLeft = new AppBarConfiguration.Builder(
+                        R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                        .setOpenableLayout(drawer)
+                        .build();
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+
+
             }
-        });*/
-        DrawerLayout drawer = binding.drawerLayout;
-        NavigationView navigationView = binding.navView;
+        });
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+        DrawerLayout drawer = binding.drawerLayout;
+        NavigationView navigationView = binding.leftNavView.leftNavView;
         mAppBarConfigurationLeft = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
                 .setOpenableLayout(drawer)
