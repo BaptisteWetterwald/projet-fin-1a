@@ -4,6 +4,8 @@ public class TopicUser {
     private User user;
     private Role role;
 
+    private String fonction;
+
     public TopicUser(){
         // empty constructor required for firebase
     }
@@ -30,5 +32,13 @@ public class TopicUser {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getFonction() {
+        return fonction;
+    }
+
+    public void setFonction(String fonction) {
+        this.fonction = fonction;
     }
 }

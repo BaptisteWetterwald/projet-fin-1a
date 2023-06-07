@@ -6,13 +6,22 @@ import java.util.Date;
 
 public class User {
 
-    private String email;
+    private Email email;
     private String fonction;
     private String biographie;
     private String uid;
 
     public User(){
         // empty constructor required for firebase
+    }
+
+    public User(Email email){
+        setEmail(email);
+    }
+
+    public User(Email email, String uid){
+        setEmail(email);
+        setUid(uid);
     }
 
     public String getFonction() {
@@ -39,11 +48,11 @@ public class User {
         this.uid = uid;
     }
 
-    public String getEmail() {
+    public Email getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(Email email) {
         this.email = email;
     }
 }

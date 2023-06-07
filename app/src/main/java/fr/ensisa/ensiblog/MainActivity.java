@@ -1,10 +1,16 @@
 package fr.ensisa.ensiblog;
 
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseUser;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -14,6 +20,8 @@ import androidx.navigation.ui.NavigationUI;
 import java.util.Date;
 
 import fr.ensisa.ensiblog.databinding.ActivityMainBinding;
+import fr.ensisa.ensiblog.firebase.AlreadyInListener;
+import fr.ensisa.ensiblog.firebase.Authentication;
 import fr.ensisa.ensiblog.firebase.Database;
 import fr.ensisa.ensiblog.firebase.Table;
 import fr.ensisa.ensiblog.models.Email;
@@ -42,11 +50,10 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        // check if a topic with name "ENSISA" already exists
-        /*Database.getInstance().alreadyIn("Topics", new String[]{"name"}, new String[]{"ENSISA"}, new AlreadyInListener() {
+/*        Database.getInstance().alreadyIn("Topics", new String[]{"name"}, new String[]{"ENSISA"}, new Database.AlreadyInCallback() {
             @Override
-            public void onCheckComplete(boolean exists) {
-                if (exists) {
+            public void onResult(boolean alreadyExists) {
+                if (alreadyExists) {
                     // Do something if the topic already exists
                     Log.i("n6a","Topic already exists");
                 } else {
@@ -54,13 +61,27 @@ public class MainActivity extends AppCompatActivity {
                     Log.i("n6a","Topic does not exist");
                 }
             }
+        });
 
+        Database.getInstance().alreadyIn("Topics", new String[]{"name"}, new String[]{"1234"}, new Database.AlreadyInCallback() {
             @Override
-            public void onCheckFailed(Exception e) {
-                // Handle any errors that occurred during the query
-                Log.i("n6a","Error: " + e.getMessage());
+            public void onResult(boolean alreadyExists) {
+                if (alreadyExists) {
+                    // Do something if the topic already exists
+                    Log.i("n6a","Topic already exists");
+                } else {
+                    // Do something if the topic does not exist
+                    Log.i("n6a","Topic does not exist");
+                }
             }
         });*/
+
+        String email = "test.michel@uha.fr";
+        String mdp = "2bjbkjbSBHCD%ckd@hdbzj";
+
+        Database.getInstance().add(Table.USERS.getName(), new User(new Email(email)), User.class,true);
+
+        Database.getInstance().add(Table.USERS.getName(), new User(new Email(email)), User.class,false);
 
         /*
         String[] fields = new String[]{"name", "defaultRole"};
@@ -111,6 +132,33 @@ public class MainActivity extends AppCompatActivity {
 
         //User user = new User(new Email("baptiste.wetterwald@uha.fr"));
         //Database.getInstance().add(Table.USERS.getName(), user, User.class);
+
+        Authentication auth = new Authentication();
+        //String email = "test.michel@uha.fr";
+        //String mdp = "2bjbkjbSBHCD%ckd@hdbzj";
+
+        /*auth.createUser(email,mdp).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                FirebaseUser user = auth.getCurrentUser();
+                String uid = user.getUid();
+                Database.getInstance().add(Table.USERS.getName(), new User(new Email(email),uid), User.class).addOnCompleteListener(task2 -> {
+                    if (task2.isSuccessful()) {
+                        Log.i("ENSIBLOG","SUCCESSFULLY CREATED USER");
+                    } else {
+                        Log.i("ENSIBLOG","FAIL TO CREATE USER");
+                    }
+                });
+            } else {
+                Log.i("ENSIBLOG","ERREUR : utilisateur existant !");
+            }
+        });*/
+        auth.signInUser(email,mdp).addOnCompleteListener(task -> {
+           if (task.isSuccessful()){
+               Log.i("ENSISABLOG","SUCCESSFULLY LOGIN");
+           } else {
+               Log.i("ENSISABLOG","FAIL TO LOGIN");
+           }
+        });
 
     }
 

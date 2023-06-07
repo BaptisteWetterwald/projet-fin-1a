@@ -15,9 +15,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
-
-import fr.ensisa.ensiblog.models.Topic;
 
 public class Database {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -33,8 +30,11 @@ public class Database {
         return instance;
     }
 
-    public void alreadyIn(String tableName, String[] fields, String[] values, final AlreadyInListener listener) throws IllegalArgumentException {
-        CollectionReference dbTable = db.collection(tableName);
+    public interface AlreadyInCallback {
+        void onResult(boolean alreadyExists);
+    }
+
+    public void alreadyIn(String tableName, String[] fields, Object[] values, AlreadyInCallback callback) throws IllegalArgumentException {
 
         if (fields.length != values.length) {
             throw new IllegalArgumentException("Fields and values must have the same length");
@@ -44,26 +44,28 @@ public class Database {
             throw new IllegalArgumentException("Fields and values must not be empty");
         }
 
-        // Map fields and values to a query
-        Query query = dbTable.whereEqualTo(fields[0], values[0]);
-        for (int i = 1; i < fields.length; i++) {
+        Query query = db.collection(tableName);
+        for (int i = 0; i < fields.length; i++) {
             query = query.whereEqualTo(fields[i], values[i]);
         }
 
-        // Execute the query
-        Task<QuerySnapshot> task = query.get();
-        task.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    QuerySnapshot querySnapshot = task.getResult();
-                    boolean exists = !querySnapshot.isEmpty();
-                    listener.onCheckComplete(exists);
-                } else {
-                    listener.onCheckFailed(task.getException());
-                }
-            }
-        });
+        query.get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+
+                        // Return true if any matching documents are found, false otherwise
+                        List<DocumentSnapshot> documents = querySnapshot.getDocuments();
+                        boolean alreadyExists = !documents.isEmpty();
+
+                        // Invoke the callback with the result
+                        callback.onResult(alreadyExists);
+                    } else {
+                        Log.w("n6a", "Error checking if document already exists: " + task.getException());
+                        // Invoke the callback with a default value indicating an error
+                        callback.onResult(false);
+                    }
+                });
     }
 
     public void remove(String tableName, Object object){
@@ -152,8 +154,10 @@ public class Database {
         }
     }
 
-    // method to remove lines in the database with fields and values as parameters
-    public void removeFrom(String tableName, String[] fields, String[] values) throws IllegalArgumentException {
+    // Method to remove lines in the database with fields and values as parameters
+    public Task<Void> removeFrom(String tableName, String[] fields, Object[] values) throws IllegalArgumentException {
+        final TaskCompletionSource<Void> taskCompletionSource = new TaskCompletionSource<>();
+
         CollectionReference dbTable = db.collection(tableName);
 
         if (fields.length != values.length) {
@@ -162,37 +166,98 @@ public class Database {
 
         if (fields.length == 0) {
             dbTable.get().addOnCompleteListener(task -> {
-                QuerySnapshot querySnapshot = task.getResult();
-                for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()) {
-                    documentSnapshot.getReference().delete();
+                if (task.isSuccessful()) {
+                    QuerySnapshot querySnapshot = task.getResult();
+                    List<Task<Void>> deletionTasks = new ArrayList<>();
+                    for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()) {
+                        deletionTasks.add(documentSnapshot.getReference().delete());
+                    }
+                    Tasks.whenAll(deletionTasks).addOnCompleteListener(deletionTask -> {
+                        if (deletionTask.isSuccessful()) {
+                            taskCompletionSource.setResult(null);
+                        } else {
+                            taskCompletionSource.setException(Objects.requireNonNull(deletionTask.getException()));
+                        }
+                    });
+                } else {
+                    taskCompletionSource.setException(Objects.requireNonNull(task.getException()));
                 }
             });
         } else {
             Query query = dbTable.whereEqualTo(fields[0], values[0]);
+
             for (int i = 1; i < fields.length; i++) {
                 query = query.whereEqualTo(fields[i], values[i]);
             }
+
             query.get().addOnCompleteListener(task -> {
-                QuerySnapshot querySnapshot = task.getResult();
-                for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()) {
-                    documentSnapshot.getReference().delete();
+                if (task.isSuccessful()) {
+                    QuerySnapshot querySnapshot = task.getResult();
+                    List<Task<Void>> deletionTasks = new ArrayList<>();
+                    for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()) {
+                        deletionTasks.add(documentSnapshot.getReference().delete());
+                    }
+                    Tasks.whenAll(deletionTasks).addOnCompleteListener(deletionTask -> {
+                        if (deletionTask.isSuccessful()) {
+                            taskCompletionSource.setResult(null);
+                        } else {
+                            taskCompletionSource.setException(Objects.requireNonNull(deletionTask.getException()));
+                        }
+                    });
+                } else {
+                    taskCompletionSource.setException(Objects.requireNonNull(task.getException()));
                 }
             });
         }
+
+        return taskCompletionSource.getTask();
     }
 
-    public void add(String tableName, Object object, Class objectClass) {
+
+
+    public Task add(String tableName, Object object, Class objectClass) {
         CollectionReference dbTable = db.collection(tableName);
 
         // get instance of object class for the object to add
 
-        dbTable.add(Objects.requireNonNull((objectClass).cast(object))).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Log.d("n6a", "DocumentSnapshot added with ID: " + task.getResult().getId());
-            } else {
-                Log.w("n6a", "Error adding document", task.getException());
-            }
-        });
+        return dbTable.add(Objects.requireNonNull((objectClass).cast(object)));
+    }
+
+    public void add(String tableName, Object object, Class objectClass, boolean unique) {
+
+        CollectionReference dbTable = db.collection(tableName);
+
+        List<String> fields = new ArrayList<String>();
+        List<Object> values = new ArrayList<>();
+        for (Field field:Objects.requireNonNull((objectClass).cast(object)).getClass().getDeclaredFields()) {
+            field.setAccessible(true); // Set the field accessible (in case it's private or protected)
+            try {
+                Object obj = field.get(object);
+                if(obj!=null){
+                    fields.add(field.getName());
+                    values.add(obj);
+                }
+            } catch (IllegalAccessException e) {}
+            field.setAccessible(false);
+        }
+        String[] stringFields = new String[fields.size()];
+        for (int i = 0; i < fields.size(); i++) {
+            stringFields[i] = fields.get(i);
+        }
+        if(unique){
+            instance.alreadyIn(tableName, stringFields, values.toArray(), alreadyExists -> {
+                if (alreadyExists) {
+                    // Do something if the topic already exists
+                    Log.i("n6a","Topic already exists");
+                } else {
+                    Log.i("n6a","Topic does not exist, adding topic to DB");
+                    dbTable.add(Objects.requireNonNull((objectClass).cast(object)));
+                }
+            });
+        } else {
+            Log.i("n6a","not unique constrainte");
+            dbTable.add(Objects.requireNonNull((objectClass).cast(object)));
+        }
     }
 
 }
