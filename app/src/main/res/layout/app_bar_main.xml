@@ -21,10 +21,11 @@
         app:popupTheme="@style/Theme.Ensiblog.PopupOverlay">
 
         <Button
+            android:id="@+id/nav_view_right"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:text="Profil"
-            android:layout_marginLeft="200dp" />
+            android:layout_marginLeft="220dp" />
 
     </androidx.appcompat.widget.Toolbar>
 
