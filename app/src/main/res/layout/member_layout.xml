@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!--android:orientation="horizontal"-->
+
+    <TextView
+        android:id="@+id/list_members_text"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20sp"
+        android:paddingTop="7sp"
+        android:text="Username"
+        android:textColor="@color/black"
+        android:textSize="25sp" />
+
+    <RadioGroup
+        android:id="@+id/list_members_radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/button1"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="10sp"
+            android:text="M" />
+
+        <RadioButton
+            android:id="@+id/button2"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="10sp"
+            android:text="E" />
+
+        <RadioButton
+            android:id="@+id/button3"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="10sp"
+            android:text="U" />
+
+    </RadioGroup>
+</LinearLayout>

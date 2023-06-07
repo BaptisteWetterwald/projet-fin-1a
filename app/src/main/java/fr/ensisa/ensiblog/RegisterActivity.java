@@ -52,6 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 dialog.cancel();
                                 user.sendEmailVerification();
                                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                intent.putExtra("user",user);
                                 startActivity(intent);
                             });
                         } else {

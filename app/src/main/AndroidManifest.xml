@@ -16,10 +16,9 @@
         android:theme="@style/Theme.Ensiblog"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity2"
+            android:name=".ModeratorActivity"
             android:exported="true"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/Theme.Ensiblog.NoActionBar" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,6 +39,17 @@
             android:name=".RegisterActivity"
             android:exported="true"
             android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity2"
+            android:exported="true"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/Theme.Ensiblog.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
