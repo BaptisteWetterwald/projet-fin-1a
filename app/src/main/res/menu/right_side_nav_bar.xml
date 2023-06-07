@@ -31,7 +31,8 @@
                     I jsbdvksjnckjbsksbndvjbsvkjbsdkjbcsks
                     jksbcdkjscscskjcdnsdjcscnscdjscbdsjbcd
                     csdijosicjscdsbcdsdcscsdcjnsodcjcdincc"
-                    android:layout_height="100dp"/>
+                    android:layout_height="100dp"
+                    tools:ignore="HardcodedText" />
                 <TextView
                     android:layout_width="match_parent"
                     android:text="Thèmes Favori  :"
