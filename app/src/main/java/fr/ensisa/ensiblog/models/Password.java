@@ -10,11 +10,12 @@ public class Password {
         if (password.length() < 8) {
             return false;
         }
-        String passwordRegex = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!])(?=\\S+$).*$";
+        String passwordRegex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[!()\\-.?\\[\\]_'~;:@#$%^&*+=])(?=\\S+$).*$";
         Pattern pattern = Pattern.compile(passwordRegex);
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
     }
+
 
     public Password(){
         // empty constructor required for firebase
