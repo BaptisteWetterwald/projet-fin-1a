@@ -1,10 +1,21 @@
 package fr.ensisa.ensiblog;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
+import android.support.annotation.NonNull;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -17,13 +28,17 @@ import fr.ensisa.ensiblog.models.Email;
 import fr.ensisa.ensiblog.models.User;
 
 public class MainActivity extends AppCompatActivity {
-
-    private MaterialToolbar topAppBar;
-    private ActivityMainBinding binding;
+       private MaterialToolbar topAppBar;
+       private ActivityMainBinding binding;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    ActionBarDrawerToggle drawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

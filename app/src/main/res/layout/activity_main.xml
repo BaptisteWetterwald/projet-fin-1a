@@ -5,13 +5,11 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints">
-
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
@@ -77,7 +75,6 @@
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
         android:layout_width="0dp"
@@ -90,25 +87,168 @@
         app:layout_constraintRight_toRightOf="parent"
         app:menu="@menu/bottom_nav_menu" />
 
-    <RelativeLayout
-        android:layout_width="407dp"
-        android:layout_height="610dp"
-        app:layout_constraintBottom_toTopOf="@+id/nav_view"
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_right_view"
+        android:layout_width="350dp"
+        android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+        tools:ignore="MissingConstraints">
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:src="@drawable/ensisa" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:text="Ceci est ma bio
+                    I jsbdvksjnckjbsksbndvjbsvkjbsdkjbcsks
+                    jksbcdkjscscskjcdnsdjcscnscdjscbdsjbcd
+                    csdijosicjscdsbcdsdcscsdcjnsodcjcdincc"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:text="Thèmes Favori  :" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="theme test" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="theme test" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="theme test" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="Gestion Compte" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="Disconnect" />
+            </LinearLayout>
         </ScrollView>
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/nav_right_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true"
-            app:NavigationView="@layout/left_side_nav_bar"/>
+    </com.google.android.material.navigation.NavigationView>
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        tools:ignore="MissingConstraints"
+        tools:showIn="navigation_view">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp" />
 
-    </RelativeLayout>
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp" />
+
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp" />
+
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp" />
+
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:text="theme test" />
+
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp" />
+
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:text="theme test" />
+
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp" />
+
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp" />
+
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp" />
+
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp" />
+
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:text="theme test" />
+
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp" />
+
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp" />
+
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:text="theme test" />
+
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:text="theme test" />
+
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp" />
+
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp" />
+
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp" />
+
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:text="theme test" />
+            </LinearLayout>
+        </ScrollView>
+    </com.google.android.material.navigation.NavigationView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
