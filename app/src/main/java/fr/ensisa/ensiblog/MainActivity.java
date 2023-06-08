@@ -8,6 +8,9 @@ import androidx.navigation.ui.AppBarConfiguration;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+
+import java.sql.Time;
+
 import fr.ensisa.ensiblog.databinding.ActivityMainBinding;
 import fr.ensisa.ensiblog.firebase.Database;
 import fr.ensisa.ensiblog.firebase.Table;
@@ -35,23 +38,28 @@ public class MainActivity extends AppCompatActivity {
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.nameapp)
                 .build();
-
-        /*for (int i = 0; i < 10; i++) {
+        Topic topic = new Topic("Thème1",new Role(0));
+        User user = new User(new Email("test.michelkjenezfkjqjksnfjdsqfnjkjnkqdsjf@uha.fr"));
+        TopicUser topicuser = new TopicUser(topic,user,new Role(3));
+        Database.getInstance().add(Table.USERS.getName(), user, User.class,true);
+        Database.getInstance().add(Table.TOPIC_USERS.getName(), topicuser, TopicUser.class,false);
+        /*for (int i = 0; i < 5; i++) {
 
             Topic topic = new Topic("Thème"+i,new Role(0));
             Database.getInstance().add(Table.TOPICS.getName(), topic, Topic.class,false);
 
-            for (int j = 0; j < 20; j++) {
-                User user = new User(new Email("test.michel"+Integer.toString(i)+Integer.toString(j)+"@uha.fr"));
-                TopicUser topicuser = new TopicUser(topic,user,new Role(0));
-                Database.getInstance().add(Table.USERS.getName(), user, User.class,false);
+            for (int j = 0; j < 3; j++) {
+                User user = new User(new Email("test.michel"+Integer.toString(j)+"@uha.fr"));
+                TopicUser topicuser = new TopicUser(topic,user,new Role(3));
+                Database.getInstance().add(Table.USERS.getName(), user, User.class,true);
                 Database.getInstance().add(Table.TOPIC_USERS.getName(), topicuser, TopicUser.class,false);
+
             }
-        }*/
+        }
 
 
 
-/*        Database.getInstance().alreadyIn("Topics", new String[]{"name"}, new String[]{"ENSISA"}, new Database.AlreadyInCallback() {
+        /*Database.getInstance().alreadyIn("Topics", new String[]{"name"}, new String[]{"ENSISA"}, new Database.AlreadyInCallback() {
             @Override
             public void onResult(boolean alreadyExists) {
                 if (alreadyExists) {
