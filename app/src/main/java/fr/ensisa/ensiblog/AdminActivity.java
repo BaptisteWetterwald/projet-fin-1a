@@ -135,39 +135,36 @@ public class AdminActivity extends AppCompatActivity {
                     Button changeModeratorButton = view.findViewById(R.id.changeModeratorButton);
 
                     // listener for the Theme Name Edit button
-                    editButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
-                            builder.setTitle("Changer nom du thème");
-                            builder.setMessage("Entrez le nouveau nom du thème");
+                    editButton.setOnClickListener(v -> {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
+                        builder.setTitle("Changer nom du thème");
+                        builder.setMessage("Entrez le nouveau nom du thème");
 
-                            final EditText input = new EditText(AdminActivity.this);
-                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-                            input.setLayoutParams(layoutParams);
-                            builder.setView(input);
+                        final EditText input = new EditText(AdminActivity.this);
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+                        input.setLayoutParams(layoutParams);
+                        builder.setView(input);
 
-                            builder.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    String newThemeName = input.getText().toString();
-                                    if (newThemeName.isEmpty()) {
-                                        Toast.makeText(AdminActivity.this, "Un nom de thème est requis", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        // Call the function to change theme name
+                        builder.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String newThemeName = input.getText().toString();
+                                if (newThemeName.isEmpty()) {
+                                    Toast.makeText(AdminActivity.this, "Un nom de thème est requis", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    // Call the function to change theme name
 
-                                        // Returns the name of the item (theme) we're in (for database calling)
-                                        // int position = listView.getPositionForView(v);
-                                        // String itemName = adapter.getItem(position);
-                                    }
+                                    // Returns the name of the item (theme) we're in (for database calling)
+                                    // int position = listView.getPositionForView(v);
+                                    // String itemName = adapter.getItem(position);
                                 }
-                            });
+                            }
+                        });
 
-                            builder.setNegativeButton("Annuler", null);
+                        builder.setNegativeButton("Annuler", null);
 
-                            AlertDialog dialog = builder.create();
-                            dialog.show();
-                        }
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                     });
 
                     // listener for the delete theme button
