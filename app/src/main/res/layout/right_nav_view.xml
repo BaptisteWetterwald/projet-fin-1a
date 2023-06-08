@@ -23,6 +23,12 @@
                      android:layout_width="match_parent"
                      android:layout_height="200dp"
                      android:src="@drawable/ensisa" />
+                 <TextView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:text="Name "
+                     tools:ignore="HardcodedText"
+                     android:paddingBottom="20dp"/>
 
                  <TextView
                      android:layout_width="match_parent"
@@ -33,35 +39,25 @@
                      csdijosicjscdsbcdsdcscsdcjnsodcjcdincc"
                      tools:ignore="HardcodedText" />
 
-                 <TextView
+                 <Button
                      android:layout_width="match_parent"
-                     android:layout_height="30dp"
-                     android:text="Thèmes Favori  :" />
+                     android:layout_height="40dp"
+                     android:text="Gestion de Compte " />
 
                  <Button
                      android:layout_width="match_parent"
                      android:layout_height="40dp"
-                     android:text="theme test" />
+                     android:text="Modération" />
 
                  <Button
                      android:layout_width="match_parent"
                      android:layout_height="40dp"
-                     android:text="theme test" />
+                     android:text="Administration" />
 
                  <Button
                      android:layout_width="match_parent"
                      android:layout_height="40dp"
-                     android:text="theme test" />
-
-                 <Button
-                     android:layout_width="match_parent"
-                     android:layout_height="40dp"
-                     android:text="Gestion Compte" />
-
-                 <Button
-                     android:layout_width="match_parent"
-                     android:layout_height="40dp"
-                     android:text="Disconnect" />
+                     android:text="Decconnexion" />
              </LinearLayout>
          </ScrollView>
      </com.google.android.material.navigation.NavigationView>

@@ -156,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
                Log.i("ENSISABLOG","FAIL TO LOGIN");
            }
         });*/
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -169,4 +170,5 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfigurationLeft)
                 || super.onSupportNavigateUp();
     }
+
 }
