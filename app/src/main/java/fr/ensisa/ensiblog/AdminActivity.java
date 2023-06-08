@@ -119,124 +119,124 @@ public class AdminActivity extends AppCompatActivity {
             }
         });
 
+        Database.getInstance().get(Table.TOPICS.getName(), Topic.class,new String[]{},new Object[]{}).addOnSuccessListener(topics -> {
 
-        //need to replace Themes 1... with a list of all existing themes (see database)
-        String[] themes = {"Thème 1", "Thème 2", "Thème 3", "Thème 4", "Thème 5"};
+            String[] themes = new String[topics.size()];
+            for (int i = 0; i < topics.size(); i++) {
+                themes[i] = topics.get(i).getName();
+            }
+            adapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.itemTextView, themes) {
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    View view = super.getView(position, convertView, parent);
 
-        adapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.itemTextView, themes) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
+                    Button editButton = view.findViewById(R.id.editButton);
+                    Button deleteButton = view.findViewById(R.id.deleteButton);
+                    Button changeModeratorButton = view.findViewById(R.id.changeModeratorButton);
 
-                Button editButton = view.findViewById(R.id.editButton);
-                Button deleteButton = view.findViewById(R.id.deleteButton);
-                Button changeModeratorButton = view.findViewById(R.id.changeModeratorButton);
+                    // listener for the Theme Name Edit button
+                    editButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
+                            builder.setTitle("Changer nom du thème");
+                            builder.setMessage("Entrez le nouveau nom du thème");
 
-                // listener for the Theme Name Edit button
-                editButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
-                        builder.setTitle("Changer nom du thème");
-                        builder.setMessage("Entrez le nouveau nom du thème");
+                            final EditText input = new EditText(AdminActivity.this);
+                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+                            input.setLayoutParams(layoutParams);
+                            builder.setView(input);
 
-                        final EditText input = new EditText(AdminActivity.this);
-                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-                        input.setLayoutParams(layoutParams);
-                        builder.setView(input);
+                            builder.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String newThemeName = input.getText().toString();
+                                    if (newThemeName.isEmpty()) {
+                                        Toast.makeText(AdminActivity.this, "Un nom de thème est requis", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        // Call the function to change theme name
 
-                        builder.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String newThemeName = input.getText().toString();
-                                if (newThemeName.isEmpty()) {
-                                    Toast.makeText(AdminActivity.this, "Un nom de thème est requis", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    // Call the function to change theme name
-
-                                    // Returns the name of the item (theme) we're in (for database calling)
-                                    // int position = listView.getPositionForView(v);
-                                    // String itemName = adapter.getItem(position);
+                                        // Returns the name of the item (theme) we're in (for database calling)
+                                        // int position = listView.getPositionForView(v);
+                                        // String itemName = adapter.getItem(position);
+                                    }
                                 }
-                            }
-                        });
+                            });
 
-                        builder.setNegativeButton("Annuler", null);
+                            builder.setNegativeButton("Annuler", null);
 
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-                    }
-                });
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }
+                    });
 
-                // listener for the delete theme button
-                deleteButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setTitle("Confirmation");
-                        builder.setMessage("Êtes-vous sûr de vouloir supprimer ce thème ?");
-                        builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Call delete theme function here
-
-                                // Returns the name of the item we're in (for database calling)
-                                // int position = listView.getPositionForView(v);
-                                // String itemName = adapter.getItem(position);
-                            }
-                        });
-                        builder.setNegativeButton("Non", null);
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-                    }
-                });
-
-                // listener for change super moderator button
-                changeModeratorButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
-                        builder.setTitle("Changer de Super-Modérateur");
-                        builder.setMessage("Entrez le nom du nouveau Super-Modérateur");
-
-                        // Création d'un EditText pour saisir le nom du nouveau Super-Modérateur
-                        final EditText input = new EditText(AdminActivity.this);
-                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-                        input.setLayoutParams(layoutParams);
-                        builder.setView(input);
-
-                        builder.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String newModerator = input.getText().toString();
-                                if (newModerator.isEmpty()) {
-                                    Toast.makeText(AdminActivity.this, "Un nom est requis", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    // Call the function to change supermodo
+                    // listener for the delete theme button
+                    deleteButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            builder.setTitle("Confirmation");
+                            builder.setMessage("Êtes-vous sûr de vouloir supprimer ce thème ?");
+                            builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Call delete theme function here
 
                                     // Returns the name of the item we're in (for database calling)
                                     // int position = listView.getPositionForView(v);
                                     // String itemName = adapter.getItem(position);
                                 }
-                            }
-                        });
+                            });
+                            builder.setNegativeButton("Non", null);
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }
+                    });
 
-                        builder.setNegativeButton("Annuler", null);
+                    // listener for change super moderator button
+                    changeModeratorButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
+                            builder.setTitle("Changer de Super-Modérateur");
+                            builder.setMessage("Entrez le nom du nouveau Super-Modérateur");
 
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-                    }
-                });
+                            // Création d'un EditText pour saisir le nom du nouveau Super-Modérateur
+                            final EditText input = new EditText(AdminActivity.this);
+                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+                            input.setLayoutParams(layoutParams);
+                            builder.setView(input);
+
+                            builder.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String newModerator = input.getText().toString();
+                                    if (newModerator.isEmpty()) {
+                                        Toast.makeText(AdminActivity.this, "Un nom est requis", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        // Call the function to change supermodo
+
+                                        // Returns the name of the item we're in (for database calling)
+                                        // int position = listView.getPositionForView(v);
+                                        // String itemName = adapter.getItem(position);
+                                    }
+                                }
+                            });
+
+                            builder.setNegativeButton("Annuler", null);
+
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }
+                    });
 
 
-                return view;
-            }
-        };
+                    return view;
+                }
+            };
 
-// Associate adapter to the ListView
-        listView.setAdapter(adapter);
-
-
-
+        // Associate adapter to the ListView
+            listView.setAdapter(adapter);
+        });
     }
 }
