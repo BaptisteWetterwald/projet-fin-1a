@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <!--android:orientation="horizontal"-->
 
     <TextView
@@ -12,7 +13,8 @@
         android:paddingTop="7sp"
         android:text="Username"
         android:textColor="@color/black"
-        android:textSize="25sp" />
+        android:textSize="25sp"
+        app:autoSizeTextType="uniform"/>
 
     <RadioGroup
         android:id="@+id/list_members_radioGroup"

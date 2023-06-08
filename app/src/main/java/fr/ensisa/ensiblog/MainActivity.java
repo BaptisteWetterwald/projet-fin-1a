@@ -8,6 +8,9 @@ import androidx.navigation.ui.AppBarConfiguration;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+
+import java.sql.Time;
+
 import fr.ensisa.ensiblog.databinding.ActivityMainBinding;
 import fr.ensisa.ensiblog.firebase.Database;
 import fr.ensisa.ensiblog.firebase.Table;
@@ -42,16 +45,17 @@ public class MainActivity extends AppCompatActivity {
             Database.getInstance().add(Table.TOPICS.getName(), topic, Topic.class,false);
 
             for (int j = 0; j < 20; j++) {
-                User user = new User(new Email("test.michel"+Integer.toString(i)+Integer.toString(j)+"@uha.fr"));
-                TopicUser topicuser = new TopicUser(topic,user,new Role(0));
+                User user = new User(new Email("test.michel"+Integer.toString(j)+"@uha.fr"));
+                TopicUser topicuser = new TopicUser(topic,user,new Role(3));
                 Database.getInstance().add(Table.USERS.getName(), user, User.class,false);
                 Database.getInstance().add(Table.TOPIC_USERS.getName(), topicuser, TopicUser.class,false);
+
             }
-        }*/
+        }
 
 
 
-/*        Database.getInstance().alreadyIn("Topics", new String[]{"name"}, new String[]{"ENSISA"}, new Database.AlreadyInCallback() {
+        /*Database.getInstance().alreadyIn("Topics", new String[]{"name"}, new String[]{"ENSISA"}, new Database.AlreadyInCallback() {
             @Override
             public void onResult(boolean alreadyExists) {
                 if (alreadyExists) {
