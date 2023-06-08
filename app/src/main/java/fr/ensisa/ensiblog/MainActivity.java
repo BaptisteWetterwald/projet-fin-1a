@@ -1,10 +1,13 @@
 package fr.ensisa.ensiblog;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -56,6 +59,39 @@ public class MainActivity extends AppCompatActivity {
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationViewleft = binding.leftNavView.leftNavView;
         NavigationView navigationViewright = binding.rightNavView.navRightView;
+        Button button1 = (Button) findViewById(R.id.button_gest);
+        Button button2 = (Button) findViewById(R.id.button_moderation);
+        Button button3 = (Button) findViewById(R.id.button_admin);
+        Button button4 = (Button) findViewById(R.id.button_disconnect);
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AccountActivity.class);
+                startActivity(intent);
+            }
+        });
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ModeratorActivity.class);
+                startActivity(intent);
+            }
+        });
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AdminActivity.class);
+                startActivity(intent);
+            }
+        });
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         mAppBarConfigurationLeft = new AppBarConfiguration.Builder(
                 R.id.nav_home/*, R.id.nav_gallery, R.id.nav_slideshow*/)

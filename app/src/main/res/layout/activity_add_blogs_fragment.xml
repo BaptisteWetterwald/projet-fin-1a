@@ -1,11 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<?xmln version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/back_post_icon">
 
+<!--
     <ImageView
         android:id="@+id/imageViewUserPicture"
         android:layout_width="100dp"
@@ -92,6 +95,6 @@
         android:text="Add vidéo"
         tools:layout_editor_absoluteX="267dp"
         tools:layout_editor_absoluteY="561dp" />
-
+        -->
 </androidx.constraintlayout.widget.ConstraintLayout>
 

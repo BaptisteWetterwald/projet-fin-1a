@@ -1,4 +1,4 @@
-package com.example.socialmediaapp;
+package fr.ensisa.ensiblog;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -30,7 +30,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
+/*import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -39,7 +39,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
+*/
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
@@ -48,7 +48,7 @@ import java.util.HashMap;
  * A simple {@link Fragment} subclass.
  */
 public class AddBlogsFragment extends Fragment {
-
+/*
     public AddBlogsFragment() {
         // Required empty public constructor
     }
@@ -334,5 +334,5 @@ public class AddBlogsFragment extends Fragment {
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
+    }*/
 }
