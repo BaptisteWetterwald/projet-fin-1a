@@ -30,11 +30,9 @@ public class AccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_management);
-
         BottomNavigationView navView = findViewById(R.id.nav_view);
         textViewName = findViewById(R.id.textViewName);
         textViewMail = findViewById(R.id.textViewMail);
-        //buttonEditPhoto = findViewById(R.id.buttonEditPhoto);
         imageButtonEditPhoto = findViewById(R.id.imageButtonEditPhoto);
         buttonEditMdp = findViewById(R.id.buttonEditMdp);
         buttonEditFunctions = findViewById(R.id.buttonEditFunctions);
