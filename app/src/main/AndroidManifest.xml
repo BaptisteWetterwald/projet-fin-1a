@@ -15,7 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ensiblog"
         tools:targetApi="31">
-        <!--<activity
+        <!--
+        <!-
+
+
+               STAND BY            STAND BY
+
+        <activity
             android:name=".MainActivity2"
             android:exported="true"
             android:label="@string/title_activity_main2"
@@ -26,6 +32,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+         ->
+
         <activity
             android:name=".LoginActivity"
             android:exported="true"
