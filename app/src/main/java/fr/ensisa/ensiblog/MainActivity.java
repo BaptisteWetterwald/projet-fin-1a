@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationViewleft = binding.leftNavView.leftNavView;
         NavigationView navigationViewright = binding.rightNavView.navRightView;
+
         mAppBarConfigurationLeft = new AppBarConfiguration.Builder(
                 R.id.nav_home/*, R.id.nav_gallery, R.id.nav_slideshow*/)
                 .setOpenableLayout(drawer)
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             post2.setContent(contents);
             posts.add(post2);
         }
-
+    
         return posts;
     }
 
