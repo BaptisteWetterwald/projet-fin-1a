@@ -1,5 +1,6 @@
 package fr.ensisa.ensiblog;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,17 @@ import android.widget.Toast;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.tabs.TabLayout;
+
+import fr.ensisa.ensiblog.firebase.Database;
+import fr.ensisa.ensiblog.firebase.Table;
+import fr.ensisa.ensiblog.models.Email;
+import fr.ensisa.ensiblog.models.Role;
+import fr.ensisa.ensiblog.models.Topic;
+import fr.ensisa.ensiblog.models.TopicUser;
+import fr.ensisa.ensiblog.models.User;
 
 public class AdminActivity extends AppCompatActivity {
 
@@ -76,17 +88,29 @@ public class AdminActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String themeName = themeNameEditText.getText().toString();
-                        String moderatorName = moderatorNameEditText.getText().toString();
-                        String selectedRole = readerRadioButton.isChecked() ? "Lecteur" : "Editeur";
+                        String moderatorEmail = moderatorNameEditText.getText().toString();
+                        int selectedRole = readerRadioButton.isChecked() ? 1 : 2;
                         if (themeName.isEmpty()) {
                             Toast.makeText(AdminActivity.this, "Un nom de thème est requis", Toast.LENGTH_SHORT).show();
-                        } else if (moderatorName.isEmpty()) {
-                            Toast.makeText(AdminActivity.this, "Un nom est requis", Toast.LENGTH_SHORT).show();
+                        } else if (moderatorEmail.isEmpty() && Email.isValid(moderatorEmail)) {
+                            Toast.makeText(AdminActivity.this, "Un mail correct est requis", Toast.LENGTH_SHORT).show();
                         } else {
-                            // add function to create theme with variables above
+                            Topic newTopic = new Topic(themeName,new Role(selectedRole));
+                            Database.getInstance().add(Table.TOPICS.getName(), newTopic, Topic.class,new String[]{"name"});
+                            Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{"email"}, new Email[]{new Email(moderatorEmail)}).addOnSuccessListener(users -> {
+                                if(users.size()>0)
+                                    Database.getInstance().add(Table.TOPIC_USERS.getName(), new TopicUser(newTopic,users.get(0),new Role(selectedRole)), TopicUser.class,true);
+                                else {
+                                    Utils.showInfoBox("Alert !","User not found with email","OK",AdminActivity.this, (dialog2, which2) -> {
+                                        dialog2.cancel();
+                                    });
+                                }
+                            });
                         }
                     }
                 });
+
+                //.addOnSuccessListener(o -> Toast.makeText(AdminActivity.this,"Topic successfully created !",Toast.LENGTH_SHORT))
 
                 builder.setNegativeButton("Annuler", null);
 

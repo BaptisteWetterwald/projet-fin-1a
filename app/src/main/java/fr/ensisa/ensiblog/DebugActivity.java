@@ -24,42 +24,27 @@ public class DebugActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        topAppBar = findViewById(R.id.topAppBar);
-
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.nameapp)
-                .build();
-        /*Topic topic = new Topic("Thème1",new Role(0));
+        /*Topic topic = new Topic("Thème1",new Role(1));
         User user = new User(new Email("test.michelkjenezfkjqjksnfjdsqfnjkjnkqdsjf@uha.fr"));
         TopicUser topicuser = new TopicUser(topic,user,new Role(3));
-        //Database.getInstance().add(Table.USERS.getName(), user, User.class,true);
-        Database.getInstance().add(Table.TOPIC_USERS.getName(), topicuser, TopicUser.class,false);
+        Database.getInstance().add(Table.USERS.getName(), user, User.class,true);
+        Database.getInstance().add(Table.TOPIC_USERS.getName(), topicuser, TopicUser.class,true);
 
+        Log.i("n6a","Start !");
         for (int i = 0; i < 5; i++) {
-            Topic topic = new Topic("Thème"+i,new Role(0));
-            Database.getInstance().add(Table.TOPICS.getName(), topic, Topic.class,false);
+            Topic topic = new Topic("Thème"+i,new Role(1));
+            Database.getInstance().add(Table.TOPICS.getName(), topic, Topic.class,true);
 
             for (int j = 0; j < 3; j++) {
                 User user = new User(new Email("test.michel"+Integer.toString(j)+"@uha.fr"));
                 TopicUser topicuser = new TopicUser(topic,user,new Role(3));
                 Database.getInstance().add(Table.USERS.getName(), user, User.class,true);
-                Database.getInstance().add(Table.TOPIC_USERS.getName(), topicuser, TopicUser.class,false);
-
+                Database.getInstance().add(Table.TOPIC_USERS.getName(), topicuser, TopicUser.class,true);
             }
         }
 
-
-
-        /*Database.getInstance().alreadyIn("Topics", new String[]{"name"}, new String[]{"ENSISA"}, new Database.AlreadyInCallback() {
+        Database.getInstance().alreadyIn("Topics", new String[]{"name"}, new String[]{"ENSISA"}, new Database.AlreadyInCallback() {
             @Override
             public void onResult(boolean alreadyExists) {
                 if (alreadyExists) {

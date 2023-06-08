@@ -259,4 +259,27 @@ public class Database {
         }
     }
 
+    public void add(String tableName, Object object, Class objectClass, String[] uniqueFields) {
+
+        CollectionReference dbTable = db.collection(tableName);
+
+        Object[] values = new Object[uniqueFields.length];
+        for (int i=0;i<uniqueFields.length;i++) {
+            try {
+                Field field = object.getClass().getDeclaredField(uniqueFields[i]);
+                field.setAccessible(true);
+                values[i] = field.get(object);
+                field.setAccessible(false);
+            } catch (NoSuchFieldException | IllegalAccessException e) {}
+        }
+
+        instance.alreadyIn(tableName, uniqueFields, values, alreadyExists -> {
+            if (alreadyExists) {
+                Log.i("n6a","Topic already exists");
+            } else {
+                Log.i("n6a","Topic does not exist, adding topic to DB");
+                dbTable.add(Objects.requireNonNull((objectClass).cast(object)));
+            }
+        });
+    }
 }
