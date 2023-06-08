@@ -1,173 +1,140 @@
 package fr.ensisa.ensiblog;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-
 import android.util.Log;
+import android.view.Menu;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.sql.Time;
-
+import fr.ensisa.ensiblog.databinding.ActivityMain2Binding;
 import fr.ensisa.ensiblog.databinding.ActivityMainBinding;
-import fr.ensisa.ensiblog.firebase.Database;
-import fr.ensisa.ensiblog.firebase.Table;
-import fr.ensisa.ensiblog.models.*;
+import fr.ensisa.ensiblog.models.Content;
+import fr.ensisa.ensiblog.models.Image;
+import fr.ensisa.ensiblog.models.Post;
+import fr.ensisa.ensiblog.models.PostAdapter;
+import fr.ensisa.ensiblog.models.Text;
+
 
 public class MainActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
     private ActivityMainBinding binding;
+    private AppBarConfiguration mAppBarConfigurationLeft;
+    private AppBarConfiguration mAppBarConfigurationRight;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        topAppBar = findViewById(R.id.topAppBar);
-
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+        setSupportActionBar(binding.appBarMain.toolbar);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.nameapp)
                 .build();
-        /*Topic topic = new Topic("Thème1",new Role(0));
-        User user = new User(new Email("test.michelkjenezfkjqjksnfjdsqfnjkjnkqdsjf@uha.fr"));
-        TopicUser topicuser = new TopicUser(topic,user,new Role(3));
-        //Database.getInstance().add(Table.USERS.getName(), user, User.class,true);
-        Database.getInstance().add(Table.TOPIC_USERS.getName(), topicuser, TopicUser.class,false);
 
-        for (int i = 0; i < 5; i++) {
-            Topic topic = new Topic("Thème"+i,new Role(0));
-            Database.getInstance().add(Table.TOPICS.getName(), topic, Topic.class,false);
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        DrawerLayout drawer = binding.drawerLayout;
+        NavigationView navigationViewleft = binding.leftNavView.leftNavView;
+        NavigationView navigationViewright = binding.rightNavView.navRightView;
+        mAppBarConfigurationLeft = new AppBarConfiguration.Builder(
+                R.id.nav_home/*, R.id.nav_gallery, R.id.nav_slideshow*/)
+                .setOpenableLayout(drawer)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfigurationLeft);
+        NavigationUI.setupWithNavController(navigationViewleft, navController);
 
-            for (int j = 0; j < 3; j++) {
-                User user = new User(new Email("test.michel"+Integer.toString(j)+"@uha.fr"));
-                TopicUser topicuser = new TopicUser(topic,user,new Role(3));
-                Database.getInstance().add(Table.USERS.getName(), user, User.class,true);
-                Database.getInstance().add(Table.TOPIC_USERS.getName(), topicuser, TopicUser.class,false);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
-            }
-        }
+        // Create a list of posts (you can replace this with your data retrieval logic)
+        List<Post> posts = getPosts();
+        Log.i("n6a", "posts: " + posts);
 
+        // Create an instance of the PostAdapter
+        PostAdapter adapter = new PostAdapter(posts);
 
+        // Set the adapter for the RecyclerView
+        recyclerView.setAdapter(adapter);
 
-        /*Database.getInstance().alreadyIn("Topics", new String[]{"name"}, new String[]{"ENSISA"}, new Database.AlreadyInCallback() {
-            @Override
-            public void onResult(boolean alreadyExists) {
-                if (alreadyExists) {
-                    // Do something if the topic already exists
-                    Log.i("n6a","Topic already exists");
-                } else {
-                    // Do something if the topic does not exist
-                    Log.i("n6a","Topic does not exist");
-                }
-            }
-        });
+        // Set a layout manager for the RecyclerView
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        Database.getInstance().alreadyIn("Topics", new String[]{"name"}, new String[]{"1234"}, new Database.AlreadyInCallback() {
-            @Override
-            public void onResult(boolean alreadyExists) {
-                if (alreadyExists) {
-                    // Do something if the topic already exists
-                    Log.i("n6a","Topic already exists");
-                } else {
-                    // Do something if the topic does not exist
-                    Log.i("n6a","Topic does not exist");
-                }
-            }
-        });
-
-        String email = "test.michel@uha.fr";
-        String mdp = "2bjbkjbSBHCD%ckd@hdbzj";
-
-        Database.getInstance().add(Table.USERS.getName(), new User(new Email(email)), User.class,true);
-
-        Database.getInstance().add(Table.USERS.getName(), new User(new Email(email)), User.class,false);
-
-        String[] fields = new String[]{"name", "defaultRole"};
-        Object[] values = new Object[]{"ENSISA", new Role(0)};
-
-        Database.getInstance().getObjects("Topics", Topic.class, fields, values).addOnSuccessListener(topics -> {
-            // Handle the retrieved topics
-            System.out.println("Topic size:" + topics.size());
-            for (Topic topic : topics) {
-                // Process each topic instance
-                Log.i("n6a", "Found " + topic.getName());
-            }
-        }).addOnFailureListener(e -> {
-            // Handle any errors that occurred during the query
-            Log.i("n6a","Error: " + e.getMessage());
-        });
-        */
-
-        /*String[] fields = new String[0];
-        Object[] values = new Object[0];
-
-        Database.getInstance().get(Table.TOPICS.getName(), Topic.class, fields, values).addOnSuccessListener(topics -> {
-            // Handle the retrieved topics
-            System.out.println("Topic size:" + topics.size());
-            for (Topic topic : topics) {
-                // Process each topic instance
-                Log.i("n6a", "Found " + topic.getName() + " with default role " + topic.getDefaultRole().getRole());
-            }
-        }).addOnFailureListener(e -> {
-            // Handle any errors that occurred during the query
-            Log.i("n6a","Error: " + e.getMessage());
-        });*/
-
-        // get topics with name "ENSISA"
-        /*Database.getInstance().get(Table.TOPICS.getName(), Topic.class, new String[]{"name"}, new String[]{"ENSISA"}).addOnSuccessListener(topics -> {
-            // Handle the retrieved topics
-            System.out.println("Topic size:" + topics.size());
-            // get the first topic
-            Topic topic = topics.get(0);
-            Topic old = new Topic(topic);
-            topic.setDefaultRole(new Role(99));
-            // update the topic
-            Database.getInstance().update(Table.TOPICS.getName(), old, topic);
-        }).addOnFailureListener(e -> {
-            // Handle any errors that occurred during the query
-            Log.i("n6a","Error: " + e.getMessage());
-        });*/
-
-        //User user = new User(new Email("baptiste.wetterwald@uha.fr"));
-        //Database.getInstance().add(Table.USERS.getName(), user, User.class);
-
-        //Authentication auth = new Authentication();
-        //String email = "test.michel@uha.fr";
-        //String mdp = "2bjbkjbSBHCD%ckd@hdbzj";
-
-        /*auth.createUser(email,mdp).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                FirebaseUser user = auth.getCurrentUser();
-                String uid = user.getUid();
-                Database.getInstance().add(Table.USERS.getName(), new User(new Email(email),uid), User.class).addOnCompleteListener(task2 -> {
-                    if (task2.isSuccessful()) {
-                        Log.i("ENSIBLOG","SUCCESSFULLY CREATED USER");
-                    } else {
-                        Log.i("ENSIBLOG","FAIL TO CREATE USER");
-                    }
-                });
-            } else {
-                Log.i("ENSIBLOG","ERREUR : utilisateur existant !");
-            }
-        });
-        auth.signInUser(email,mdp).addOnCompleteListener(task -> {
-           if (task.isSuccessful()){
-               Log.i("ENSISABLOG","SUCCESSFULLY LOGIN");
-           } else {
-               Log.i("ENSISABLOG","FAIL TO LOGIN");
-           }
-        });*/
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_activity2, menu);
+        return true;
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        return NavigationUI.navigateUp(navController, mAppBarConfigurationLeft)
+                || super.onSupportNavigateUp();
+    }
+
+
+    private List<Post> getPosts() {
+        List<Post> posts = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            // Add some sample posts
+            Post post1 = new Post();
+            Text textContent;
+            try {
+                textContent = new Text("This is a sample text post (i: " + i + ")");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            List<Content> contents = new ArrayList<>();
+            contents.add(textContent);
+            post1.setContent(contents);
+            posts.add(post1);
+
+            Post post2 = new Post();
+
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ensisa);
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+
+            Image imageContent;
+            try {
+                imageContent = new Image(byteArray);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            contents = new ArrayList<>();
+            contents.add(imageContent);
+            post2.setContent(contents);
+            posts.add(post2);
+        }
+
+        return posts;
+    }
+
 
 }
