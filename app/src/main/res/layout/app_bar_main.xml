@@ -96,6 +96,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:context=".MainActivity2"/>
 
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="150dp"
+        tools:layout_editor_absoluteX="100dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -9,9 +9,9 @@ public class HomeViewModel extends ViewModel {
     private final MutableLiveData<String> mText2;
     public HomeViewModel() {
         mText1 = new MutableLiveData<>();
-        mText1.setValue("Les cartes seront ajoutées ICI ");
+        mText1.setValue("");
         mText2 = new MutableLiveData<>();
-        mText2.setValue("Congratulation !!!!!! Ceci est un second text ");
+        mText2.setValue(" ");
     }
     public LiveData<String> getText1() { return mText1;    }
     public LiveData<String> getText2() { return mText2;    }

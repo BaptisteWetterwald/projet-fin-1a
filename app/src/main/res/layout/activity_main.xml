@@ -30,5 +30,10 @@
       android:layout_height="match_parent"
       android:layout_gravity="end|right"
       tools:context=".MainActivity2"/>
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:gravity="center"
+      android:name="snvkdvnslkvnsdklnksdnvsldvnlsk"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
