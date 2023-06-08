@@ -34,7 +34,7 @@ public class AccountActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         textViewName = findViewById(R.id.textViewName);
         textViewMail = findViewById(R.id.textViewMail);
-        buttonEditPhoto = findViewById(R.id.buttonEditPhoto);
+        //buttonEditPhoto = findViewById(R.id.buttonEditPhoto);
         imageButtonEditPhoto = findViewById(R.id.imageButtonEditPhoto);
         buttonEditMdp = findViewById(R.id.buttonEditMdp);
         buttonEditFunctions = findViewById(R.id.buttonEditFunctions);

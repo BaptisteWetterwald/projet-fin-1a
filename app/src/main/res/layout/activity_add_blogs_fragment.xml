@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/back_post_icon">
-
+<!--
     <ImageView
         android:id="@+id/imageViewUserPicture"
         android:layout_width="100dp"
@@ -92,6 +92,8 @@
         android:text="Add vidéo"
         tools:layout_editor_absoluteX="267dp"
         tools:layout_editor_absoluteY="561dp" />
+
+-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
