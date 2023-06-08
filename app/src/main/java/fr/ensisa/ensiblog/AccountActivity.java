@@ -26,6 +26,7 @@ public class AccountActivity extends AppCompatActivity {
     private EditText editTextBio;
     private Button buttonResiterBio;
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_management);
