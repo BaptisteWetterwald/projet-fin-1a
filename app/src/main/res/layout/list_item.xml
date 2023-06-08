@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
             android:text="@string/button_supermodo"
-            android:textSize="11sp" />
+            android:textSize="11sp"/>
 
     </LinearLayout>
 

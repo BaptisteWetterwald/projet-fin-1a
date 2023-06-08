@@ -21,5 +21,5 @@
     <string name="button_delete">Supprimer</string>
     <string name="supermodo_name">Nom Prénom</string>
     <string name="supermodo_title">Super-Modérateur :</string>
-    <string name="button_supermodo">Changer Super-Modérateur</string>
+    <string name="button_supermodo">Changer Super-Modérateur </string>
 </resources>
