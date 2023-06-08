@@ -68,7 +68,8 @@
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="260dp" />
+        tools:layout_editor_absoluteY="260dp"
+        tools:ignore="MissingConstraints" />
 
 
     <Button
@@ -84,11 +85,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonEditMdp" />
 
+    <Button
+        android:id="@+id/buttonEditBio"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/btn_bg"
+        android:text="Modifier sa description"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonEditFunctions" />
+
     <TextView
         android:id="@+id/textViewBio"
         android:layout_width="169dp"
         android:layout_height="25dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="150dp"
         android:drawableRight="@drawable/info"
         android:text="A PROPOS DE MOI"
         android:textSize="16sp"
@@ -98,32 +112,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonEditFunctions" />
 
-    <EditText
+    <TextView
         android:id="@+id/editTextBio"
         android:layout_width="398dp"
-        android:layout_height="98dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="4dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/btn_bg"
         android:ems="10"
-        android:hint="Bio"
-        android:inputType="text"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewBio" />
-
-    <Button
-        android:id="@+id/buttonRegisterBio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="4dp"
-        android:background="@drawable/btn_bg"
-        android:text="Enregistrer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextBio" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
@@ -141,7 +142,8 @@
         android:layout_height="116dp"
         tools:layout_editor_absoluteX="30dp"
         tools:layout_editor_absoluteY="104dp"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars"
+        tools:ignore="MissingConstraints" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
