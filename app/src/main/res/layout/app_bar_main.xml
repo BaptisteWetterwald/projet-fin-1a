@@ -29,6 +29,8 @@
         android:background="@color/blueLight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
+        android:layout_gravity="top"
         tools:ignore="MissingConstraints">
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
@@ -103,7 +105,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="495dp"
+        android:layout_height="500dp"
         android:layout_marginVertical="@dimen/nav_header_height"
         app:layout_anchor="@+id/include"
         app:layout_anchorGravity="center" />
