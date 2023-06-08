@@ -1,13 +1,17 @@
-package fr.ensisa.ensiblog.models;
+package fr.ensisa.ensiblog.models.posts;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import fr.ensisa.ensiblog.models.Topic;
+import fr.ensisa.ensiblog.models.User;
 
 public class Post {
     private Date creation;
     private Topic topic;
     private User author;
-    private List<Content> content;
+    private List<Content> content = new ArrayList<>();
     private Date expiration;
 
     public Post(){
@@ -60,5 +64,9 @@ public class Post {
 
     public void setExpiration(Date expiration) {
         this.expiration = expiration;
+    }
+
+    public void addContent(Content content) {
+        this.content.add(content);
     }
 }

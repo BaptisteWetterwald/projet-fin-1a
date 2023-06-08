@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/back_post_icon">
+
+    <ImageButton
+        android:id="@+id/imageButtonEditPhoto"
+        android:layout_width="47dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="176dp"
+        android:layout_marginEnd="216dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/edit_icon" />
 
     <TextView
         android:id="@+id/textViewTitle"
@@ -14,6 +24,9 @@
         android:layout_marginTop="28dp"
         android:layout_marginEnd="20dp"
         android:text="Gestion De Compte"
+        android:textColor="@color/black"
+        android:textSize="34sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,9 +35,12 @@
         android:id="@+id/textViewName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="52dp"
         android:text="Prénom NOM"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.826"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
 
@@ -32,50 +48,27 @@
         android:id="@+id/textViewMail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:text="prenom.nom@uha.fr"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.858"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewName" />
 
-
-
-    <Button
-        android:id="@+id/buttonEditPhoto"
-        android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="160dp"
-        android:layout_marginRight="76dp"
-        android:text="PHOTO DE PROFIL >"
-        android:textAlignment="textStart"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/imageButtonEditPhoto"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        android:layout_marginTop="160dp"
-        android:layout_marginRight="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/buttonEditPhoto"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/buttonEditMdp"
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:layout_marginHorizontal="4dp"
-        android:layout_marginTop="28dp"
-        android:text="MOT DE PASSE > *******"
-        android:textAlignment="viewStart"
+        android:background="@drawable/btn_bg"
+        android:text="MOT DE PASSE "
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonEditPhoto" />
+        tools:layout_editor_absoluteY="260dp" />
 
 
     <Button
@@ -84,32 +77,40 @@
         android:layout_height="72dp"
         android:layout_marginHorizontal="4dp"
         android:layout_marginTop="28dp"
-        android:textAlignment="viewStart"
-        android:text="Fonction par thème >"
+        android:background="@drawable/btn_bg"
+        android:text="Fonction par thème"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonEditMdp" />
 
     <TextView
         android:id="@+id/textViewBio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="169dp"
+        android:layout_height="25dp"
         android:layout_marginTop="28dp"
+        android:drawableRight="@drawable/info"
         android:text="A PROPOS DE MOI"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.015"
+        app:layout_constraintHorizontal_bias="0.123"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonEditFunctions" />
 
     <EditText
         android:id="@+id/editTextBio"
-        android:layout_width="match_parent"
-        android:layout_height="67dp"
+        android:layout_width="398dp"
+        android:layout_height="98dp"
         android:layout_marginHorizontal="4dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/btn_bg"
         android:ems="10"
-        android:inputType="text"
         android:hint="Bio"
+        android:inputType="text"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewBio" />
 
@@ -117,7 +118,9 @@
         android:id="@+id/buttonRegisterBio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="4dp"
+        android:background="@drawable/btn_bg"
         android:text="Enregistrer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextBio" />
@@ -132,7 +135,13 @@
         app:layout_constraintRight_toRightOf="parent"
         app:menu="@menu/bottom_nav_menu" />
 
-
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="133dp"
+        android:layout_height="116dp"
+        tools:layout_editor_absoluteX="30dp"
+        tools:layout_editor_absoluteY="104dp"
+        tools:srcCompat="@tools:sample/avatars" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

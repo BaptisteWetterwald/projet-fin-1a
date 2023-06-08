@@ -1,13 +1,8 @@
 package fr.ensisa.ensiblog;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.View;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -19,20 +14,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.ensisa.ensiblog.databinding.ActivityMain2Binding;
 import fr.ensisa.ensiblog.databinding.ActivityMainBinding;
-import fr.ensisa.ensiblog.models.Content;
-import fr.ensisa.ensiblog.models.Image;
-import fr.ensisa.ensiblog.models.Post;
-import fr.ensisa.ensiblog.models.PostAdapter;
-import fr.ensisa.ensiblog.models.Text;
+import fr.ensisa.ensiblog.models.posts.ImageContent;
+import fr.ensisa.ensiblog.models.posts.Post;
+import fr.ensisa.ensiblog.ui.posts.PostAdapter;
+import fr.ensisa.ensiblog.models.posts.TextContent;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -59,39 +50,6 @@ public class MainActivity extends AppCompatActivity {
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationViewleft = binding.leftNavView.leftNavView;
         NavigationView navigationViewright = binding.rightNavView.navRightView;
-        Button button1 = (Button) findViewById(R.id.button_gest);
-        Button button2 = (Button) findViewById(R.id.button_moderation);
-        Button button3 = (Button) findViewById(R.id.button_admin);
-        Button button4 = (Button) findViewById(R.id.button_disconnect);
-        button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AccountActivity.class);
-                startActivity(intent);
-            }
-        });
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ModeratorActivity.class);
-                startActivity(intent);
-            }
-        });
-        button3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AdminActivity.class);
-                startActivity(intent);
-            }
-        });
-        button4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-
 
         mAppBarConfigurationLeft = new AppBarConfiguration.Builder(
                 R.id.nav_home/*, R.id.nav_gallery, R.id.nav_slideshow*/)
@@ -116,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
         // Set a layout manager for the RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -131,43 +88,46 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    private List<Post> getPosts() {
+    public static List<Post> getPosts() {
         List<Post> posts = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            // Add some sample posts
-            Post post1 = new Post();
-            Text textContent;
-            try {
-                textContent = new Text("This is a sample text post (i: " + i + ")");
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-            List<Content> contents = new ArrayList<>();
-            contents.add(textContent);
-            post1.setContent(contents);
-            posts.add(post1);
 
-            Post post2 = new Post();
+        // Create some TextContent objects
+        TextContent textContent1 = new TextContent("Hello, world!");
+        TextContent textContent2 = new TextContent("This is a sample post.");
+        TextContent textContent3 = new TextContent("Welcome to the Android 21 app.");
 
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ensisa);
+        // Create some ImageContent objects
+        ImageContent imageContent1 = new ImageContent("https://www.parismatch.com/lmnr/var/pm/public/media/image/Emma-Watson_0.jpg?VersionId=RC8sSswLrmMQFNdbRU7FRE3E80WtYdls");
+        /*ImageContent imageContent2 = new ImageContent("https://example.com/image2.jpg");
 
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
+        // Create some VideoContent objects
+        VideoContent videoContent1 = new VideoContent("https://example.com/video1.mp4");
+        VideoContent videoContent2 = new VideoContent("https://example.com/video2.mp4");*/
 
-            Image imageContent;
-            try {
-                imageContent = new Image(byteArray);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+        // Create some posts with different combinations of content
+        Post post1 = new Post();
+        post1.addContent(textContent1);
+        post1.addContent(textContent2);
+        post1.addContent(textContent3);
+        post1.addContent(imageContent1);
 
-            contents = new ArrayList<>();
-            contents.add(imageContent);
-            post2.setContent(contents);
-            posts.add(post2);
-        }
-    
+        /*Post post2 = new Post();
+        post2.addContent(textContent2);
+
+        Post post3 = new Post();
+        post3.addContent(imageContent2);
+        post3.addContent(videoContent1);
+        post3.addContent(textContent3);
+
+        Post post4 = new Post();
+        post4.addContent(videoContent2);*/
+
+        // Add the posts to the list
+        posts.add(post1);
+        //posts.add(post2);
+        //posts.add(post3);
+        //posts.add(post4);
+
         return posts;
     }
 

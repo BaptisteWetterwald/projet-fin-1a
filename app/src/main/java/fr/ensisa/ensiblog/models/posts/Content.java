@@ -1,4 +1,4 @@
-package fr.ensisa.ensiblog.models;
+package fr.ensisa.ensiblog.models.posts;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
