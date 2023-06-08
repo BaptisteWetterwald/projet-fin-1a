@@ -38,7 +38,6 @@ public class PostsDisplayActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_posts_display);
 
         // Retrieve the reference to the RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
@@ -95,7 +94,6 @@ public class PostsDisplayActivity extends AppCompatActivity {
             post2.setContent(contents);
             posts.add(post2);
         }
-
         return posts;
     }
 }
