@@ -38,16 +38,20 @@ public class MainActivity extends AppCompatActivity {
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.nameapp)
                 .build();
-
-        /*for (int i = 0; i < 10; i++) {
+        Topic topic = new Topic("Thème1",new Role(0));
+        User user = new User(new Email("test.michelkjenezfkjqjksnfjdsqfnjkjnkqdsjf@uha.fr"));
+        TopicUser topicuser = new TopicUser(topic,user,new Role(3));
+        Database.getInstance().add(Table.USERS.getName(), user, User.class,true);
+        Database.getInstance().add(Table.TOPIC_USERS.getName(), topicuser, TopicUser.class,false);
+        /*for (int i = 0; i < 5; i++) {
 
             Topic topic = new Topic("Thème"+i,new Role(0));
             Database.getInstance().add(Table.TOPICS.getName(), topic, Topic.class,false);
 
-            for (int j = 0; j < 20; j++) {
+            for (int j = 0; j < 3; j++) {
                 User user = new User(new Email("test.michel"+Integer.toString(j)+"@uha.fr"));
                 TopicUser topicuser = new TopicUser(topic,user,new Role(3));
-                Database.getInstance().add(Table.USERS.getName(), user, User.class,false);
+                Database.getInstance().add(Table.USERS.getName(), user, User.class,true);
                 Database.getInstance().add(Table.TOPIC_USERS.getName(), topicuser, TopicUser.class,false);
 
             }
