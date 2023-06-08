@@ -1,7 +1,5 @@
 package fr.ensisa.ensiblog;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,20 +14,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.ensisa.ensiblog.databinding.ActivityMain2Binding;
 import fr.ensisa.ensiblog.databinding.ActivityMainBinding;
-import fr.ensisa.ensiblog.models.Content;
-import fr.ensisa.ensiblog.models.Image;
-import fr.ensisa.ensiblog.models.Post;
-import fr.ensisa.ensiblog.models.PostAdapter;
-import fr.ensisa.ensiblog.models.Text;
+import fr.ensisa.ensiblog.models.posts.ImageContent;
+import fr.ensisa.ensiblog.models.posts.Post;
+import fr.ensisa.ensiblog.ui.posts.PostAdapter;
+import fr.ensisa.ensiblog.models.posts.TextContent;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -79,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
         // Set a layout manager for the RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -94,44 +87,45 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-
-    private List<Post> getPosts() {
+    public static List<Post> getPosts() {
         List<Post> posts = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
-            // Add some sample posts
-            Post post1 = new Post();
-            Text textContent;
-            try {
-                textContent = new Text("This is a sample text post (i: " + i + ")");
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-            List<Content> contents = new ArrayList<>();
-            contents.add(textContent);
-            post1.setContent(contents);
-            posts.add(post1);
+        // Create some TextContent objects
+        TextContent textContent1 = new TextContent("Hello, world!");
+        TextContent textContent2 = new TextContent("This is a sample post.");
+        TextContent textContent3 = new TextContent("Welcome to the Android 21 app.");
 
-            Post post2 = new Post();
+        // Create some ImageContent objects
+        ImageContent imageContent1 = new ImageContent("https://www.parismatch.com/lmnr/var/pm/public/media/image/Emma-Watson_0.jpg?VersionId=RC8sSswLrmMQFNdbRU7FRE3E80WtYdls");
+        /*ImageContent imageContent2 = new ImageContent("https://example.com/image2.jpg");
 
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ensisa);
+        // Create some VideoContent objects
+        VideoContent videoContent1 = new VideoContent("https://example.com/video1.mp4");
+        VideoContent videoContent2 = new VideoContent("https://example.com/video2.mp4");*/
 
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
+        // Create some posts with different combinations of content
+        Post post1 = new Post();
+        post1.addContent(textContent1);
+        post1.addContent(textContent2);
+        post1.addContent(textContent3);
+        post1.addContent(imageContent1);
 
-            Image imageContent;
-            try {
-                imageContent = new Image(byteArray);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+        /*Post post2 = new Post();
+        post2.addContent(textContent2);
 
-            contents = new ArrayList<>();
-            contents.add(imageContent);
-            post2.setContent(contents);
-            posts.add(post2);
-        }
+        Post post3 = new Post();
+        post3.addContent(imageContent2);
+        post3.addContent(videoContent1);
+        post3.addContent(textContent3);
+
+        Post post4 = new Post();
+        post4.addContent(videoContent2);*/
+
+        // Add the posts to the list
+        posts.add(post1);
+        //posts.add(post2);
+        //posts.add(post3);
+        //posts.add(post4);
 
         return posts;
     }
