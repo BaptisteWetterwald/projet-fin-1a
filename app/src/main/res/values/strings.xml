@@ -14,4 +14,12 @@
     <string name="menu_home">EnsiBlog</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+
+    <string name="admin_title">Administration</string>
+    <string name="new_theme_button">Nouveau thème</string>
+    <string name="button_name">Modifier le nom</string>
+    <string name="button_delete">Supprimer</string>
+    <string name="supermodo_name">Nom Prénom</string>
+    <string name="supermodo_title">Super-Modérateur :</string>
+    <string name="button_supermodo">Changer Super-Modérateur</string>
 </resources>
