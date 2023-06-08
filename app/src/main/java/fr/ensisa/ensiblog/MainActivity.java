@@ -94,10 +94,8 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-
     private List<Post> getPosts() {
         List<Post> posts = new ArrayList<>();
-
         for (int i = 0; i < 10; i++) {
             // Add some sample posts
             Post post1 = new Post();
