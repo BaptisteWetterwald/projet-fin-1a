@@ -125,7 +125,7 @@ public class Database {
     }
 
     // method to update lines in the database with fields and values parameters as new values and object as the object to update
-    public void update(String tableName, Object object, String[] fields, String[] values) throws IllegalArgumentException {
+    public void update(String tableName, Object object, String[] fields, Object[] values) throws IllegalArgumentException {
         CollectionReference dbTable = db.collection(tableName);
 
         if (fields.length != values.length) {

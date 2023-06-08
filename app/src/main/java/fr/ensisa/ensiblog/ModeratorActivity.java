@@ -1,6 +1,8 @@
 package fr.ensisa.ensiblog;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -46,28 +48,6 @@ public class ModeratorActivity extends AppCompatActivity {
                     RadioGroup radioGroup = componentView.findViewById(R.id.list_members_radioGroup);
                     TopicUser tpUsr = topicUsers.get(i);
 
-                    radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(RadioGroup group, int checkedId) {
-                            // Perform actions when the checked radio button changes
-                            RadioButton checkedRadioButton = group.findViewById(checkedId);
-                            if (checkedRadioButton != null) {
-                                // Get the text or any other properties of the selected radio button
-                                String selectedText = checkedRadioButton.getText().toString();
-                                Role newRole = new Role();
-
-                                if (checkedRadioButton.getId() == R.id.button1)
-                                    newRole.setRole(3);
-                                else if (checkedRadioButton.getId() == R.id.button2)
-                                    newRole.setRole(2);
-                                else if (checkedRadioButton.getId() == R.id.button3)
-                                    newRole.setRole(1);
-                                Database.getInstance().update(Table.TOPIC_USERS.getName(),tpUsr,new TopicUser(tpUsr.getTopic(),tpUsr.getUser(),newRole,tpUsr.getFonction()));
-                            }
-                        }
-                    });
-
-
                     Email members_email = tpUsr.getUser().getEmail();
                     // Modify the views as needed
                     usernameTextView.setText(members_email.firstName()+" "+members_email.lastName());
@@ -79,7 +59,29 @@ public class ModeratorActivity extends AppCompatActivity {
                     else if (tpUsr.getRole().getRole() == 1)
                         rd = componentView.findViewById(R.id.button3);
                     if(rd != null)
-                        rd.toggle();
+                        rd.setChecked(true);
+                        //rd.toggle();
+
+                    radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(RadioGroup group, int checkedId) {
+                            // Perform actions when the checked radio button changes
+                            RadioButton checkedRadioButton = group.findViewById(checkedId);
+                            if (checkedRadioButton != null) {
+                                Role newRole = new Role();
+
+                                if (checkedRadioButton.getId() == R.id.button1)
+                                    newRole.setRole(3);
+                                else if (checkedRadioButton.getId() == R.id.button2)
+                                    newRole.setRole(2);
+                                else if (checkedRadioButton.getId() == R.id.button3)
+                                    newRole.setRole(1);
+                                Log.i("n6a","CALL TO UPDATE");
+                                TopicUser newTpUsr = new TopicUser(tpUsr.getTopic(),tpUsr.getUser(),newRole,tpUsr.getFonction());
+                                Database.getInstance().update(Table.TOPIC_USERS.getName(),newTpUsr,new String[]{"topic","user"}, new Object[]{tpUsr.getTopic(),tpUsr.getUser()});
+                            }
+                        }
+                    });
 
                     // Add the componentView to the parent layout
                     listMembers.addView(componentView);
@@ -100,7 +102,7 @@ public class ModeratorActivity extends AppCompatActivity {
             // user.getUid()
         }
         // On commence par récupérer l'user courant dans notre DB pour filtrer les topics
-        Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{"email"}, new Email[]{new Email("test.michel19@uha.fr")}).addOnSuccessListener(users -> {
+        Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{"email"}, new Email[]{new Email("test.michel0@uha.fr")}).addOnSuccessListener(users -> {
             if(users.size()>0) {
                 User userModel = users.get(0);
                 // On récupère la liste des topics auquel l'user est abonné
@@ -113,6 +115,8 @@ public class ModeratorActivity extends AppCompatActivity {
                             Button button = new Button(ModeratorActivity.this);
                             Topic btnTopic = topics.get(i).getTopic();
                             button.setText(btnTopic.getName());
+                            int color = Color.parseColor("#FF0000"); // Change this to your desired color
+                            button.setBackgroundTintList(ColorStateList.valueOf(color));
                             button.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
