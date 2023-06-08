@@ -14,6 +14,14 @@ public class Post {
         // empty constructor required for firebase
     }
 
+    public Post(Date creation, Topic topic, User author, List<Content> content, Date expiration) {
+        this.creation = creation;
+        this.topic = topic;
+        this.author = author;
+        this.content = content;
+        this.expiration = expiration;
+    }
+
     public Date getCreation() {
         return creation;
     }
