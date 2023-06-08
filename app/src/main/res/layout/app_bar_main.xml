@@ -87,6 +87,7 @@
             </HorizontalScrollView>
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
+
     <include
         android:id="@+id/bottom_app_bar"
         layout="@layout/bottom_app_bar"
@@ -100,7 +101,7 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="150dp"
+        android:layout_marginVertical="@dimen/nav_header_height"
         tools:layout_editor_absoluteX="100dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
