@@ -13,9 +13,6 @@ public class HomeViewModel extends ViewModel {
         mText2 = new MutableLiveData<>();
         mText2.setValue("Congratulation !!!!!! Ceci est un second text ");
     }
-    public LiveData<String> getText1() {
-        return mText1;
-    }
-    public LiveData<String> getText2() { return mText2;
-    }
+    public LiveData<String> getText1() { return mText1;    }
+    public LiveData<String> getText2() { return mText2;    }
 }
