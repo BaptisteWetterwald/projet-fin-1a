@@ -17,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import fr.ensisa.ensiblog.databinding.ActivityMain2Binding;
 
 public class MainActivity2 extends AppCompatActivity {
-
+  /*                        STAND BY          STAND BY               STAND BY
     private AppBarConfiguration mAppBarConfigurationLeft;
     private AppBarConfiguration mAppBarConfigurationRight;
     private ActivityMain2Binding binding;
@@ -37,14 +37,15 @@ public class MainActivity2 extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         DrawerLayout drawer = binding.drawerLayout;
-        NavigationView navigationView = binding.leftNavView.leftNavView;
+        NavigationView navigationViewleft = binding.leftNavView.leftNavView;
+        NavigationView navigationViewright = binding.rightNavView.navRightView;
         mAppBarConfigurationLeft = new AppBarConfiguration.Builder(
-                R.id.nav_home/*, R.id.nav_gallery, R.id.nav_slideshow*/)
+                R.id.nav_home)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfigurationLeft);
-        NavigationUI.setupWithNavController(navigationView, navController);
+        NavigationUI.setupWithNavController(navigationViewleft, navController);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -57,5 +58,5 @@ public class MainActivity2 extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfigurationLeft)
                 || super.onSupportNavigateUp();
-    }
+    }*/
 }
