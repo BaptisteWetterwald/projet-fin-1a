@@ -28,7 +28,7 @@ public class Email {
 
     public String[] names(){
         String beforeAt = address.split("@")[0];
-        return beforeAt.split(".");
+        return beforeAt.split("\\.");
     }
 
     public String firstName(){

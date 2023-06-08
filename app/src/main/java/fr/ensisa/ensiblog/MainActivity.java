@@ -2,12 +2,16 @@ package fr.ensisa.ensiblog;
 
 import android.os.Bundle;
 
+import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.ui.AppBarConfiguration;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import fr.ensisa.ensiblog.databinding.ActivityMainBinding;
+import fr.ensisa.ensiblog.firebase.Database;
+import fr.ensisa.ensiblog.firebase.Table;
+import fr.ensisa.ensiblog.models.*;
 
 public class MainActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
@@ -31,6 +35,21 @@ public class MainActivity extends AppCompatActivity {
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.nameapp)
                 .build();
+
+        /*for (int i = 0; i < 10; i++) {
+
+            Topic topic = new Topic("Thème"+i,new Role(0));
+            Database.getInstance().add(Table.TOPICS.getName(), topic, Topic.class,false);
+
+            for (int j = 0; j < 20; j++) {
+                User user = new User(new Email("test.michel"+Integer.toString(i)+Integer.toString(j)+"@uha.fr"));
+                TopicUser topicuser = new TopicUser(topic,user,new Role(0));
+                Database.getInstance().add(Table.USERS.getName(), user, User.class,false);
+                Database.getInstance().add(Table.TOPIC_USERS.getName(), topicuser, TopicUser.class,false);
+            }
+        }*/
+
+
 
 /*        Database.getInstance().alreadyIn("Topics", new String[]{"name"}, new String[]{"ENSISA"}, new Database.AlreadyInCallback() {
             @Override

@@ -1,6 +1,7 @@
 package fr.ensisa.ensiblog;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -38,48 +39,45 @@ public class ModeratorActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             FirebaseUser user = (FirebaseUser) extras.get("user");
-            // On commence par récupérer l'user courant dans notre DB pour filtrer les topics
-            Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{"uid"}, new String[]{user.getUid()}).addOnSuccessListener(users -> {
-                User userModel = users.get(0);
-                // On récupère la liste des topics auquel l'user est abonné
-                Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"user"}, new User[]{userModel}).addOnSuccessListener(topics -> {
-                    if(topics.size()>0){
-                        currentTopic = topics.get(0).getTopic();
-                        LinearLayout themesBar = findViewById(R.id.theme_bar);
-                        for (int i = 0; i < topics.size(); i++) {
-                            Button button = new Button(ModeratorActivity.this);
-                            button.setText(topics.get(i).getTopic().getName());
-                            themesBar.addView(button);
-                        }
-
-                        Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"topic"}, new Topic[]{currentTopic}).addOnSuccessListener(topicUsers -> {
-
-                            if(topicUsers.size()>0) {
-                                LinearLayout listMembers = findViewById(R.id.list_members);
-
-                                for (int i = 0; i < topicUsers.size(); i++) {
-                                    // Inflate the layout XML file for each component
-                                    View componentView = getLayoutInflater().inflate(R.layout.member_layout, null);
-
-                                    // Find the individual views within the inflated componentView
-                                    TextView usernameTextView = componentView.findViewById(R.id.list_members_text);
-                                    RadioGroup radioGroup = componentView.findViewById(R.id.list_members_radioGroup);
-
-                                    Email members_email = topics.get(i).getUser().getEmail();
-                                    // Modify the views as needed
-                                    usernameTextView.setText(members_email.firstName()+" "+members_email.lastName());
-
-                                    // Add the componentView to the parent layout
-                                    listMembers.addView(componentView);
-                                }
-                            }
-                        });
+            // user.getUid()
+        }
+        // On commence par récupérer l'user courant dans notre DB pour filtrer les topics
+        Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{"email"}, new Email[]{new Email("test.michel19@uha.fr")}).addOnSuccessListener(users -> {
+            User userModel = users.get(0);
+            // On récupère la liste des topics auquel l'user est abonné
+            Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"user"}, new User[]{userModel}).addOnSuccessListener(topics -> {
+                if(topics.size()>0){
+                    currentTopic = topics.get(0).getTopic();
+                    LinearLayout themesBar = findViewById(R.id.theme_bar);
+                    for (int i = 0; i < topics.size(); i++) {
+                        Button button = new Button(ModeratorActivity.this);
+                        button.setText(topics.get(i).getTopic().getName());
+                        themesBar.addView(button);
                     }
 
+                    Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"topic"}, new Topic[]{currentTopic}).addOnSuccessListener(topicUsers -> {
 
+                        if(topicUsers.size()>0) {
+                            LinearLayout listMembers = findViewById(R.id.list_members);
+                            for (int i = 0; i < topicUsers.size(); i++) {
+                                // Inflate the layout XML file for each component
+                                View componentView = getLayoutInflater().inflate(R.layout.member_layout, null);
 
-                });
+                                // Find the individual views within the inflated componentView
+                                TextView usernameTextView = componentView.findViewById(R.id.list_members_text);
+                                RadioGroup radioGroup = componentView.findViewById(R.id.list_members_radioGroup);
+
+                                Email members_email = topicUsers.get(i).getUser().getEmail();
+                                // Modify the views as needed
+                                usernameTextView.setText(members_email.firstName()+" "+members_email.lastName());
+
+                                // Add the componentView to the parent layout
+                                listMembers.addView(componentView);
+                            }
+                        }
+                    });
+                }
             });
-        }
+        });
     }
 }

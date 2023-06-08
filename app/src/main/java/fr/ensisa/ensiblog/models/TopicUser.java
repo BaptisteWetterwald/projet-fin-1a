@@ -10,6 +10,19 @@ public class TopicUser {
         // empty constructor required for firebase
     }
 
+    public TopicUser(Topic topic, User user, Role role){
+        setTopic(topic);
+        setUser(user);
+        setRole(role);
+    }
+
+    public TopicUser(Topic topic, User user, Role role, String fonction){
+        setTopic(topic);
+        setUser(user);
+        setRole(role);
+        setFonction(fonction);
+    }
+
     public User getUser() {
         return user;
     }
