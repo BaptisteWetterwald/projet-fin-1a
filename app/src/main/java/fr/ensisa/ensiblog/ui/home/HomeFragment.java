@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModelProvider;
 import fr.ensisa.ensiblog.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
-
     private FragmentHomeBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -24,8 +23,10 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textHome;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView1 = binding.textHome1;
+        final TextView textView2 = binding.textHome2;
+        homeViewModel.getText1().observe(getViewLifecycleOwner(), textView1::setText);
+        homeViewModel.getText2().observe(getViewLifecycleOwner(), textView2::setText);
         return root;
     }
 
