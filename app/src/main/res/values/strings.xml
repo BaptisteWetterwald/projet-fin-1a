@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ensiblog</string>
+    <string name="app_name">Ensiblog</string>
     <string name="title_home">Home</string>
     <string name="open_nav">Open Navigation Drawer</string>
     <string name="close_nav">Close Navigation Drawer</string>
