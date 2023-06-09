@@ -1,7 +1,10 @@
 package fr.ensisa.ensiblog;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -22,6 +25,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.ArrayList;
+
 import fr.ensisa.ensiblog.firebase.Database;
 import fr.ensisa.ensiblog.firebase.Table;
 import fr.ensisa.ensiblog.models.Email;
@@ -34,6 +39,8 @@ public class AdminActivity extends AppCompatActivity {
 
     private ListView listView;
     private ArrayAdapter<Topic> adapter;
+
+    private ArrayList<Topic> themes = new ArrayList<Topic>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,9 +100,24 @@ public class AdminActivity extends AppCompatActivity {
                     Topic newTopic = new Topic(themeName,new Role(selectedRole));
                     Database.getInstance().add(Table.TOPICS.getName(), newTopic, Topic.class,new String[]{"name"});
                     Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{"email"}, new Email[]{new Email(moderatorEmail)}).addOnSuccessListener(users -> {
-                        if(users.size()>0)
-                            Database.getInstance().add(Table.TOPIC_USERS.getName(), new TopicUser(newTopic,users.get(0),new Role(selectedRole)), TopicUser.class,true);
-                        else {
+                        if(users.size()>0) {
+                            Database.getInstance().add(Table.TOPIC_USERS.getName(), new TopicUser(newTopic, users.get(0), new Role(4)), TopicUser.class, true);
+
+                            // On affiche le thème créé à la vue
+                            themes.add(newTopic);
+                            adapter.notifyDataSetChanged();
+                            listView.smoothScrollToPosition(listView.getCount() - 1);
+                            /*LayoutInflater inflater = LayoutInflater.from(AdminActivity.this);
+                            View view = inflater.inflate(R.layout.list_item, listView);
+                            TextView themeTitle = view.findViewById(R.id.itemTextView);
+                            themeTitle.setText(themeName);
+
+                            TextView moderatorName = view.findViewById(R.id.moderatorNameTextView);
+                            Email e = new Email(moderatorEmail);
+                            moderatorName.setText(e.firstName()+" "+e.lastName());
+
+                            listView.addView(view);*/
+                        } else {
                             Utils.showInfoBox("Alert !","User not found with email","OK",AdminActivity.this, (dialog2, which2) -> {
                                 dialog2.cancel();
                             });
@@ -103,9 +125,7 @@ public class AdminActivity extends AppCompatActivity {
                     });
                 }
             });
-
             //.addOnSuccessListener(o -> Toast.makeText(AdminActivity.this,"Topic successfully created !",Toast.LENGTH_SHORT))
-
             builder.setNegativeButton("Annuler", null);
 
             AlertDialog dialog = builder.create();
@@ -114,9 +134,8 @@ public class AdminActivity extends AppCompatActivity {
 
         Database.getInstance().get(Table.TOPICS.getName(), Topic.class,new String[]{},new Object[]{}).addOnSuccessListener(topics -> {
 
-            Topic[] themes = new Topic[topics.size()];
             for (int i = 0; i < topics.size(); i++) {
-                themes[i] = topics.get(i);
+                themes.add(topics.get(i));
             }
             adapter = new ArrayAdapter<Topic>(AdminActivity.this, R.layout.list_item, R.id.itemTextView, themes) {
                 @Override
@@ -125,10 +144,10 @@ public class AdminActivity extends AppCompatActivity {
                     View view = super.getView(position, convertView, parent);
 
                     TextView themeTitle = view.findViewById(R.id.itemTextView);
-                    themeTitle.setText(themes[position].getName());
+                    themeTitle.setText(themes.get(position).getName());
 
                     TextView moderatorName = view.findViewById(R.id.moderatorNameTextView);
-                    Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"topic"}, new Topic[]{themes[position]}).addOnSuccessListener(topicUsers -> {
+                    Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"topic"}, new Topic[]{themes.get(position)}).addOnSuccessListener(topicUsers -> {
                         for (TopicUser tu : topicUsers) {
                             if (tu.getRole().getRole() == 4) {
                                 moderatorName.setText(tu.getUser().getEmail().firstName() + " " + tu.getUser().getEmail().lastName());
@@ -163,6 +182,8 @@ public class AdminActivity extends AppCompatActivity {
                                             Topic topic = adapter.getItem(pos);
                                             Topic newTopic = new Topic(newThemeName, topic.getDefaultRole());
                                             Database.getInstance().update(Table.TOPICS.getName(), newTopic, new String[]{"name"}, new String[]{topic.getName()});
+                                            TextView themeName = ((LinearLayout) v.getParent().getParent()).findViewById(R.id.itemTextView);
+                                            themeName.setText(newThemeName);
                                         }
                                     });
                                 }
@@ -185,10 +206,12 @@ public class AdminActivity extends AppCompatActivity {
                                 Database.getInstance().removeFrom(Table.TOPICS.getName(), new String[]{"name"}, new String[]{topic.getName()}).addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
                                         Database.getInstance().removeFrom(Table.TOPIC_USERS.getName(), new String[]{"topic"}, new Topic[]{topic}).addOnCompleteListener(task2 -> {
-                                            if (task2.isSuccessful())
-                                                Toast.makeText(AdminActivity.this, "Le thème a bien été supprimé", Toast.LENGTH_SHORT).show();
-                                            else
-                                                Toast.makeText(AdminActivity.this, "Erreur lors de la suppression des utilistaeurs du thème", Toast.LENGTH_SHORT).show();
+                                            if (task2.isSuccessful()){
+                                                int p = listView.getPositionForView((LinearLayout)v.getParent().getParent());
+                                                themes.remove(p);
+                                                adapter.notifyDataSetChanged();
+                                            } else
+                                                Toast.makeText(AdminActivity.this, "Erreur lors de la suppression des utilisateurs du thème", Toast.LENGTH_SHORT).show();
                                         });
                                     } else
                                         Toast.makeText(AdminActivity.this, "Erreur lors de la suppression du thème", Toast.LENGTH_SHORT).show();
@@ -214,6 +237,7 @@ public class AdminActivity extends AppCompatActivity {
                             builder.setPositiveButton("Valider", (dialog, which) -> {
                                 String newModerator = input.getText().toString();
                                 if (newModerator.isEmpty() || !Email.isValid(newModerator)) {
+                                    Log.e("n6a",newModerator);
                                     Toast.makeText(AdminActivity.this, "Un email valide est requis", Toast.LENGTH_SHORT).show();
                                 } else {
                                     int pos = listView.getPositionForView(v);
@@ -233,6 +257,9 @@ public class AdminActivity extends AppCompatActivity {
                                             TopicUser oldSuperModo = new TopicUser(topic, superModo, new Role(3), "old Super-Modo");
                                             Database.getInstance().update(Table.TOPIC_USERS.getName(), newSuperModo, new String[]{"topic", "user"}, new Object[]{topic, futurSuperModo});
                                             Database.getInstance().update(Table.TOPIC_USERS.getName(), oldSuperModo, new String[]{"topic", "user"}, new Object[]{topic, superModo});
+                                            // Met à jours le texte sur la vue
+                                            TextView modoName = ((LinearLayout) v.getParent()).findViewById(R.id.moderatorNameTextView);
+                                            modoName.setText(futurSuperModo.getEmail().firstName()+" "+futurSuperModo.getEmail().lastName());
                                         } else {
                                             Toast.makeText(AdminActivity.this, "User not found in topic", Toast.LENGTH_SHORT).show();
                                         }
@@ -251,7 +278,6 @@ public class AdminActivity extends AppCompatActivity {
                 }
             };
 
-        // Associate adapter to the ListView
             listView.setAdapter(adapter);
         });
     }
