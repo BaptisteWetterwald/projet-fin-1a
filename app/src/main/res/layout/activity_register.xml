@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RegisterActivity"
-    android:background="@drawable/ensisa1"
-    >
+    android:background="@drawable/ensisa1">
 
     <TextView
         android:id="@+id/textView"
@@ -20,7 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.089" />
+        app:layout_constraintVertical_bias="0.047" />
 
     <TextView
         android:id="@+id/textView2"
@@ -32,9 +31,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.298" />
+        app:layout_constraintVertical_bias="0.182" />
 
     <TextView
         android:id="@+id/textView3"
@@ -48,13 +48,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.88" />
+        app:layout_constraintVertical_bias="0.637" />
 
     <EditText
         android:id="@+id/editTextLoginUsername"
         android:layout_width="315dp"
         android:layout_height="55dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/input_bg"
         android:drawableLeft="@drawable/ic_baseline_person_24"
         android:drawablePadding="10dp"
@@ -75,7 +75,7 @@
         android:id="@+id/editTextLoginPassword"
         android:layout_width="315dp"
         android:layout_height="55dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/input_bg"
         android:drawableLeft="@drawable/ic_baseline_security_24"
         android:drawablePadding="10dp"
@@ -96,7 +96,7 @@
         android:id="@+id/buttonRegister"
         android:layout_width="200dp"
         android:layout_height="55dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="44dp"
         android:background="@drawable/btn_bg"
         android:text="Register"
         android:textColor="@color/colorWhite"
@@ -111,16 +111,14 @@
         android:id="@+id/buttonLogin"
         android:layout_width="200dp"
         android:layout_height="55dp"
-        android:layout_marginTop="190dp"
+        android:layout_marginTop="240dp"
         android:background="@drawable/btn_bg"
         android:text="Login"
         android:textColor="@color/colorWhite"
         android:textColorHighlight="#07599A"
         android:textColorLink="#0F4570"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.469"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextLoginPassword" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

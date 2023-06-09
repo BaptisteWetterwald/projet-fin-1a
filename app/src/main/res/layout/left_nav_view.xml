@@ -22,49 +22,61 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-                <Button
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:backgroundTint="@color/MARIN_APP"
+                    android:background="@color/MARIN_APP"
                     android:text="ABONNEMENT"
+                    android:textColor="@color/white"
                     android:textAlignment="center"
-                    android:textSize="18dp"/>
-
-                <Button
+                    android:textSize="21dp"/>
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeColor="@color/colorYellow"
+                    android:textColor="@color/colorYellow"
                     android:layout_width="match_parent"
                     android:backgroundTint="@color/marinclair"
                     android:text="THEME1"
-                    android:textColor="@color/black"
                     android:layout_height="40dp" />
-                <Button
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeColor="@color/colorYellow"
+                    android:textColor="@color/colorYellow"
                     android:layout_width="match_parent"
                     android:backgroundTint="@color/marinclair"
                     android:text="THEME1"
-                    android:textColor="@color/black"
                     android:layout_height="40dp" />
-                <Button
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeColor="@color/colorYellow"
+                    android:textColor="@color/colorYellow"
                     android:layout_width="match_parent"
                     android:backgroundTint="@color/marinclair"
                     android:text="THEME1"
-                    android:textColor="@color/black"
                     android:layout_height="40dp" />
-                <Button
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeColor="@color/colorYellow"
+                    android:textColor="@color/colorYellow"
                     android:layout_width="match_parent"
                     android:backgroundTint="@color/marinclair"
                     android:text="THEME1"
-                    android:textColor="@color/black"
                     android:layout_height="40dp" />
-                <Button
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeColor="@color/colorYellow"
+                    android:textColor="@color/colorYellow"
                     android:layout_width="match_parent"
                     android:backgroundTint="@color/marinclair"
                     android:text="THEME1"
-                    android:textColor="@color/black"
                     android:layout_height="40dp" />
-                <Button
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeColor="@color/colorYellow"
+                    android:textColor="@color/colorYellow"
                     android:layout_width="match_parent"
                     android:backgroundTint="@color/marinclair"
                     android:text="THEME1"
-                    android:textColor="@color/black"
                     android:layout_height="40dp" />
             </LinearLayout>
         </ScrollView>

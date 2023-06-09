@@ -29,6 +29,9 @@
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:background="@color/MARIN_APP"
+
+            android:outlineAmbientShadowColor="@color/black"
+            android:outlineSpotShadowColor="@color/black"
             android:layout_height="?attr/actionBarSize">
             <HorizontalScrollView
                 android:id="@+id/scrollview"
@@ -76,6 +79,7 @@
         android:layout_height="60dp"
         android:text="+"
         android:layout_gravity="bottom|end"
+        android:backgroundTint="@color/MARIN_APP"
         android:layout_margin="20dp"
         android:textSize="30sp"
         android:gravity="center"/>

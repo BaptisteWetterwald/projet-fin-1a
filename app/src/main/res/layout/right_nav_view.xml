@@ -21,7 +21,8 @@
                  android:layout_height="match_parent"
                  android:orientation="vertical">
                  <ImageView
-                     android:paddingTop="20dp"
+                     android:paddingTop="10dp"
+                     android:paddingBottom="10dp"
                      android:layout_width="match_parent"
                      android:layout_height="200dp"
                      android:background="@color/MARIN_APP"
@@ -53,37 +54,46 @@
                      android:layout_height="2dp"
                      android:background="@android:color/black" />
 
-                 <Button
+                 <com.google.android.material.button.MaterialButton
+                     android:layout_marginBottom="10dp"
+                     android:layout_marginTop="10dp"
                      android:layout_width="match_parent"
                      android:layout_height="40dp"
                      android:text="Gestion de Compte "
+                     android:textColor="@color/white"
                      android:backgroundTint="@color/marinclair"
                      android:id ="@+id/button_gest" />
 
-                 <Button
+                 <com.google.android.material.button.MaterialButton
+                     android:layout_marginBottom="10dp"
+                     android:layout_marginTop="10dp"
                      android:layout_width="match_parent"
                      android:backgroundTint="@color/marinclair"
                      android:layout_height="40dp"
                      android:text="Modération"
+                     android:textColor="@color/white"
                      android:id ="@+id/button_moderation"/>
 
-                 <Button
+                 <com.google.android.material.button.MaterialButton
+                     android:layout_marginBottom="10dp"
+                     android:layout_marginTop="10dp"
                      android:layout_width="match_parent"
                      android:layout_height="40dp"
                      android:backgroundTint="@color/marinclair"
                      android:text="Administration"
+                     android:textColor="@color/white"
                      android:id ="@+id/button_admin"/>
-
                  <!--Not forgive to set Deconnexion bottom-->
-                 <Button
-                     android:layout_width="match_parent"
-                     android:layout_height="40dp"
-                     android:backgroundTint="@color/MARIN_APP"
-                     android:layout_gravity="bottom"
-                     android:text="Deconnexion"
-                     android:id ="@+id/button_disconnect"/>
              </LinearLayout>
          </ScrollView>
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/MARIN_APP"
+            android:layout_gravity="bottom"
+            android:text="Deconnexion"
+            android:id ="@+id/button_disconnect"/>
      </com.google.android.material.navigation.NavigationView>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

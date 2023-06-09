@@ -33,14 +33,10 @@ import fr.ensisa.ensiblog.models.posts.Post;
 import fr.ensisa.ensiblog.models.posts.VideoContent;
 import fr.ensisa.ensiblog.ui.posts.PostAdapter;
 import fr.ensisa.ensiblog.models.posts.TextContent;
-
-
 public class MainActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
     private ActivityMainBinding binding;
     private AppBarConfiguration mAppBarConfigurationLeft;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,8 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Left menu Controller
-        mAppBarConfigurationLeft = new AppBarConfiguration.Builder(
-                R.id.nav_home).setOpenableLayout(drawer).build();
+        mAppBarConfigurationLeft = new AppBarConfiguration.Builder(R.id.nav_home).setOpenableLayout(drawer).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfigurationLeft);
         NavigationUI.setupWithNavController(navigationViewleft, navController);
