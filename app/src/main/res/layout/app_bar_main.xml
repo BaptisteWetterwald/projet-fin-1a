@@ -68,19 +68,11 @@
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include
-        android:id="@+id/bottom_app_bar"
-        layout="@layout/bottom_app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:context=".MainActivity"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="560dp"
         android:layout_marginVertical="@dimen/nav_header_height"
         app:layout_anchor="@+id/include"
         app:layout_anchorGravity="center" />
