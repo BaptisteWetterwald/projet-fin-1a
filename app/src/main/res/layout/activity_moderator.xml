@@ -5,6 +5,7 @@
     android:id="@+id/nav_item_moderator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f6f6f6"
     tools:context=".ModeratorActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -16,7 +17,8 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
+            android:layout_height="?attr/actionBarSize"
+            android:background="#015aa5">
 
             <HorizontalScrollView
                 android:layout_width="fill_parent"

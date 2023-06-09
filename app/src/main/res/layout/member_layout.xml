@@ -7,19 +7,21 @@
     <TextView
         android:id="@+id/list_members_text"
         android:layout_width="0dp"
-        android:layout_weight=".5"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20sp"
-        android:paddingTop="7sp"
+        android:layout_marginLeft="10dp"
+        android:layout_weight=".3"
+        android:paddingTop="8dp"
         android:text="Username"
         android:textColor="@color/black"
-        android:textSize="25sp"
-        app:autoSizeTextType="uniform"/>
+        android:textSize="24sp"
+        app:autoSizeTextType="uniform" />
 
     <RadioGroup
             android:id="@+id/list_members_radioGroup"
             android:layout_width="0dp"
             android:layout_weight=".5"
+            android:gravity="end"
+            android:layout_marginRight="10dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
@@ -27,7 +29,7 @@
                 android:id="@+id/button1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8sp"
+                android:layout_marginLeft="8dp"
                 android:drawableLeft="@drawable/modo"/>
 
         <RadioButton
