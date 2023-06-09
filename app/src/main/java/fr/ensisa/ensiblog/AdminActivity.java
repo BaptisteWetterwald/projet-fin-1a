@@ -206,21 +206,24 @@ public class AdminActivity extends AppCompatActivity {
                                 int pos = listView.getPositionForView(v);
                                 Topic topic = adapter.getItem(pos);
                                 Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"topic"}, new Topic[]{topic}).addOnSuccessListener(topicUsers->{
-                                    User superModo;
+                                    User superModo = null;
+                                    User futurSuperModo = null;
                                     for (TopicUser tpUsr:topicUsers) {
                                         if(tpUsr.getRole().getRole() == 4){
                                             superModo = tpUsr.getUser();
-                                            break;
+                                        } else if (tpUsr.getUser().getEmail().getAddress().equals(newModerator)) {
+                                            futurSuperModo = tpUsr.getUser();
                                         }
                                     }
-                                    //Database.getInstance().update(Table.TOPIC_USERS.getName(), newTopic,new String[]{"name"}, new String[]{topic.getName()});
-                                    //Database.getInstance().update(Table.TOPIC_USERS.getName(), );
+                                    if(superModo != null && futurSuperModo != null) {
+                                        TopicUser newSuperModo = new TopicUser(topic, futurSuperModo, new Role(4), "Super-Modo");
+                                        TopicUser oldSuperModo = new TopicUser(topic, superModo, new Role(3), "old Super-Modo");
+                                        Database.getInstance().update(Table.TOPIC_USERS.getName(), newSuperModo, new String[]{"topic", "user"}, new Object[]{topic, futurSuperModo});
+                                        Database.getInstance().update(Table.TOPIC_USERS.getName(), oldSuperModo, new String[]{"topic", "user"}, new Object[]{topic, superModo});
+                                    } else {
+                                        Toast.makeText(AdminActivity.this, "User not found in topic", Toast.LENGTH_SHORT).show();
+                                    }
                                 });
-
-
-                                // Returns the name of the item we're in (for database calling)
-                                // int position = listView.getPositionForView(v);
-                                // String itemName = adapter.getItem(position);
                             }
                         });
 
