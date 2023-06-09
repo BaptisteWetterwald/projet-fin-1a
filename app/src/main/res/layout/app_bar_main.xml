@@ -38,6 +38,7 @@
             android:background="@color/purple_700"
             android:layout_height="?attr/actionBarSize">
             <HorizontalScrollView
+                android:id="@+id/scrollview"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
                 <LinearLayout
@@ -72,9 +73,20 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="560dp"
-        android:layout_marginVertical="@dimen/nav_header_height"
-        app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="center" />
+        android:layout_height="625dp"
+        app:layout_anchor="@+id/appBarLayout"
+        app:layout_anchorGravity="bottom"
+        android:layout_gravity="bottom"/>
+
+    <Button
+        android:id="@+id/fixedButton"
+        android:layout_width="50dp"
+        android:layout_height="60dp"
+        android:text="+"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="20dp"
+        android:textSize="30sp"
+        android:gravity="center"/>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
