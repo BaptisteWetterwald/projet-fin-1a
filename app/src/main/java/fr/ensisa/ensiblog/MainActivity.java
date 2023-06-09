@@ -17,11 +17,17 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import fr.ensisa.ensiblog.databinding.ActivityMainBinding;
+import fr.ensisa.ensiblog.models.Email;
+import fr.ensisa.ensiblog.models.Role;
+import fr.ensisa.ensiblog.models.Topic;
+import fr.ensisa.ensiblog.models.User;
 import fr.ensisa.ensiblog.models.posts.ImageContent;
 import fr.ensisa.ensiblog.models.posts.Post;
+import fr.ensisa.ensiblog.models.posts.VideoContent;
 import fr.ensisa.ensiblog.ui.posts.PostAdapter;
 import fr.ensisa.ensiblog.models.posts.TextContent;
 
@@ -98,35 +104,40 @@ public class MainActivity extends AppCompatActivity {
 
         // Create some ImageContent objects
         ImageContent imageContent1 = new ImageContent("https://www.parismatch.com/lmnr/var/pm/public/media/image/Emma-Watson_0.jpg?VersionId=RC8sSswLrmMQFNdbRU7FRE3E80WtYdls");
-        /*ImageContent imageContent2 = new ImageContent("https://example.com/image2.jpg");
+        ImageContent imageContent2 = new ImageContent("https://www.parismatch.com/lmnr/var/pm/public/media/image/2022/03/01/07/Emma-Watson-son-nouveau-poste-au-sein-d-une-entreprise-francaise.jpg?VersionId=Z4C19TiHw_xvYDNipyHdSIprYGusX1rj");
 
         // Create some VideoContent objects
-        VideoContent videoContent1 = new VideoContent("https://example.com/video1.mp4");
-        VideoContent videoContent2 = new VideoContent("https://example.com/video2.mp4");*/
+        VideoContent videoContent1 = new VideoContent("https://joy1.videvo.net/videvo_files/video/free/2013-09/large_watermarked/AbstractRotatingCubesVidevo_preview.mp4");
+        //VideoContent videoContent2 = new VideoContent("https://example.com/video2.mp4");
 
         // Create some posts with different combinations of content
+        Role defaultRole = new Role(2);
+        Topic ruTopic = new Topic("Resto U", defaultRole);
+        Email email = new Email("baptiste.wetterwald@gmail.com");
+
         Post post1 = new Post();
+        post1.setCreation(new Date());
+        post1.setTopic(ruTopic);
+        post1.setAuthor(new User(email));
+
+        post1.addContent(imageContent1);
         post1.addContent(textContent1);
         post1.addContent(textContent2);
+        post1.addContent(imageContent2);
         post1.addContent(textContent3);
-        post1.addContent(imageContent1);
 
-        /*Post post2 = new Post();
-        post2.addContent(textContent2);
+        Topic muscuTopic = new Topic("Muscu", defaultRole);
 
-        Post post3 = new Post();
-        post3.addContent(imageContent2);
-        post3.addContent(videoContent1);
-        post3.addContent(textContent3);
+        Post post2 = new Post();
+        post2.setCreation(new Date());
+        post2.setTopic(muscuTopic);
+        Email email2 = new Email("ayoub.tazi-chibi@uha.fr");
+        post2.setAuthor(new User(email2));
+        post2.addContent(new TextContent("There should be a video below this text."));
+        post2.addContent(videoContent1);
 
-        Post post4 = new Post();
-        post4.addContent(videoContent2);*/
-
-        // Add the posts to the list
         posts.add(post1);
-        //posts.add(post2);
-        //posts.add(post3);
-        //posts.add(post4);
+        posts.add(post2);
 
         return posts;
     }
