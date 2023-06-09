@@ -5,26 +5,29 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import fr.ensisa.ensiblog.models.Password;
 
 
 public class AccountActivity extends AppCompatActivity {
-
-    private Button buttonEditMdp;
-    private Button buttonEditFunctions;
-    private Button buttonEditBio;
-    private ImageButton imageButtonEditPhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,8 @@ public class AccountActivity extends AppCompatActivity {
         Button buttonEditFunctions = findViewById(R.id.buttonEditFunctions);
         Button buttonEditBio = findViewById(R.id.buttonEditBio);
         ImageButton imageButtonEditPhoto = findViewById(R.id.imageButtonEditPhoto);
+        TextView editTextBio = findViewById(R.id.editTextBio);
+
 
         // listener for editMdp button
         buttonEditMdp.setOnClickListener(new View.OnClickListener() {
@@ -88,5 +93,88 @@ public class AccountActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
+        buttonEditBio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(AccountActivity.this);
+                builder.setTitle("Modifier sa description");
+
+                final EditText input = new EditText(AccountActivity.this);
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+
+                // put old description text in the field so you can modify it
+                String oldDescription = editTextBio.getText().toString();
+                input.setText(oldDescription);
+
+                builder.setView(input);
+
+                builder.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String description = input.getText().toString();
+                        editTextBio.setText(description);
+
+                        // Ajouter la description à la base de données (ou la modifier)
+                    }
+                });
+
+                builder.setNegativeButton("Annuler", null);
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
+        buttonEditFunctions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // List of existing themes (replace with database data)
+                List<String> themes = Arrays.asList("Thème 1", "Thème 2", "Thème 3");
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(AccountActivity.this);
+                builder.setTitle("Définissez votre fonction");
+
+                LinearLayout layout = new LinearLayout(AccountActivity.this);
+                layout.setOrientation(LinearLayout.VERTICAL);
+
+                // Goes through the list of themes and adds text fields for each
+                for (String theme : themes) {
+                    TextView textViewTheme = new TextView(AccountActivity.this);
+                    textViewTheme.setText(theme);
+                    layout.addView(textViewTheme);
+
+                    EditText editTextContent = new EditText(AccountActivity.this);
+                    editTextContent.setHint("Saisir votre fonction pour " + theme);
+                    layout.addView(editTextContent);
+                }
+
+                builder.setView(layout);
+
+                builder.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Gets user's input values for each theme
+                        for (int i = 0; i < themes.size(); i++) {
+                            String theme = themes.get(i);
+                            EditText editTextContent = (EditText) layout.getChildAt(i * 2 + 1);
+                            String content = editTextContent.getText().toString();
+
+                            // Need to store functions for each theme in database
+                        }
+                    }
+                });
+
+                builder.setNegativeButton("Annuler", null);
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
+
+
+
+
     }
 }

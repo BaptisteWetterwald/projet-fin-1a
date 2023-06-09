@@ -14,39 +14,55 @@
          android:fitsSystemWindows="true">
          <ScrollView
              android:layout_width="match_parent"
+             android:layout_gravity="bottom"
              android:layout_height="match_parent">
              <LinearLayout
                  android:layout_width="wrap_content"
                  android:layout_height="match_parent"
                  android:orientation="vertical">
                  <ImageView
+                     android:paddingTop="20dp"
                      android:layout_width="match_parent"
                      android:layout_height="200dp"
+                     android:background="@color/MARIN_APP"
                      android:src="@drawable/ensisa" />
                  <TextView
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"
-                     android:text="Name "
+                     android:text="NOM Prénom "
+                     android:textSize="30dp"
+                     android:textAlignment="center"
                      tools:ignore="HardcodedText"
-                     android:paddingBottom="20dp"/>
+                     android:background="@color/MARIN_APP"
+                     android:textColor="@color/white"
+                     android:paddingBottom="20dp" />
+                 <View
+                     android:layout_width="match_parent"
+                     android:layout_height="2dp"
+                     android:background="@android:color/black" />
 
                  <TextView
                      android:layout_width="match_parent"
                      android:layout_height="100dp"
-                     android:text="Ceci est ma bio
-                     I jsbdvksjnckjbsksbndvjbsvkjbsdkjbcsks
-                     jksbcdkjscscskjcdnsdjcscnscdjscbdsjbcd
-                     csdijosicjscdsbcdsdcscsdcjnsodcjcdincc"
+                     android:text="BIO :"
+                     android:background="@color/MARIN_APP"
+                     android:textColor="@color/white"
                      tools:ignore="HardcodedText" />
+                 <View
+                     android:layout_width="match_parent"
+                     android:layout_height="2dp"
+                     android:background="@android:color/black" />
 
                  <Button
                      android:layout_width="match_parent"
                      android:layout_height="40dp"
                      android:text="Gestion de Compte "
+                     android:backgroundTint="@color/marinclair"
                      android:id ="@+id/button_gest" />
 
                  <Button
                      android:layout_width="match_parent"
+                     android:backgroundTint="@color/marinclair"
                      android:layout_height="40dp"
                      android:text="Modération"
                      android:id ="@+id/button_moderation"/>
@@ -54,13 +70,17 @@
                  <Button
                      android:layout_width="match_parent"
                      android:layout_height="40dp"
+                     android:backgroundTint="@color/marinclair"
                      android:text="Administration"
                      android:id ="@+id/button_admin"/>
 
+                 <!--Not forgive to set Deconnexion bottom-->
                  <Button
                      android:layout_width="match_parent"
                      android:layout_height="40dp"
-                     android:text="Decconnexion"
+                     android:backgroundTint="@color/MARIN_APP"
+                     android:layout_gravity="bottom"
+                     android:text="Deconnexion"
                      android:id ="@+id/button_disconnect"/>
              </LinearLayout>
          </ScrollView>
