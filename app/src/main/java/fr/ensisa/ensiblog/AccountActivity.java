@@ -5,18 +5,24 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import fr.ensisa.ensiblog.models.Password;
 
@@ -33,6 +39,7 @@ public class AccountActivity extends AppCompatActivity {
         Button buttonEditBio = findViewById(R.id.buttonEditBio);
         ImageButton imageButtonEditPhoto = findViewById(R.id.imageButtonEditPhoto);
         TextView editTextBio = findViewById(R.id.editTextBio);
+
 
         // listener for editMdp button
         buttonEditMdp.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +125,53 @@ public class AccountActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
+        buttonEditFunctions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // List of existing themes (replace with database data)
+                List<String> themes = Arrays.asList("Thème 1", "Thème 2", "Thème 3");
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(AccountActivity.this);
+                builder.setTitle("Définissez votre fonction");
+
+                LinearLayout layout = new LinearLayout(AccountActivity.this);
+                layout.setOrientation(LinearLayout.VERTICAL);
+
+                // Goes through the list of themes and adds text fields for each
+                for (String theme : themes) {
+                    TextView textViewTheme = new TextView(AccountActivity.this);
+                    textViewTheme.setText(theme);
+                    layout.addView(textViewTheme);
+
+                    EditText editTextContent = new EditText(AccountActivity.this);
+                    editTextContent.setHint("Saisir votre fonction pour " + theme);
+                    layout.addView(editTextContent);
+                }
+
+                builder.setView(layout);
+
+                builder.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Gets user's input values for each theme
+                        for (int i = 0; i < themes.size(); i++) {
+                            String theme = themes.get(i);
+                            EditText editTextContent = (EditText) layout.getChildAt(i * 2 + 1);
+                            String content = editTextContent.getText().toString();
+
+                            // Need to store functions for each theme in database
+                        }
+                    }
+                });
+
+                builder.setNegativeButton("Annuler", null);
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
 
 
 
