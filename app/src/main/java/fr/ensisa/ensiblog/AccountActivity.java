@@ -16,15 +16,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.w3c.dom.Text;
+
 import fr.ensisa.ensiblog.models.Password;
 
 
 public class AccountActivity extends AppCompatActivity {
-
-    private Button buttonEditMdp;
-    private Button buttonEditFunctions;
-    private Button buttonEditBio;
-    private ImageButton imageButtonEditPhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +32,7 @@ public class AccountActivity extends AppCompatActivity {
         Button buttonEditFunctions = findViewById(R.id.buttonEditFunctions);
         Button buttonEditBio = findViewById(R.id.buttonEditBio);
         ImageButton imageButtonEditPhoto = findViewById(R.id.imageButtonEditPhoto);
+        TextView editTextBio = findViewById(R.id.editTextBio);
 
         // listener for editMdp button
         buttonEditMdp.setOnClickListener(new View.OnClickListener() {
@@ -88,5 +86,35 @@ public class AccountActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
+        buttonEditBio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(AccountActivity.this);
+                builder.setTitle("Modifier sa description");
+
+                final EditText input = new EditText(AccountActivity.this);
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+
+                builder.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String description = input.getText().toString();
+                        editTextBio.setText(description);
+
+                        // add the Description to the database (or modify it)
+                    }
+                });
+
+                builder.setNegativeButton("Annuler", null);
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
+
+
     }
 }
