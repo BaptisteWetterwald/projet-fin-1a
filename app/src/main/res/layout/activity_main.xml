@@ -20,7 +20,7 @@
       android:layout_width="wrap_content"
       android:layout_height="match_parent"
       android:layout_gravity="start"
-      tools:context=".MainActivity2"/>
+      tools:context=".MainActivity"/>
 
   <include
       android:id="@+id/right_nav_view"
@@ -28,7 +28,7 @@
       android:layout_width="wrap_content"
       android:layout_height="match_parent"
       android:layout_gravity="end|right"
-      tools:context=".MainActivity2"/>
+      tools:context=".MainActivity"/>
 
 
 
