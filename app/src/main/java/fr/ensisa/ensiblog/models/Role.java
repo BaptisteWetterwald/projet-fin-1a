@@ -1,5 +1,10 @@
 package fr.ensisa.ensiblog.models;
 public class Role {
+
+    // Super-Modo : 4
+    // Modo : 3
+    // Editor : 2
+    // Reader : 1
     private int role;
 
     public Role(){

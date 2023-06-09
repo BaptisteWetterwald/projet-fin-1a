@@ -13,7 +13,7 @@ public class Email {
     }
 
     public static boolean isValid(String address){
-        String emailRegex = "^[a-zA-Z]+\\.[a-zA-Z]+@uha\\.fr$";
+        String emailRegex = "^[a-zA-Z]+\\.[a-zA-Z]+[0-9]?+@uha\\.fr$";
         Pattern pattern = Pattern.compile(emailRegex);
         return pattern.matcher(address).matches();
     }
