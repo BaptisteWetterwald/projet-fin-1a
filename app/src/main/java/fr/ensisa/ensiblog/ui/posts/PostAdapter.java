@@ -73,7 +73,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             layoutContent.setLayoutParams(contentParams);
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.setMargins(40, 0, 40, 120);
+            params.setMargins(60, 60, 60, 60);
             itemView.setLayoutParams(params);
             itemView.setBackgroundResource(R.drawable.round_outline);
             itemView.setClipToOutline(true);
