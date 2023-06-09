@@ -95,6 +95,11 @@ public class AccountActivity extends AppCompatActivity {
 
                 final EditText input = new EditText(AccountActivity.this);
                 input.setInputType(InputType.TYPE_CLASS_TEXT);
+
+                // put old description text in the field so you can modify it
+                String oldDescription = editTextBio.getText().toString();
+                input.setText(oldDescription);
+
                 builder.setView(input);
 
                 builder.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
@@ -103,7 +108,7 @@ public class AccountActivity extends AppCompatActivity {
                         String description = input.getText().toString();
                         editTextBio.setText(description);
 
-                        // add the Description to the database (or modify it)
+                        // Ajouter la description à la base de données (ou la modifier)
                     }
                 });
 
@@ -113,6 +118,7 @@ public class AccountActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
 
 
 
