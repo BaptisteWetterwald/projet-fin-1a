@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -130,13 +131,16 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // List of existing themes (replace with database data)
-                List<String> themes = Arrays.asList("Thème 1", "Thème 2", "Thème 3");
+                List<String> themes = Arrays.asList("Thème 1", "Thème 2", "Thème 3", "Thème 4", "Thème 5", "Thème 6", "Thème 7", "Thème 8", "Thème 9", "Thème 10", "Thème 11", "Thème 12");
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(AccountActivity.this);
-                builder.setTitle("Définissez votre fonction");
+                builder.setTitle("Modifiez votre fonction");
 
+                ScrollView scrollView = new ScrollView(AccountActivity.this);
                 LinearLayout layout = new LinearLayout(AccountActivity.this);
                 layout.setOrientation(LinearLayout.VERTICAL);
+
+                scrollView.addView(layout);
 
                 // Goes through the list of themes and adds text fields for each
                 for (String theme : themes) {
@@ -145,11 +149,11 @@ public class AccountActivity extends AppCompatActivity {
                     layout.addView(textViewTheme);
 
                     EditText editTextContent = new EditText(AccountActivity.this);
-                    editTextContent.setHint("Saisir votre fonction pour " + theme);
+                    editTextContent.setHint("Modifier votre fonction pour " + theme);
                     layout.addView(editTextContent);
                 }
 
-                builder.setView(layout);
+                builder.setView(scrollView);
 
                 builder.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
                     @Override
@@ -160,7 +164,11 @@ public class AccountActivity extends AppCompatActivity {
                             EditText editTextContent = (EditText) layout.getChildAt(i * 2 + 1);
                             String content = editTextContent.getText().toString();
 
-                            // Need to store functions for each theme in database
+                            if (!content.isEmpty()) {
+                                // Only perform functions for themes with non-empty fields
+                                // Need to store functions for each theme in database
+                            }
+
                         }
                     }
                 });
