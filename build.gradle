@@ -22,6 +22,7 @@ plugins {
 
 sonar {
     properties {
+        property "sonar.host.url", "http://localhost:9000"
         property "sonar.projectKey", "EnsiBlog"
     }
 }
