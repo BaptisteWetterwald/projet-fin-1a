@@ -1,11 +1,16 @@
 package fr.ensisa.ensiblog;
 
+import static fr.ensisa.ensiblog.Utils.showInfoBox;
+
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -24,6 +29,9 @@ import java.util.Date;
 import java.util.List;
 
 import fr.ensisa.ensiblog.databinding.ActivityMainBinding;
+import fr.ensisa.ensiblog.firebase.Authentication;
+import fr.ensisa.ensiblog.firebase.Database;
+import fr.ensisa.ensiblog.firebase.Table;
 import fr.ensisa.ensiblog.models.Email;
 import fr.ensisa.ensiblog.models.Role;
 import fr.ensisa.ensiblog.models.Topic;
@@ -107,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationViewleft, navController);
 
 
-
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         // Create a list of posts (you can replace this with your data retrieval logic)
         List<Post> posts = getPosts();
@@ -119,7 +126,24 @@ public class MainActivity extends AppCompatActivity {
         // Set a layout manager for the RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        Database.getInstance().get(Table.TOPICS.getName(), Topic.class, new String[]{}, new Topic[]{}).addOnSuccessListener(topics -> {
+            if (topics.size() > 0) {
+                LinearLayout left_view = findViewById(R.id.left_scroll);
+                left_view.removeAllViews();
+                List<Button> buttons = new ArrayList<>();
+                for (int i = 0; i < topics.size(); i++) {
+                    Button button = new Button(this);
+                    Topic btnTopic = topics.get(i);
+                    button.setText(btnTopic.getName());
+                    button.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                    left_view.addView(button);
+                    buttons.add(button);
+                }
+            }
+        });
     }
+
+
 
     @Override
     public boolean onSupportNavigateUp() {
