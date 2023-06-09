@@ -118,10 +118,14 @@ public class AdminActivity extends AppCompatActivity {
             for (int i = 0; i < topics.size(); i++) {
                 themes[i] = topics.get(i);
             }
-            adapter = new ArrayAdapter<Topic>(this, R.layout.list_item, R.id.itemTextView, themes) {
+            adapter = new ArrayAdapter<Topic>(AdminActivity.this, R.layout.list_item, R.id.itemTextView, themes) {
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
+
                     View view = super.getView(position, convertView, parent);
+
+                    TextView themeTitle = view.findViewById(R.id.itemTextView);
+                    themeTitle.setText(themes[position].getName());
 
                     Button editButton = view.findViewById(R.id.editButton);
                     Button deleteButton = view.findViewById(R.id.deleteButton);
