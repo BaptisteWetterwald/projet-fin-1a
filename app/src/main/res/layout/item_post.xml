@@ -1,75 +1,106 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_margin="20dp"
+    android:background="@drawable/round_outline"
+    android:clipToOutline="true"
+    >
 
     <LinearLayout
         android:id="@+id/layout_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:background="#99bbff"
         >
 
-        <!--
-         Firstname, name, "fonction"
+        <ImageView
+            android:id="@+id/img_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:src="@drawable/ic_user"
+            android:adjustViewBounds="true"
+            android:maxWidth="40dp"
+            android:maxHeight="40dp"
+            android:scaleType="fitXY"
+            android:minHeight="25dp"
+            android:minWidth="25dp"
+            />
+
         <LinearLayout
+            android:id="@+id/layout_names"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginEnd="10dp"
-            android:paddingEnd="20dp"
+            android:orientation="vertical"
             >
 
-            <ImageView
-                android:id="@+id/img_avatar"
+            <TextView
+                android:id="@+id/txt_firstname"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:src="@drawable/ic_launcher_background"
-                android:adjustViewBounds="true"
-                android:maxWidth="50dp"
-                android:maxHeight="50dp"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:text="Firstname"
+                android:textColor="#003cb3"
+                android:gravity="bottom|start"
                 />
 
             <TextView
-                android:id="@+id/txt_name"
+                android:id="@+id/txt_lastname"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Firstname Name"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:text="Lastname"
+                android:textColor="#003cb3"
+                android:gravity="top|start"
                 />
-
-            <TextView
-                android:id="@+id/txt_fonction"
-                android:layout_marginLeft="15dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Fonction" />
         </LinearLayout>
 
-        topic, date
         <LinearLayout
+            android:id="@+id/layout_function_topic"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_gravity="end">
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/txt_function"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Function"
+                android:layout_gravity="top|start"
+                />
 
             <TextView
                 android:id="@+id/txt_topic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Topic" />
-
-            <TextView
-                android:id="@+id/txt_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Date" />
-
+                android:text="Topic"
+                />
         </LinearLayout>
-        -->
 
+        <LinearLayout
+            android:id="@+id/layout_date"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="end"
+            >
+                <TextView
+                    android:id="@+id/txt_date_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Day"
+                    />
+                <TextView
+                    android:id="@+id/txt_date_hour"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Hour"
+                    />
+        </LinearLayout>
     </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/layout_content"
