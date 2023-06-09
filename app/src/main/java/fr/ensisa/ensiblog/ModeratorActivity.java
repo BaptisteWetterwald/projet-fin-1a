@@ -19,6 +19,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.ensisa.ensiblog.firebase.Authentication;
 import fr.ensisa.ensiblog.firebase.Database;
 import fr.ensisa.ensiblog.firebase.Table;
@@ -62,24 +65,21 @@ public class ModeratorActivity extends AppCompatActivity {
                         rd.setChecked(true);
                         //rd.toggle();
 
-                    radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(RadioGroup group, int checkedId) {
-                            // Perform actions when the checked radio button changes
-                            RadioButton checkedRadioButton = group.findViewById(checkedId);
-                            if (checkedRadioButton != null) {
-                                Role newRole = new Role();
+                    radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+                        // Perform actions when the checked radio button changes
+                        RadioButton checkedRadioButton = group.findViewById(checkedId);
+                        if (checkedRadioButton != null) {
+                            Role newRole = new Role();
 
-                                if (checkedRadioButton.getId() == R.id.button1)
-                                    newRole.setRole(3);
-                                else if (checkedRadioButton.getId() == R.id.button2)
-                                    newRole.setRole(2);
-                                else if (checkedRadioButton.getId() == R.id.button3)
-                                    newRole.setRole(1);
-                                Log.i("n6a","CALL TO UPDATE");
-                                TopicUser newTpUsr = new TopicUser(tpUsr.getTopic(),tpUsr.getUser(),newRole,tpUsr.getFonction());
-                                Database.getInstance().update(Table.TOPIC_USERS.getName(),newTpUsr,new String[]{"topic","user"}, new Object[]{tpUsr.getTopic(),tpUsr.getUser()});
-                            }
+                            if (checkedRadioButton.getId() == R.id.button1)
+                                newRole.setRole(3);
+                            else if (checkedRadioButton.getId() == R.id.button2)
+                                newRole.setRole(2);
+                            else if (checkedRadioButton.getId() == R.id.button3)
+                                newRole.setRole(1);
+                            Log.i("n6a","CALL TO UPDATE");
+                            TopicUser newTpUsr = new TopicUser(tpUsr.getTopic(),tpUsr.getUser(),newRole,tpUsr.getFonction());
+                            Database.getInstance().update(Table.TOPIC_USERS.getName(),newTpUsr,new String[]{"topic","user"}, new Object[]{tpUsr.getTopic(),tpUsr.getUser()});
                         }
                     });
 
@@ -111,19 +111,25 @@ public class ModeratorActivity extends AppCompatActivity {
                         //currentTopic = topics.get(0).getTopic();
                         LinearLayout themesBar = findViewById(R.id.theme_bar);
                         themesBar.removeAllViews();
+                        List<Button> buttons = new ArrayList<>();
                         for (int i = 0; i < topics.size(); i++) {
                             Button button = new Button(ModeratorActivity.this);
                             Topic btnTopic = topics.get(i).getTopic();
                             button.setText(btnTopic.getName());
-                            int color = Color.parseColor("#FF0000"); // Change this to your desired color
-                            button.setBackgroundTintList(ColorStateList.valueOf(color));
-                            button.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    loadMembers(btnTopic);
+                            if(i == 0) {
+                                button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
+                            }
+                            button.setOnClickListener(v -> {
+                                loadMembers(btnTopic);
+                                button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
+                                for (Button otherButton : buttons) {
+                                    if (otherButton != button) {
+                                        otherButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#444444"))); // Change to desired color
+                                    }
                                 }
                             });
                             themesBar.addView(button);
+                            buttons.add(button);
 
                         }
                         loadMembers(topics.get(0).getTopic());
