@@ -41,14 +41,10 @@ import fr.ensisa.ensiblog.models.posts.Post;
 import fr.ensisa.ensiblog.models.posts.VideoContent;
 import fr.ensisa.ensiblog.ui.posts.PostAdapter;
 import fr.ensisa.ensiblog.models.posts.TextContent;
-
-
 public class MainActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
     private ActivityMainBinding binding;
     private AppBarConfiguration mAppBarConfigurationLeft;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,8 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Left menu Controller
-        mAppBarConfigurationLeft = new AppBarConfiguration.Builder(
-                R.id.nav_home).setOpenableLayout(drawer).build();
+        mAppBarConfigurationLeft = new AppBarConfiguration.Builder(R.id.nav_home).setOpenableLayout(drawer).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfigurationLeft);
         NavigationUI.setupWithNavController(navigationViewleft, navController);
@@ -166,36 +161,37 @@ public class MainActivity extends AppCompatActivity {
 
         // Create some VideoContent objects
         VideoContent videoContent1 = new VideoContent("https://joy1.videvo.net/videvo_files/video/free/2013-09/large_watermarked/AbstractRotatingCubesVidevo_preview.mp4");
-        //VideoContent videoContent2 = new VideoContent("https://example.com/video2.mp4");
 
-        // Create some posts with different combinations of content
-        Role defaultRole = new Role(2);
-        Topic ruTopic = new Topic("Resto U", defaultRole);
-        Email email = new Email("baptiste.wetterwald@gmail.com");
+        for (int i=0; i<5; i++){
+            // Create some posts with different combinations of content
+            Role defaultRole = new Role(2);
+            Topic ruTopic = new Topic("Resto U", defaultRole);
+            Email email = new Email("baptiste.wetterwald@gmail.com");
 
-        Post post1 = new Post();
-        post1.setCreation(new Date());
-        post1.setTopic(ruTopic);
-        post1.setAuthor(new User(email));
+            Post post1 = new Post();
+            post1.setCreation(new Date());
+            post1.setTopic(ruTopic);
+            post1.setAuthor(new User(email));
 
-        post1.addContent(imageContent1);
-        post1.addContent(textContent1);
-        post1.addContent(textContent2);
-        post1.addContent(imageContent2);
-        post1.addContent(textContent3);
+            post1.addContent(imageContent1);
+            post1.addContent(textContent1);
+            post1.addContent(textContent2);
+            post1.addContent(imageContent2);
+            post1.addContent(textContent3);
 
-        Topic muscuTopic = new Topic("Muscu", defaultRole);
+            Topic muscuTopic = new Topic("Muscu", defaultRole);
 
-        Post post2 = new Post();
-        post2.setCreation(new Date());
-        post2.setTopic(muscuTopic);
-        Email email2 = new Email("ayoub.tazi-chibi@uha.fr");
-        post2.setAuthor(new User(email2));
-        post2.addContent(new TextContent("There should be a video below this text."));
-        post2.addContent(videoContent1);
+            Post post2 = new Post();
+            post2.setCreation(new Date());
+            post2.setTopic(muscuTopic);
+            Email email2 = new Email("ayoub.tazi-chibi@uha.fr");
+            post2.setAuthor(new User(email2));
+            post2.addContent(new TextContent("There should be a video below this text."));
+            post2.addContent(videoContent1);
 
-        posts.add(post1);
-        posts.add(post2);
+            posts.add(post1);
+            posts.add(post2);
+        }
 
         return posts;
     }

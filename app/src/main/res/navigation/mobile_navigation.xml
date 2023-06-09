@@ -10,4 +10,5 @@
         android:id="@+id/nav_home"
         android:name="fr.ensisa.ensiblog.ui.home.HomeFragment"
         android:icon="@drawable/title"/>
+
 </navigation>

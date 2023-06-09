@@ -5,18 +5,25 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import fr.ensisa.ensiblog.models.Password;
 
@@ -33,6 +40,7 @@ public class AccountActivity extends AppCompatActivity {
         Button buttonEditBio = findViewById(R.id.buttonEditBio);
         ImageButton imageButtonEditPhoto = findViewById(R.id.imageButtonEditPhoto);
         TextView editTextBio = findViewById(R.id.editTextBio);
+
 
         // listener for editMdp button
         buttonEditMdp.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +103,11 @@ public class AccountActivity extends AppCompatActivity {
 
                 final EditText input = new EditText(AccountActivity.this);
                 input.setInputType(InputType.TYPE_CLASS_TEXT);
+
+                // put old description text in the field so you can modify it
+                String oldDescription = editTextBio.getText().toString();
+                input.setText(oldDescription);
+
                 builder.setView(input);
 
                 builder.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
@@ -103,7 +116,7 @@ public class AccountActivity extends AppCompatActivity {
                         String description = input.getText().toString();
                         editTextBio.setText(description);
 
-                        // add the Description to the database (or modify it)
+                        // Ajouter la description à la base de données (ou la modifier)
                     }
                 });
 
@@ -113,6 +126,61 @@ public class AccountActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
+        buttonEditFunctions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // List of existing themes (replace with database data)
+                List<String> themes = Arrays.asList("Thème 1", "Thème 2", "Thème 3", "Thème 4", "Thème 5", "Thème 6", "Thème 7", "Thème 8", "Thème 9", "Thème 10", "Thème 11", "Thème 12");
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(AccountActivity.this);
+                builder.setTitle("Modifiez votre fonction");
+
+                ScrollView scrollView = new ScrollView(AccountActivity.this);
+                LinearLayout layout = new LinearLayout(AccountActivity.this);
+                layout.setOrientation(LinearLayout.VERTICAL);
+
+                scrollView.addView(layout);
+
+                // Goes through the list of themes and adds text fields for each
+                for (String theme : themes) {
+                    TextView textViewTheme = new TextView(AccountActivity.this);
+                    textViewTheme.setText(theme);
+                    layout.addView(textViewTheme);
+
+                    EditText editTextContent = new EditText(AccountActivity.this);
+                    editTextContent.setHint("Modifier votre fonction pour " + theme);
+                    layout.addView(editTextContent);
+                }
+
+                builder.setView(scrollView);
+
+                builder.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Gets user's input values for each theme
+                        for (int i = 0; i < themes.size(); i++) {
+                            String theme = themes.get(i);
+                            EditText editTextContent = (EditText) layout.getChildAt(i * 2 + 1);
+                            String content = editTextContent.getText().toString();
+
+                            if (!content.isEmpty()) {
+                                // Only perform functions for themes with non-empty fields
+                                // Need to store functions for each theme in database
+                            }
+
+                        }
+                    }
+                });
+
+                builder.setNegativeButton("Annuler", null);
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
+
 
 
 
