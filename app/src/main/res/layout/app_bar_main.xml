@@ -20,7 +20,6 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_marginTop="50dp"
-        android:background="@color/blueLight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
@@ -29,7 +28,7 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
-            android:background="@color/purple_700"
+            android:background="@color/MARIN_APP"
             android:layout_height="?attr/actionBarSize">
             <HorizontalScrollView
                 android:id="@+id/scrollview"
@@ -40,23 +39,22 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <Button
-                        android:background="@color/clairblue"
                         android:layout_marginRight="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:backgroundTint="@color/marinclair"
                         android:text="Theme1" />
-
-                    <Button
-                        android:background="@color/clairblue"
-                        android:layout_marginRight="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Theme1" />
-
                     <Button
                         android:layout_marginRight="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:backgroundTint="@color/marinclair"
+                        android:text="Theme1" />
+                    <Button
+                        android:layout_marginRight="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/marinclair"
                         android:text="Theme1" />
                 </LinearLayout>
             </HorizontalScrollView>
