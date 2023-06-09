@@ -138,13 +138,15 @@ public class AdminActivity extends AppCompatActivity {
                             if (newThemeName.isEmpty()) {
                                 Toast.makeText(AdminActivity.this, "Un nom de thème est requis", Toast.LENGTH_SHORT).show();
                             } else {
-                                Topic newTopic = new Topic(newThemeName, themes[position].getDefaultRole());
-                                Database.getInstance().update(Table.TOPICS.getName(), newTopic,new String[]{"name"}, new Object[]{themes[position].getName()});
-                                // Call the function to change theme name
+                                Database.getInstance().alreadyIn(Table.TOPICS.getName(), new String[]{"name"}, new String[]{newThemeName}, alreadyExists -> {
+                                    if (alreadyExists) {
+                                        Toast.makeText(AdminActivity.this, "Thème déjà existant", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Topic newTopic = new Topic(newThemeName, themes[position].getDefaultRole());
+                                        Database.getInstance().update(Table.TOPICS.getName(), newTopic,new String[]{"name"}, new Object[]{themes[position].getName()});
+                                    }
+                                });
 
-                                // Returns the name of the item (theme) we're in (for database calling)
-                                // int position = listView.getPositionForView(v);
-                                // String itemName = adapter.getItem(position);
                             }
                         });
 
