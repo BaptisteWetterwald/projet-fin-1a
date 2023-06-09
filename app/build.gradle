@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace 'fr.ensisa.ensiblog'
-    compileSdk 21
+    compileSdk 33
 
     defaultConfig {
         applicationId "fr.ensisa.ensiblog"
