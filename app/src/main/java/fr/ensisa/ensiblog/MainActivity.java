@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         Button button2 = (Button) findViewById(R.id.button_moderation);
         Button button3 = (Button) findViewById(R.id.button_admin);
         Button button4 = (Button) findViewById(R.id.button_disconnect);
+        Button button5 = (Button) findViewById(R.id.fixedButton);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,6 +81,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+        button5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AddPostActivity.class);
                 startActivity(intent);
             }
         });
