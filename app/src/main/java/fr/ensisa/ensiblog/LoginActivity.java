@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
             auth.signInUser(email,password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()){
                     if(auth.getCurrentUser().isEmailVerified()){
-                        Intent intent = new Intent(LoginActivity.this,MainActivity2.class);
+                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                         startActivity(intent);
                     } else {
                         Toast.makeText(getApplicationContext(), "Please verify your email", Toast.LENGTH_SHORT).show();
@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(Task<Void> task) {
                                 if (task.isSuccessful() && auth.getCurrentUser().isEmailVerified()) {
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     intent.putExtra("user",auth.getCurrentUser());
                                     startActivity(intent);
                                 } else {

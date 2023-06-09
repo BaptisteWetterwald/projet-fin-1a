@@ -130,7 +130,7 @@ public class ModeratorActivity extends AppCompatActivity {
                     } else {
                         Utils.showInfoBox("Warning","No topic founds for your account","OK",ModeratorActivity.this,(dialog, which) -> {
                             dialog.cancel();
-                            Intent intent = new Intent(ModeratorActivity.this, MainActivity2.class);
+                            Intent intent = new Intent(ModeratorActivity.this, MainActivity.class);
                             startActivity(intent);
                         });
                     }
@@ -138,7 +138,7 @@ public class ModeratorActivity extends AppCompatActivity {
             } else {
                 Utils.showInfoBox("Warning","No user founds for your account","OK",ModeratorActivity.this,(dialog, which) -> {
                     dialog.cancel();
-                    Intent intent = new Intent(ModeratorActivity.this, MainActivity2.class);
+                    Intent intent = new Intent(ModeratorActivity.this, MainActivity.class);
                     startActivity(intent);
                 });
             }
