@@ -215,6 +215,7 @@ public class Database {
 
 
     public Task add(String tableName, Object object, Class objectClass) {
+
         CollectionReference dbTable = db.collection(tableName);
 
         // get instance of object class for the object to add
