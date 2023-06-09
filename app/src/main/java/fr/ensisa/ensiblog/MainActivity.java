@@ -1,10 +1,11 @@
 package fr.ensisa.ensiblog;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -16,27 +17,28 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import fr.ensisa.ensiblog.databinding.ActivityMain2Binding;
 import fr.ensisa.ensiblog.databinding.ActivityMainBinding;
-import fr.ensisa.ensiblog.models.Content;
-import fr.ensisa.ensiblog.models.Image;
-import fr.ensisa.ensiblog.models.Post;
-import fr.ensisa.ensiblog.models.PostAdapter;
-import fr.ensisa.ensiblog.models.Text;
+import fr.ensisa.ensiblog.models.Email;
+import fr.ensisa.ensiblog.models.Role;
+import fr.ensisa.ensiblog.models.Topic;
+import fr.ensisa.ensiblog.models.User;
+import fr.ensisa.ensiblog.models.posts.ImageContent;
+import fr.ensisa.ensiblog.models.posts.Post;
+import fr.ensisa.ensiblog.models.posts.VideoContent;
+import fr.ensisa.ensiblog.ui.posts.PostAdapter;
+import fr.ensisa.ensiblog.models.posts.TextContent;
 
 
 public class MainActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
     private ActivityMainBinding binding;
     private AppBarConfiguration mAppBarConfigurationLeft;
-    private AppBarConfiguration mAppBarConfigurationRight;
 
 
     @Override
@@ -55,38 +57,70 @@ public class MainActivity extends AppCompatActivity {
         // menu should be considered as top level destinations.
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationViewleft = binding.leftNavView.leftNavView;
-        NavigationView navigationViewright = binding.rightNavView.navRightView;
+        Button button1 = (Button) findViewById(R.id.button_gest);
+        Button button2 = (Button) findViewById(R.id.button_moderation);
+        Button button3 = (Button) findViewById(R.id.button_admin);
+        Button button4 = (Button) findViewById(R.id.button_disconnect);
+        Button button5 = (Button) findViewById(R.id.fixedButton);
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AccountActivity.class);
+                startActivity(intent);
+            }
+        });
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ModeratorActivity.class);
+                startActivity(intent);
+            }
+        });
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AdminActivity.class);
+                startActivity(intent);
+            }
+        });
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+        button5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AddPostActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        //Left menu Controller
         mAppBarConfigurationLeft = new AppBarConfiguration.Builder(
-                R.id.nav_home/*, R.id.nav_gallery, R.id.nav_slideshow*/)
-                .setOpenableLayout(drawer)
-                .build();
+                R.id.nav_home).setOpenableLayout(drawer).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfigurationLeft);
         NavigationUI.setupWithNavController(navigationViewleft, navController);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         // Create a list of posts (you can replace this with your data retrieval logic)
         List<Post> posts = getPosts();
         Log.i("n6a", "posts: " + posts);
-
         // Create an instance of the PostAdapter
         PostAdapter adapter = new PostAdapter(posts);
-
         // Set the adapter for the RecyclerView
         recyclerView.setAdapter(adapter);
-
         // Set a layout manager for the RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+    }
 
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_activity2, menu);
-        return true;
-    }
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -94,42 +128,50 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    private List<Post> getPosts() {
+    public static List<Post> getPosts() {
         List<Post> posts = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            // Add some sample posts
-            Post post1 = new Post();
-            Text textContent;
-            try {
-                textContent = new Text("This is a sample text post (i: " + i + ")");
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-            List<Content> contents = new ArrayList<>();
-            contents.add(textContent);
-            post1.setContent(contents);
-            posts.add(post1);
 
-            Post post2 = new Post();
+        // Create some TextContent objects
+        TextContent textContent1 = new TextContent("Hello, world!");
+        TextContent textContent2 = new TextContent("This is a sample post.");
+        TextContent textContent3 = new TextContent("Welcome to the Android 21 app.");
 
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ensisa);
+        // Create some ImageContent objects
+        ImageContent imageContent1 = new ImageContent("https://www.parismatch.com/lmnr/var/pm/public/media/image/Emma-Watson_0.jpg?VersionId=RC8sSswLrmMQFNdbRU7FRE3E80WtYdls");
+        ImageContent imageContent2 = new ImageContent("https://www.parismatch.com/lmnr/var/pm/public/media/image/2022/03/01/07/Emma-Watson-son-nouveau-poste-au-sein-d-une-entreprise-francaise.jpg?VersionId=Z4C19TiHw_xvYDNipyHdSIprYGusX1rj");
 
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
+        // Create some VideoContent objects
+        VideoContent videoContent1 = new VideoContent("https://joy1.videvo.net/videvo_files/video/free/2013-09/large_watermarked/AbstractRotatingCubesVidevo_preview.mp4");
+        //VideoContent videoContent2 = new VideoContent("https://example.com/video2.mp4");
 
-            Image imageContent;
-            try {
-                imageContent = new Image(byteArray);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+        // Create some posts with different combinations of content
+        Role defaultRole = new Role(2);
+        Topic ruTopic = new Topic("Resto U", defaultRole);
+        Email email = new Email("baptiste.wetterwald@gmail.com");
 
-            contents = new ArrayList<>();
-            contents.add(imageContent);
-            post2.setContent(contents);
-            posts.add(post2);
-        }
+        Post post1 = new Post();
+        post1.setCreation(new Date());
+        post1.setTopic(ruTopic);
+        post1.setAuthor(new User(email));
+
+        post1.addContent(imageContent1);
+        post1.addContent(textContent1);
+        post1.addContent(textContent2);
+        post1.addContent(imageContent2);
+        post1.addContent(textContent3);
+
+        Topic muscuTopic = new Topic("Muscu", defaultRole);
+
+        Post post2 = new Post();
+        post2.setCreation(new Date());
+        post2.setTopic(muscuTopic);
+        Email email2 = new Email("ayoub.tazi-chibi@uha.fr");
+        post2.setAuthor(new User(email2));
+        post2.addContent(new TextContent("There should be a video below this text."));
+        post2.addContent(videoContent1);
+
+        posts.add(post1);
+        posts.add(post2);
 
         return posts;
     }

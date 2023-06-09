@@ -1,24 +1,16 @@
 package fr.ensisa.ensiblog;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.view.LayoutInflater;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+
 import com.google.firebase.auth.FirebaseUser;
 import fr.ensisa.ensiblog.firebase.Authentication;
 import fr.ensisa.ensiblog.firebase.Database;
 import fr.ensisa.ensiblog.firebase.Table;
 import fr.ensisa.ensiblog.models.Email;
-import fr.ensisa.ensiblog.models.Text;
 import fr.ensisa.ensiblog.models.User;
 
 import static fr.ensisa.ensiblog.Utils.showInfoBox;
