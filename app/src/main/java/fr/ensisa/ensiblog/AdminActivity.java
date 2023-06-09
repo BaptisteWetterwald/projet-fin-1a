@@ -1,6 +1,7 @@
 package fr.ensisa.ensiblog;
 
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -15,7 +16,11 @@ import android.app.AlertDialog;
 import android.widget.Toast;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import fr.ensisa.ensiblog.firebase.Database;
 import fr.ensisa.ensiblog.firebase.Table;
@@ -142,11 +147,12 @@ public class AdminActivity extends AppCompatActivity {
                                     if (alreadyExists) {
                                         Toast.makeText(AdminActivity.this, "Thème déjà existant", Toast.LENGTH_SHORT).show();
                                     } else {
-                                        Topic newTopic = new Topic(newThemeName, themes[position].getDefaultRole());
-                                        Database.getInstance().update(Table.TOPICS.getName(), newTopic,new String[]{"name"}, new Object[]{themes[position].getName()});
+                                        int pos = listView.getPositionForView(v);
+                                        Topic topic = adapter.getItem(pos);
+                                        Topic newTopic = new Topic(newThemeName, topic.getDefaultRole());
+                                        Database.getInstance().update(Table.TOPICS.getName(), newTopic,new String[]{"name"}, new String[]{topic.getName()});
                                     }
                                 });
-
                             }
                         });
 
@@ -162,11 +168,18 @@ public class AdminActivity extends AppCompatActivity {
                         builder.setTitle("Confirmation");
                         builder.setMessage("Êtes-vous sûr de vouloir supprimer ce thème ?");
                         builder.setPositiveButton("Oui", (dialog, which) -> {
-                            // Call delete theme function here
-
-                            // Returns the name of the item we're in (for database calling)
-                            // int position = listView.getPositionForView(v);
-                            // String itemName = adapter.getItem(position);
+                            int pos = listView.getPositionForView(v);
+                            Topic topic = adapter.getItem(pos);
+                            Database.getInstance().removeFrom(Table.TOPICS.getName(), new String[]{"name"}, new String[]{topic.getName()}).addOnCompleteListener(task -> {
+                                if(task.isSuccessful()){
+                                    Database.getInstance().removeFrom(Table.TOPIC_USERS.getName(), new String[]{"topic"}, new Topic[]{topic}).addOnCompleteListener(task2 -> {
+                                        if(task2.isSuccessful())
+                                            Toast.makeText(AdminActivity.this, "Le thème a bien été supprimé", Toast.LENGTH_SHORT).show();
+                                        else
+                                            Toast.makeText(AdminActivity.this, "Erreur lors de la suppression des utilistaeurs du thème", Toast.LENGTH_SHORT).show();
+                                    });
+                                } else Toast.makeText(AdminActivity.this, "Erreur lors de la suppression du thème", Toast.LENGTH_SHORT).show();
+                            });
                         });
                         builder.setNegativeButton("Non", null);
                         AlertDialog dialog = builder.create();
@@ -177,7 +190,7 @@ public class AdminActivity extends AppCompatActivity {
                     changeModeratorButton.setOnClickListener(v -> {
                         AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
                         builder.setTitle("Changer de Super-Modérateur");
-                        builder.setMessage("Entrez le nom du nouveau Super-Modérateur");
+                        builder.setMessage("Entrez le mail du nouveau Super-Modérateur");
 
                         // Création d'un EditText pour saisir le nom du nouveau Super-Modérateur
                         final EditText input = new EditText(AdminActivity.this);
@@ -187,10 +200,23 @@ public class AdminActivity extends AppCompatActivity {
 
                         builder.setPositiveButton("Valider", (dialog, which) -> {
                             String newModerator = input.getText().toString();
-                            if (newModerator.isEmpty()) {
-                                Toast.makeText(AdminActivity.this, "Un nom est requis", Toast.LENGTH_SHORT).show();
+                            if (newModerator.isEmpty() || !Email.isValid(newModerator)) {
+                                Toast.makeText(AdminActivity.this, "Un email valide est requis", Toast.LENGTH_SHORT).show();
                             } else {
-                                // Call the function to change supermodo
+                                int pos = listView.getPositionForView(v);
+                                Topic topic = adapter.getItem(pos);
+                                Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"topic"}, new Topic[]{topic}).addOnSuccessListener(topicUsers->{
+                                    User superModo;
+                                    for (TopicUser tpUsr:topicUsers) {
+                                        if(tpUsr.getRole().getRole() == 4){
+                                            superModo = tpUsr.getUser();
+                                            break;
+                                        }
+                                    }
+                                    //Database.getInstance().update(Table.TOPIC_USERS.getName(), newTopic,new String[]{"name"}, new String[]{topic.getName()});
+                                    //Database.getInstance().update(Table.TOPIC_USERS.getName(), );
+                                });
+
 
                                 // Returns the name of the item we're in (for database calling)
                                 // int position = listView.getPositionForView(v);
