@@ -100,6 +100,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                     TextView textView = new TextView(itemView.getContext());
                     textView.setText(((TextContent) content).getText());
                     textView.setTextColor(Color.parseColor("#606060"));
+                    textView.setGravity(Gravity.CENTER);
                     layoutContent.addView(textView);
                 } else if (content instanceof ImageContent) {
                     ImageView imageView = new ImageView(itemView.getContext());
