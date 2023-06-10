@@ -1,0 +1,7 @@
+gradlew build sonar --info
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':sonar'.
+> Not authorized. Analyzing this project requires authentication. Please provide a user token in sonar.login or other credentials in sonar.login and sonar.password.
