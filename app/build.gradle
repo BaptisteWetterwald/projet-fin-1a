@@ -61,5 +61,8 @@ dependencies {
 sonar {
     properties {
         property "sonar.projectKey", "EnsiBlog"
+        property "sonar.host.url", "http://localhost:9000"
+        property "sonar.login", "sqp_7e19496994e77ca7dcbe722829e4b59cf0ac4df2"
+        property "sonar.password", "arthur"
     }
 }
