@@ -1,7 +1,3 @@
 gradlew build sonar --info
 
-FAILURE: Build failed with an exception.
-
-* What went wrong:
-Execution failed for task ':sonar'.
-> Not authorized. Analyzing this project requires authentication. Please provide a user token in sonar.login or other credentials in sonar.login and sonar.password.
+gradlew sonar -Dsonar.projectKey=EnsiBlog -Dsonar.host.url=http://localhost:9000 -Dsonar.login=sqp_7e19496994e77ca7dcbe722829e4b59cf0ac4df2

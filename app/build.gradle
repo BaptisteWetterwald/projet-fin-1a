@@ -45,8 +45,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:22.0.0'
     implementation 'com.google.firebase:firebase-storage'
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'androidx.test.espresso:espresso-intents:3.5.1'
     //implementation 'com.google.firebase:firebase-admin:9.1.1'
     testImplementation 'junit:junit:4.13.2'
+    testImplementation 'androidx.test.ext:junit:1.1.3'
+    testImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation platform('com.google.firebase:firebase-bom:32.1.0')
@@ -63,6 +66,5 @@ sonar {
         property "sonar.projectKey", "EnsiBlog"
         property "sonar.host.url", "http://localhost:9000"
         property "sonar.login", "sqp_7e19496994e77ca7dcbe722829e4b59cf0ac4df2"
-        property "sonar.password", "arthur"
     }
 }
