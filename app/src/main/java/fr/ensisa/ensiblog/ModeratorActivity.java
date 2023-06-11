@@ -1,5 +1,7 @@
 package fr.ensisa.ensiblog;
 
+import static fr.ensisa.ensiblog.Utils.removeElement;
+
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -21,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import fr.ensisa.ensiblog.firebase.Authentication;
 import fr.ensisa.ensiblog.firebase.Database;
@@ -34,12 +37,11 @@ import fr.ensisa.ensiblog.models.User;
 
 public class ModeratorActivity extends AppCompatActivity {
 
-    //Topic currentTopic;
+    private void loadMembers(TopicUser currentTopic){
 
-    private void loadMembers(Topic currentTopic){
-        Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"topic"}, new Topic[]{currentTopic}).addOnSuccessListener(topicUsers -> {
+        Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"topic"}, new Topic[]{currentTopic.getTopic()}).addOnSuccessListener(topicUsers -> {
 
-            if(topicUsers.size()>0) {
+            if(topicUsers.size()>1) {
                 LinearLayout listMembers = findViewById(R.id.list_members);
                 listMembers.removeAllViews();
                 for (int i = 0; i < topicUsers.size(); i++) {
@@ -51,40 +53,45 @@ public class ModeratorActivity extends AppCompatActivity {
                     RadioGroup radioGroup = componentView.findViewById(R.id.list_members_radioGroup);
                     TopicUser tpUsr = topicUsers.get(i);
 
-                    Email members_email = tpUsr.getUser().getEmail();
-                    // Modify the views as needed
-                    usernameTextView.setText(members_email.firstName()+" "+members_email.lastName());
-                    RadioButton rd = null;
-                    if(tpUsr.getRole().getRole() == 3)
-                        rd = componentView.findViewById(R.id.button1);
-                    else if (tpUsr.getRole().getRole() == 2)
-                        rd = componentView.findViewById(R.id.button2);
-                    else if (tpUsr.getRole().getRole() == 1)
-                        rd = componentView.findViewById(R.id.button3);
-                    if(rd != null)
-                        rd.setChecked(true);
-                        //rd.toggle();
+                    if(!Objects.equals(tpUsr.getUser().getEmail().getAddress(), currentTopic.getUser().getEmail().getAddress())){
 
-                    radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-                        // Perform actions when the checked radio button changes
-                        RadioButton checkedRadioButton = group.findViewById(checkedId);
-                        if (checkedRadioButton != null) {
-                            Role newRole = new Role();
+                        Email members_email = tpUsr.getUser().getEmail();
+                        // Modify the views as needed
+                        usernameTextView.setText(members_email.firstName()+" "+members_email.lastName());
+                        RadioButton rd = null;
 
-                            if (checkedRadioButton.getId() == R.id.button1)
-                                newRole.setRole(3);
-                            else if (checkedRadioButton.getId() == R.id.button2)
-                                newRole.setRole(2);
-                            else if (checkedRadioButton.getId() == R.id.button3)
-                                newRole.setRole(1);
-                            Log.i("n6a","CALL TO UPDATE");
-                            TopicUser newTpUsr = new TopicUser(tpUsr.getTopic(),tpUsr.getUser(),newRole,tpUsr.getFonction());
-                            Database.getInstance().update(Table.TOPIC_USERS.getName(),newTpUsr,new String[]{"topic","user"}, new Object[]{tpUsr.getTopic(),tpUsr.getUser()});
-                        }
-                    });
+                        if(currentTopic.getRole().getRole() <= 3)
+                            removeElement(componentView.findViewById(R.id.button1));
 
-                    // Add the componentView to the parent layout
-                    listMembers.addView(componentView);
+                        if(currentTopic.getRole().getRole() > 3 && tpUsr.getRole().getRole() == 3)
+                            rd = componentView.findViewById(R.id.button1);
+                        else if (tpUsr.getRole().getRole() == 2)
+                            rd = componentView.findViewById(R.id.button2);
+                        else if (tpUsr.getRole().getRole() == 1)
+                            rd = componentView.findViewById(R.id.button3);
+                        if(rd != null)
+                            rd.setChecked(true);
+
+                        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+                            // Perform actions when the checked radio button changes
+                            RadioButton checkedRadioButton = group.findViewById(checkedId);
+                            if (checkedRadioButton != null) {
+                                Role newRole = new Role();
+
+                                if (currentTopic.getRole().getRole() > 3 && checkedRadioButton.getId() == R.id.button1)
+                                    newRole.setRole(3);
+                                else if (checkedRadioButton.getId() == R.id.button2)
+                                    newRole.setRole(2);
+                                else if (checkedRadioButton.getId() == R.id.button3)
+                                    newRole.setRole(1);
+
+                                TopicUser newTpUsr = new TopicUser(tpUsr.getTopic(),tpUsr.getUser(),newRole,tpUsr.getFonction());
+                                Database.getInstance().update(Table.TOPIC_USERS.getName(),newTpUsr,new String[]{"topic","user"}, new Object[]{tpUsr.getTopic(),tpUsr.getUser()});
+                            }
+                        });
+                        // Add the componentView to the parent layout
+                        listMembers.addView(componentView);
+                    }
                 }
             }
         });
@@ -106,31 +113,36 @@ public class ModeratorActivity extends AppCompatActivity {
                     // On récupère la liste des topics auquel l'user est abonné
                     Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"user"}, new User[]{userModel}).addOnSuccessListener(topics -> {
                         if(topics.size()>0){
-                            //currentTopic = topics.get(0).getTopic();
+                            TopicUser currentTopic = null;
                             LinearLayout themesBar = findViewById(R.id.theme_bar);
                             themesBar.removeAllViews();
                             List<Button> buttons = new ArrayList<>();
                             for (int i = 0; i < topics.size(); i++) {
-                                Button button = new Button(ModeratorActivity.this);
-                                Topic btnTopic = topics.get(i).getTopic();
-                                button.setText(btnTopic.getName());
-                                if(i == 0) {
-                                    button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
-                                }
-                                button.setOnClickListener(v -> {
-                                    loadMembers(btnTopic);
-                                    button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
-                                    for (Button otherButton : buttons) {
-                                        if (otherButton != button) {
-                                            otherButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#444444"))); // Change to desired color
-                                        }
-                                    }
-                                });
-                                themesBar.addView(button);
-                                buttons.add(button);
+                                if(topics.get(i).getRole().getRole() >= 3){
 
+                                    Button button = new Button(ModeratorActivity.this);
+                                    TopicUser btnTopic = topics.get(i);
+                                    button.setText(btnTopic.getTopic().getName());
+                                    if(currentTopic == null){
+                                        currentTopic = topics.get(i);
+                                        button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
+                                    }
+                                    button.setOnClickListener(v -> {
+                                        loadMembers(btnTopic);
+                                        button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
+                                        for (Button otherButton : buttons) {
+                                            if (otherButton != button) {
+                                                otherButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#444444"))); // Change to desired color
+                                            }
+                                        }
+                                    });
+                                    themesBar.addView(button);
+                                    buttons.add(button);
+
+                                }
                             }
-                            loadMembers(topics.get(0).getTopic());
+                            if(currentTopic != null)
+                                loadMembers(currentTopic);
                         } else {
                             Utils.showInfoBox("Warning","No topic founds for your account","OK",ModeratorActivity.this,(dialog, which) -> {
                                 dialog.cancel();

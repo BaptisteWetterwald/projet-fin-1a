@@ -3,6 +3,8 @@ package fr.ensisa.ensiblog;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.Objects;
 
@@ -32,6 +34,12 @@ public class Utils {
         AlertDialog alertDialog = builder.create();
 
         alertDialog.show();
+    }
+
+    public static void removeElement(View element){
+        ViewGroup layout = (ViewGroup) element.getParent();
+        if(null!=layout)
+            layout.removeView(element);
     }
 
 }

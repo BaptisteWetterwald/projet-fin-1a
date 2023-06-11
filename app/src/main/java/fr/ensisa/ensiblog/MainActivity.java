@@ -1,5 +1,6 @@
 package fr.ensisa.ensiblog;
 
+import static fr.ensisa.ensiblog.Utils.removeElement;
 import static fr.ensisa.ensiblog.Utils.showInfoBox;
 
 import android.content.Intent;
@@ -50,11 +51,6 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private AppBarConfiguration mAppBarConfigurationLeft;
 
-    private void removeElement(View element){
-        ViewGroup layout = (ViewGroup) element.getParent();
-        if(null!=layout)
-            layout.removeView(element);
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,9 +83,8 @@ public class MainActivity extends AppCompatActivity {
                             themesBar.removeAllViews();
                             List<Button> buttons = new ArrayList<>();
                             for (int i = 0; i < topics.size(); i++) {
-                                if(topics.get(i).getRole().getRole()>= 4){
+                                if(topics.get(i).getRole().getRole() >= 3){
                                     isModo.set(true);
-                                    Log.i("n6a","MODO !!");
                                 }
                                 Button button = new Button(MainActivity.this);
                                 Topic btnTopic = topics.get(i).getTopic();
