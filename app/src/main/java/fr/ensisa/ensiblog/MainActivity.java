@@ -148,13 +148,13 @@ public class MainActivity extends AppCompatActivity {
             for (DocumentChange dc : snapshots.getDocumentChanges()) {
                 switch (dc.getType()) {
                     case ADDED:
-                        Log.d("n6a", "New city: " + dc.getDocument().getData());
+                        Log.d("n6a", "New : " + dc.getDocument().getData());
                         break;
                     case MODIFIED:
-                        Log.d("n6a", "Modified city: " + dc.getDocument().getData());
+                        Log.d("n6a", "Modified : " + dc.getDocument().getData());
                         break;
                     case REMOVED:
-                        Log.d("n6a", "Removed city: " + dc.getDocument().getData());
+                        Log.d("n6a", "Removed : " + dc.getDocument().getData());
                         break;
                 }
             }
