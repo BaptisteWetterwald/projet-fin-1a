@@ -57,22 +57,20 @@ public class LoginActivity extends AppCompatActivity {
                 if (task.isSuccessful()){
                     if(auth.getCurrentUser().isEmailVerified()){
                         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                        intent.putExtra("user",auth.getCurrentUser());
                         startActivity(intent);
                     } else {
                         Toast.makeText(getApplicationContext(), "Please verify your email", Toast.LENGTH_SHORT).show();
-                        auth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(Task<Void> task) {
-                                if (task.isSuccessful() && auth.getCurrentUser().isEmailVerified()) {
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    intent.putExtra("user",auth.getCurrentUser());
-                                    startActivity(intent);
-                                } else {
-                                    showInfoBox("Alert !","Please verify your email","OK",LoginActivity.this, (dialog, which) -> {
-                                        dialog.cancel();
-                                        auth.getCurrentUser().sendEmailVerification();
-                                    });
-                                }
+                        auth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task1 -> {
+                            if (task1.isSuccessful() && auth.getCurrentUser().isEmailVerified()) {
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                intent.putExtra("user",auth.getCurrentUser());
+                                startActivity(intent);
+                            } else {
+                                showInfoBox("Alert !","Please verify your email","OK",LoginActivity.this, (dialog, which) -> {
+                                    dialog.cancel();
+                                    auth.getCurrentUser().sendEmailVerification();
+                                });
                             }
                         });
                     }

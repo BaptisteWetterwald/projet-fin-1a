@@ -99,55 +99,55 @@ public class ModeratorActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             FirebaseUser user = (FirebaseUser) extras.get("user");
-            // user.getUid()
-        }
-        // On commence par récupérer l'user courant dans notre DB pour filtrer les topics
-        Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{"email"}, new Email[]{new Email("test.michel0@uha.fr")}).addOnSuccessListener(users -> {
-            if(users.size()>0) {
-                User userModel = users.get(0);
-                // On récupère la liste des topics auquel l'user est abonné
-                Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"user"}, new User[]{userModel}).addOnSuccessListener(topics -> {
-                    if(topics.size()>0){
-                        //currentTopic = topics.get(0).getTopic();
-                        LinearLayout themesBar = findViewById(R.id.theme_bar);
-                        themesBar.removeAllViews();
-                        List<Button> buttons = new ArrayList<>();
-                        for (int i = 0; i < topics.size(); i++) {
-                            Button button = new Button(ModeratorActivity.this);
-                            Topic btnTopic = topics.get(i).getTopic();
-                            button.setText(btnTopic.getName());
-                            if(i == 0) {
-                                button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
-                            }
-                            button.setOnClickListener(v -> {
-                                loadMembers(btnTopic);
-                                button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
-                                for (Button otherButton : buttons) {
-                                    if (otherButton != button) {
-                                        otherButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#444444"))); // Change to desired color
-                                    }
+            // On commence par récupérer l'user courant dans notre DB pour filtrer les topics
+            Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{"uid"}, new String[]{user.getUid()}).addOnSuccessListener(users -> {
+                if(users.size()>0) {
+                    User userModel = users.get(0);
+                    // On récupère la liste des topics auquel l'user est abonné
+                    Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"user"}, new User[]{userModel}).addOnSuccessListener(topics -> {
+                        if(topics.size()>0){
+                            //currentTopic = topics.get(0).getTopic();
+                            LinearLayout themesBar = findViewById(R.id.theme_bar);
+                            themesBar.removeAllViews();
+                            List<Button> buttons = new ArrayList<>();
+                            for (int i = 0; i < topics.size(); i++) {
+                                Button button = new Button(ModeratorActivity.this);
+                                Topic btnTopic = topics.get(i).getTopic();
+                                button.setText(btnTopic.getName());
+                                if(i == 0) {
+                                    button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
                                 }
-                            });
-                            themesBar.addView(button);
-                            buttons.add(button);
+                                button.setOnClickListener(v -> {
+                                    loadMembers(btnTopic);
+                                    button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
+                                    for (Button otherButton : buttons) {
+                                        if (otherButton != button) {
+                                            otherButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#444444"))); // Change to desired color
+                                        }
+                                    }
+                                });
+                                themesBar.addView(button);
+                                buttons.add(button);
 
+                            }
+                            loadMembers(topics.get(0).getTopic());
+                        } else {
+                            Utils.showInfoBox("Warning","No topic founds for your account","OK",ModeratorActivity.this,(dialog, which) -> {
+                                dialog.cancel();
+                                Intent intent = new Intent(ModeratorActivity.this, MainActivity.class);
+                                startActivity(intent);
+                            });
                         }
-                        loadMembers(topics.get(0).getTopic());
-                    } else {
-                        Utils.showInfoBox("Warning","No topic founds for your account","OK",ModeratorActivity.this,(dialog, which) -> {
-                            dialog.cancel();
-                            Intent intent = new Intent(ModeratorActivity.this, MainActivity.class);
-                            startActivity(intent);
-                        });
-                    }
-                });
-            } else {
-                Utils.showInfoBox("Warning","No user founds for your account","OK",ModeratorActivity.this,(dialog, which) -> {
-                    dialog.cancel();
-                    Intent intent = new Intent(ModeratorActivity.this, MainActivity.class);
-                    startActivity(intent);
-                });
-            }
-        });
+                    });
+                } else {
+                    Utils.showInfoBox("Warning","No user founds for your account","OK",ModeratorActivity.this,(dialog, which) -> {
+                        dialog.cancel();
+                        Intent intent = new Intent(ModeratorActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    });
+                }
+            });
+        }
+
     }
 }
