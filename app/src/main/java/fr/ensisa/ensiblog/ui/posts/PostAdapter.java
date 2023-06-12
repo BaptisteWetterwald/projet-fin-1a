@@ -19,10 +19,12 @@ import com.squareup.picasso.Picasso;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import fr.ensisa.ensiblog.R;
 import fr.ensisa.ensiblog.models.Email;
 import fr.ensisa.ensiblog.models.posts.Content;
+import fr.ensisa.ensiblog.models.posts.ContentType;
 import fr.ensisa.ensiblog.models.posts.ImageContent;
 import fr.ensisa.ensiblog.models.posts.Post;
 import fr.ensisa.ensiblog.models.posts.TextContent;
@@ -96,7 +98,36 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
             List<Content> contents = post.getContent();
             for (Content content : contents) {
-                if (content instanceof TextContent) {
+
+                ContentType contentType = ContentType.fromString(content.getType());
+
+                switch (Objects.requireNonNull(contentType)){
+                    case TEXT:
+                        TextView textView = new TextView(itemView.getContext());
+                        textView.setText(content.getData());
+                        textView.setTextColor(Color.parseColor("#606060"));
+                        textView.setGravity(Gravity.CENTER);
+                        layoutContent.addView(textView);
+                        break;
+                    case IMAGE:
+                        ImageView imageView = new ImageView(itemView.getContext());
+                        imageView.setAdjustViewBounds(true);
+                        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                        imageView.setLayoutParams(params);
+                        imageView.setBackgroundResource(R.drawable.round_outline);
+                        imageView.setClipToOutline(true);
+                        Picasso.get().load(Uri.parse(content.getData())).into(imageView);
+                        layoutContent.addView(imageView);
+                        break;
+                    case VIDEO:
+                        VideoView videoView = new VideoView(itemView.getContext());
+                        videoView.setVideoURI(Uri.parse(content.getData()));
+                        videoView.start();
+                        layoutContent.addView(videoView);
+                }
+
+                /*if (content instanceof TextContent) {
                     TextView textView = new TextView(itemView.getContext());
                     textView.setText(((TextContent) content).getText());
                     textView.setTextColor(Color.parseColor("#606060"));
@@ -117,7 +148,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                     videoView.setVideoURI(Uri.parse(((VideoContent) content).getVideoUrl()));
                     videoView.start();
                     layoutContent.addView(videoView);
-                }
+                }*/
             }
         }
     }
