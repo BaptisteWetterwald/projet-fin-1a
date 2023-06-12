@@ -1,13 +1,17 @@
 package fr.ensisa.ensiblog.ui.posts;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -21,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import fr.ensisa.ensiblog.FullScreenVideoActivity;
 import fr.ensisa.ensiblog.R;
 import fr.ensisa.ensiblog.models.Email;
 import fr.ensisa.ensiblog.models.posts.Content;
@@ -32,6 +37,8 @@ import fr.ensisa.ensiblog.models.posts.VideoContent;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     private final List<Post> postList;
+    private long lastClickVideo;
+
 
     public PostAdapter(List<Post> postList) {
         this.postList = postList;
@@ -122,33 +129,60 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                         break;
                     case VIDEO:
                         VideoView videoView = new VideoView(itemView.getContext());
+                        videoView.setScaleY(1.0f);
                         videoView.setVideoURI(Uri.parse(content.getData()));
-                        videoView.start();
-                        layoutContent.addView(videoView);
-                }
 
-                /*if (content instanceof TextContent) {
-                    TextView textView = new TextView(itemView.getContext());
-                    textView.setText(((TextContent) content).getText());
-                    textView.setTextColor(Color.parseColor("#606060"));
-                    textView.setGravity(Gravity.CENTER);
-                    layoutContent.addView(textView);
-                } else if (content instanceof ImageContent) {
-                    ImageView imageView = new ImageView(itemView.getContext());
-                    imageView.setAdjustViewBounds(true);
-                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                    imageView.setLayoutParams(params);
-                    imageView.setBackgroundResource(R.drawable.round_outline);
-                    imageView.setClipToOutline(true);
-                    Picasso.get().load(Uri.parse(((ImageContent) content).getImageUrl())).into(imageView);
-                    layoutContent.addView(imageView);
-                } else if (content instanceof VideoContent) {
-                    VideoView videoView = new VideoView(itemView.getContext());
-                    videoView.setVideoURI(Uri.parse(((VideoContent) content).getVideoUrl()));
-                    videoView.start();
-                    layoutContent.addView(videoView);
-                }*/
+                        LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 500);
+                        videoView.setLayoutParams(params2);
+
+                        FrameLayout frameLayout = new FrameLayout(itemView.getContext());
+                        frameLayout.setBackgroundResource(R.drawable.round_outline);
+                        frameLayout.setClipToOutline(true);
+                        frameLayout.addView(videoView);
+
+                        layoutContent.addView(frameLayout);
+                        videoView.start();
+
+                        videoView.setOnClickListener(new View.OnClickListener() {
+                            private long lastClickTime = 0;
+                            private boolean isDoubleClick = false;
+
+                            @Override
+                            public void onClick(View v) {
+                                long currentTime = System.currentTimeMillis();
+
+                                if (currentTime - lastClickTime < 300) {
+                                    // Double click detected
+                                    isDoubleClick = true;
+                                }
+
+                                lastClickTime = currentTime;
+
+                                if (isDoubleClick) {
+                                    // Open full-screen video activity
+                                    Intent intent = new Intent(itemView.getContext(), FullScreenVideoActivity.class);
+                                    intent.putExtra("videoUrl", content.getData());
+                                    itemView.getContext().startActivity(intent);
+                                } else {
+                                    // Play/pause the video
+                                    if (videoView.isPlaying()) {
+                                        videoView.pause();
+                                    } else {
+                                        videoView.start();
+                                    }
+                                }
+
+                                // Reset the double click flag after a delay
+                                v.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        isDoubleClick = false;
+                                    }
+                                }, 300);
+                            }
+                        });
+
+                }
             }
         }
     }
