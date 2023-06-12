@@ -60,4 +60,14 @@ public class Email {
     public String lastName(){
         return names()[1];
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!(obj instanceof Email))
+            return false;
+        if (obj == this)
+            return true;
+        return this.getAddress().equals(((Email) obj).getAddress());
+    }
 }

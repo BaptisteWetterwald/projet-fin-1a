@@ -33,4 +33,14 @@ public class Topic {
     public void setDefaultRole(Role defaultRole) {
         this.defaultRole = defaultRole;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!(obj instanceof Topic))
+            return false;
+        if (obj == this)
+            return true;
+        return this.getName().equals(((Topic) obj).getName()) && this.getDefaultRole().equals(((Topic) obj).getDefaultRole());
+    }
 }

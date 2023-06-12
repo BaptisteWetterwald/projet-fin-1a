@@ -27,6 +27,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -55,7 +56,10 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private AppBarConfiguration mAppBarConfigurationLeft;
 
-    private List<Post> posts;
+    private List<Post> posts = new ArrayList<>();
+    private PostAdapter adapter;
+
+    private QuerySnapshot postsSnapshot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,7 +166,6 @@ public class MainActivity extends AppCompatActivity {
             DrawerLayout drawer = binding.drawerLayout;
             NavigationView navigationViewleft = binding.leftNavView.leftNavView;
 
-
             //Left menu Controller
             mAppBarConfigurationLeft = new AppBarConfiguration.Builder(R.id.nav_home).setOpenableLayout(drawer).build();
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -171,9 +174,8 @@ public class MainActivity extends AppCompatActivity {
 
             RecyclerView recyclerView = findViewById(R.id.recyclerView);
             loadAllPosts();
-            Log.i("n6a", "posts: " + posts);
             // Create an instance of the PostAdapter
-            PostAdapter adapter = new PostAdapter(posts);
+            adapter = new PostAdapter(posts);
             // Set the adapter for the RecyclerView
             recyclerView.setAdapter(adapter);
             // Set a layout manager for the RecyclerView
@@ -195,41 +197,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            Topic currentTopic = new Topic();
-            Database.getInstance().onModif(Table.POSTS.getName(), "Topic",currentTopic,(snapshots, e) -> {
-                if (e != null) {
-                    Log.w("n6a", "listen:error", e);
-                    return;
-                }
-
-                assert snapshots != null;
-                for (DocumentChange dc : snapshots.getDocumentChanges()) {
-                    Post post;
-                    switch (dc.getType()) {
-                        case ADDED:
-                            Log.d("n6a", "New : " + dc.getDocument().getData());
-                            post = dc.getDocument().toObject(Post.class);
-                            posts.add(post);
-                            break;
-                        case MODIFIED:
-                            Log.d("n6a", "Modified : " + dc.getDocument().getData());
-                            //TODO: update post ?
-                            break;
-                        case REMOVED:
-                            Log.d("n6a", "Removed : " + dc.getDocument().getData());
-                            post = dc.getDocument().toObject(Post.class);
-                            posts.remove(post);
-                            break;
-                    }
-                }
-
-            });
         }
     }
-
-
-
-
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -238,87 +207,45 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    public static List<Post> getPosts() {
-        List<Post> posts = new ArrayList<>();
+    private void loadAllPosts() {
+        posts = new ArrayList<>();
 
-        // Create some TextContent objects
-        TextContent textContent1 = new TextContent("Hello, world!");
-        TextContent textContent2 = new TextContent("This is a sample post.");
-        TextContent textContent3 = new TextContent("Welcome to the Android 21 app.");
+        Topic currentTopic = new Topic("Resto U", new Role(2));
 
-        // Create some ImageContent objects
-        ImageContent imageContent1 = new ImageContent("https://www.parismatch.com/lmnr/var/pm/public/media/image/Emma-Watson_0.jpg?VersionId=RC8sSswLrmMQFNdbRU7FRE3E80WtYdls");
-        ImageContent imageContent2 = new ImageContent("https://www.parismatch.com/lmnr/var/pm/public/media/image/2022/03/01/07/Emma-Watson-son-nouveau-poste-au-sein-d-une-entreprise-francaise.jpg?VersionId=Z4C19TiHw_xvYDNipyHdSIprYGusX1rj");
+        // Get all existing posts once
+        Database.getInstance().onModif(Table.POSTS.getName(), "topic", currentTopic, (snapshots, e) -> {
+            if (e != null) {
+                Log.w("n6a", "listen:error", e);
+                return;
+            }
 
-        // Create some VideoContent objects
-        VideoContent videoContent1 = new VideoContent("https://joy1.videvo.net/videvo_files/video/free/2013-09/large_watermarked/AbstractRotatingCubesVidevo_preview.mp4");
-
-        for (int i=0; i<5; i++){
-            // Create some posts with different combinations of content
-            Role defaultRole = new Role(2);
-            Topic ruTopic = new Topic("Resto U", defaultRole);
-            Email email = new Email("baptiste.wetterwald@gmail.com");
-
-            Post post1 = new Post();
-            post1.setCreation(new Date());
-            post1.setTopic(ruTopic);
-            post1.setAuthor(new User(email));
-
-            post1.addContent(imageContent1);
-            post1.addContent(textContent1);
-            post1.addContent(textContent2);
-            post1.addContent(imageContent2);
-            post1.addContent(textContent3);
-
-            Topic muscuTopic = new Topic("Muscu", defaultRole);
-
-            Post post2 = new Post();
-            post2.setCreation(new Date());
-            post2.setTopic(muscuTopic);
-            Email email2 = new Email("ayoub.tazi-chibi@uha.fr");
-            post2.setAuthor(new User(email2));
-            post2.addContent(new TextContent("There should be a video below this text."));
-            post2.addContent(videoContent1);
-
-            posts.add(post1);
-            posts.add(post2);
-        }
-
-        return posts;
-    }
-
-    private void loadAllPosts(){ // TODO: Pass list of topics as parameter and filter posts by topic
-        this.posts = new ArrayList<>();
-        Database.getInstance().get(Table.POSTS.getName(), Post.class, new String[]{}, new Post[]{}).addOnSuccessListener(posts -> {
-            /*Log.i("n6a", "posts: " + posts);
-            for (Post p : posts){
-                Log.i("n6a", "post: " + p);
-                List<Content> content = p.getContent();
-                for (int i=0; i<content.size(); i++){
-                    Content c = content.get(i);
-                    Log.i("n6a", "content: " + c);
-                    switch (c.getType()){
-                        case "TextContent":
-                            Log.i("n6a", "TextContent: " + c);
-                            content.set(i, (TextContent)c);
-                            break;
-                        case "ImageContent":
-                            Log.i("n6a", "ImageContent: " + c);
-                            content.set(i, (ImageContent)c);
-                            break;
-                        case "VideoContent":
-                            Log.i("n6a", "VideoContent: " + c);
-                            content.set(i, (VideoContent)c);
-                            break;
-                        default:
-                            Log.i("n6a", "Unknown content type: " + c);
-                            throw new IllegalStateException("Unexpected value: " + c.getType());
-                    }
+            assert snapshots != null;
+            for (DocumentChange dc : snapshots.getDocumentChanges()) {
+                Post post = dc.getDocument().toObject(Post.class);
+                switch (dc.getType()) {
+                    case ADDED:
+                        Log.d("n6a", "New : " + post);
+                        posts.add(post);
+                        adapter.notifyItemInserted(posts.size() - 1);
+                        break;
+                    case MODIFIED:
+                        Log.d("n6a", "Modified : " + post);
+                        // Handle modified posts if needed
+                        break;
+                    case REMOVED:
+                        Log.d("n6a", "Removed : " + post);
+                        int index = posts.indexOf(post);
+                        Log.i("n6a", "Index : " + index);
+                        posts.remove(post);
+                        adapter.notifyItemRemoved(index);
+                        break;
                 }
-                this.posts.add(p);
-            }*/
-            this.posts = posts;
+            }
+
+            // Notify the adapter that the data has changed
+            //adapter.notifyDataSetChanged();
         });
     }
+
 
 }

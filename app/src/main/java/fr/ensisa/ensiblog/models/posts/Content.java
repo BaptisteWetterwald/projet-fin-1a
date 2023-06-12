@@ -34,5 +34,15 @@ public class Content {
         this.data = data;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!(obj instanceof Content))
+            return false;
+        if (obj == this)
+            return true;
+        return this.getData().equals(((Content) obj).getData()) && this.getType().equals(((Content) obj).getType());
+    }
+
 }
 
