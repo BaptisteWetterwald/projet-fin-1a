@@ -31,6 +31,8 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import fr.ensisa.ensiblog.databinding.ActivityMainBinding;
@@ -42,6 +44,7 @@ import fr.ensisa.ensiblog.models.Role;
 import fr.ensisa.ensiblog.models.Topic;
 import fr.ensisa.ensiblog.models.TopicUser;
 import fr.ensisa.ensiblog.models.User;
+import fr.ensisa.ensiblog.models.posts.Content;
 import fr.ensisa.ensiblog.models.posts.ImageContent;
 import fr.ensisa.ensiblog.models.posts.Post;
 import fr.ensisa.ensiblog.models.posts.VideoContent;
@@ -51,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
     private ActivityMainBinding binding;
     private AppBarConfiguration mAppBarConfigurationLeft;
+
+    private List<Post> posts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,11 +76,8 @@ public class MainActivity extends AppCompatActivity {
                     User userModel = users.get(0);
                     AtomicBoolean isModo = new AtomicBoolean(false);
 
-
                     Button buttonModo = (Button) findViewById(R.id.button_moderation);
                     Button buttonAdmin = (Button) findViewById(R.id.button_admin);
-
-
 
                     // On récupère la liste des topics auquel l'user est abonné
                     Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"user"}, new User[]{userModel}).addOnSuccessListener(topics -> {
@@ -167,10 +169,8 @@ public class MainActivity extends AppCompatActivity {
             NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfigurationLeft);
             NavigationUI.setupWithNavController(navigationViewleft, navController);
 
-
             RecyclerView recyclerView = findViewById(R.id.recyclerView);
-            // Create a list of posts (you can replace this with your data retrieval logic)
-            List<Post> posts = getPosts();
+            loadAllPosts();
             Log.i("n6a", "posts: " + posts);
             // Create an instance of the PostAdapter
             PostAdapter adapter = new PostAdapter(posts);
@@ -204,15 +204,21 @@ public class MainActivity extends AppCompatActivity {
 
                 assert snapshots != null;
                 for (DocumentChange dc : snapshots.getDocumentChanges()) {
+                    Post post;
                     switch (dc.getType()) {
                         case ADDED:
                             Log.d("n6a", "New : " + dc.getDocument().getData());
+                            post = dc.getDocument().toObject(Post.class);
+                            posts.add(post);
                             break;
                         case MODIFIED:
                             Log.d("n6a", "Modified : " + dc.getDocument().getData());
+                            //TODO: update post ?
                             break;
                         case REMOVED:
                             Log.d("n6a", "Removed : " + dc.getDocument().getData());
+                            post = dc.getDocument().toObject(Post.class);
+                            posts.remove(post);
                             break;
                     }
                 }
@@ -281,5 +287,38 @@ public class MainActivity extends AppCompatActivity {
         return posts;
     }
 
+    private void loadAllPosts(){ // TODO: Pass list of topics as parameter and filter posts by topic
+        this.posts = new ArrayList<>();
+        Database.getInstance().get(Table.POSTS.getName(), Post.class, new String[]{}, new Post[]{}).addOnSuccessListener(posts -> {
+            /*Log.i("n6a", "posts: " + posts);
+            for (Post p : posts){
+                Log.i("n6a", "post: " + p);
+                List<Content> content = p.getContent();
+                for (int i=0; i<content.size(); i++){
+                    Content c = content.get(i);
+                    Log.i("n6a", "content: " + c);
+                    switch (c.getType()){
+                        case "TextContent":
+                            Log.i("n6a", "TextContent: " + c);
+                            content.set(i, (TextContent)c);
+                            break;
+                        case "ImageContent":
+                            Log.i("n6a", "ImageContent: " + c);
+                            content.set(i, (ImageContent)c);
+                            break;
+                        case "VideoContent":
+                            Log.i("n6a", "VideoContent: " + c);
+                            content.set(i, (VideoContent)c);
+                            break;
+                        default:
+                            Log.i("n6a", "Unknown content type: " + c);
+                            throw new IllegalStateException("Unexpected value: " + c.getType());
+                    }
+                }
+                this.posts.add(p);
+            }*/
+            this.posts = posts;
+        });
+    }
 
 }
