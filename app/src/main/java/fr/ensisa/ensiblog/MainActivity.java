@@ -137,13 +137,6 @@ public class MainActivity extends AppCompatActivity {
                     R.id.navigation_home, R.id.name_app)
                     .build();*/
 
-            int colorBlue =getColor(R.color.MARIN_APP);
-            String text = getString(R.string.app_name);
-            SpannableString spannable = new SpannableString(text);
-            // here we set the color
-            spannable.setSpan(new ForegroundColorSpan(colorBlue), 0, text.length(), 0);
-
-
             Button buttonGestionCompte = (Button) findViewById(R.id.button_gest);
 
             buttonGestionCompte.setOnClickListener(v -> {
