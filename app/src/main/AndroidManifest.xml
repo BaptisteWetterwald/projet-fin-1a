@@ -10,7 +10,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/ensisa"
-        android:label="@string/app_name"
+        android:label=""
         android:roundIcon="@drawable/ensisa"
         android:supportsRtl="true"
         android:theme="@style/Theme.Ensiblog"

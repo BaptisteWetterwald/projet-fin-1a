@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,8 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.auth.FirebaseUser;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -51,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
     private ActivityMainBinding binding;
     private AppBarConfiguration mAppBarConfigurationLeft;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,9 +133,16 @@ public class MainActivity extends AppCompatActivity {
             });
 
             setSupportActionBar(binding.appBarMain.toolbar);
-            AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.navigation_home, R.id.nameapp)
-                    .build();
+            /*AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.navigation_home, R.id.name_app)
+                    .build();*/
+
+            int colorBlue =getColor(R.color.MARIN_APP);
+            String text = getString(R.string.app_name);
+            SpannableString spannable = new SpannableString(text);
+            // here we set the color
+            spannable.setSpan(new ForegroundColorSpan(colorBlue), 0, text.length(), 0);
+
 
             Button buttonGestionCompte = (Button) findViewById(R.id.button_gest);
 

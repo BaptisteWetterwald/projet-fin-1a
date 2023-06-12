@@ -14,6 +14,7 @@
         tools:ignore="MissingConstraints"
         tools:showIn="navigation_view"
         android:layout_gravity="start"
+        android:background="@color/white"
         android:fitsSystemWindows="true">
         <ScrollView
             android:layout_width="match_parent"
