@@ -55,8 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
     private ActivityMainBinding binding;
     private AppBarConfiguration mAppBarConfigurationLeft;
-
-
+    private Translation translation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -225,18 +224,12 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
-
-
-
-
-
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfigurationLeft)
                 || super.onSupportNavigateUp();
     }
-
     public static List<Post> getPosts() {
         List<Post> posts = new ArrayList<>();
 
@@ -285,6 +278,9 @@ public class MainActivity extends AppCompatActivity {
 
         return posts;
     }
-
-
+    public String[] collectWords(){
+        return null;
+    }
+    public void applyTranslation(String word){
+    }
 }
