@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
     <include
         android:id="@+id/include"
         layout="@layout/content_main" />
@@ -15,6 +14,21 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/white"
         app:popupTheme="@style/Theme.Ensiblog.PopupOverlay">
+         <TextView
+             android:textSize="20dp"
+             android:textStyle="bold"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:textColor="@color/Ciel"
+             android:text="ENSI"/>
+         <TextView
+             android:textSize="20dp"
+             android:textStyle="bold"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:textColor="@color/MARIN_APP"
+             android:text="BLOG"/>
+
     </androidx.appcompat.widget.Toolbar>
 
     <com.google.android.material.appbar.AppBarLayout
@@ -84,6 +98,4 @@
         android:layout_margin="20dp"
         android:textSize="30sp"
         android:gravity="center"/>
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

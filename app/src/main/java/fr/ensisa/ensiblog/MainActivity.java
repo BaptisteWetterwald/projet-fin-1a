@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,8 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.auth.FirebaseUser;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -51,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
     private ActivityMainBinding binding;
     private AppBarConfiguration mAppBarConfigurationLeft;
-
+    private Translation translation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,9 +132,9 @@ public class MainActivity extends AppCompatActivity {
             });
 
             setSupportActionBar(binding.appBarMain.toolbar);
-            AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.navigation_home, R.id.nameapp)
-                    .build();
+            /*AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.navigation_home, R.id.name_app)
+                    .build();*/
 
             Button buttonGestionCompte = (Button) findViewById(R.id.button_gest);
 
@@ -220,18 +224,12 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
-
-
-
-
-
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfigurationLeft)
                 || super.onSupportNavigateUp();
     }
-
     public static List<Post> getPosts() {
         List<Post> posts = new ArrayList<>();
 
@@ -280,6 +278,9 @@ public class MainActivity extends AppCompatActivity {
 
         return posts;
     }
-
-
+    public String[] collectWords(){
+        return null;
+    }
+    public void applyTranslation(String word){
+    }
 }
