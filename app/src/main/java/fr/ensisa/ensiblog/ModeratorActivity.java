@@ -133,7 +133,6 @@ public class ModeratorActivity extends AppCompatActivity {
                                     });
                                     themesBar.addView(button);
                                     buttons.add(button);
-
                                 }
                             }
                             if(currentTopic != null)
