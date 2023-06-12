@@ -1,194 +1,414 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back_post_icon">
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".AccountActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbarSize="0sp">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/white"
-            app:popupTheme="@style/Theme.Ensiblog.PopupOverlay"
-            tools:ignore="MissingConstraints">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="251dp"
+                android:background="@drawable/back_post_icon"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="62dp">
+
+                    <TextView
+                        android:id="@+id/textViewTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="28dp"
+                        android:layout_marginEnd="20dp"
+                        android:text="Gestion De Compte"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="166dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="137dp"
+                        android:layout_height="135dp"
+                        android:layout_marginEnd="40dp"
+                        android:src="@drawable/profile_icon"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.033"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.372" />
+
+                    <ImageButton
+                        android:id="@+id/imageButtonEditPhoto"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/round2"
+                        android:contentDescription="Change picture"
+                        android:src="@drawable/outline_photo_camera_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.351"
+                        app:layout_constraintStart_toStartOf="@+id/imageView2"
+                        app:layout_constraintTop_toTopOf="@+id/imageView2"
+                        app:tint="@color/white" />
+
+                    <TextView
+                        android:id="@+id/textViewName"
+                        android:layout_width="142dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/btn_bg"
+                        android:contentDescription="Username"
+                        android:padding="5dp"
+                        android:text="Prénom NOM"
+                        android:textAlignment="center"
+                        android:textColor="@color/dark"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.623"
+                        app:layout_constraintStart_toEndOf="@+id/imageView2"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.234" />
+
+                    <TextView
+                        android:id="@+id/textViewMail"
+                        android:layout_width="192dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/btn_bg"
+                        android:padding="5dp"
+                        android:text="prenom.nom@uha.fr"
+
+                        android:textAlignment="center"
+                        android:textColor="@color/font"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.93"
+                        app:layout_constraintStart_toEndOf="@+id/imageView2"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewName"
+                        app:layout_constraintVertical_bias="0.391" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonEditMdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="20dp"
+                android:background="@drawable/btn_bg"
+                android:text="MODIFIER MOT DE PASSE "
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/buttonEditFunctions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="20dp"
+                android:background="@drawable/btn_bg"
+                android:text="Fonction par thème"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/buttonEditBio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="20dp"
+                android:background="@drawable/btn_bg"
+                android:text="Modifier sa description"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="@dimen/aaa">
+
+                <TextView
+                    android:id="@+id/textViewBio"
+                    android:layout_width="354dp"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/info"
+                    android:text="A PROPOS DE MOI"
+                    android:textColor="@color/red"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_horizontal" />
+
+                <TextView
+                    android:id="@+id/editTextBio"
+                    android:layout_width="359dp"
+                    android:layout_height="63dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/et"
+
+                    android:fontFamily="@font/poppins"
+                    android:gravity="top"
+                    android:hint="This is my bio"
+                    android:maxWidth="300dp"
+                    android:minWidth="250dp"
+                    android:padding="5dp"
+                    android:textColor="@color/font"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewBio"
+                    tools:layout_editor_absoluteX="39dp" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonDeleteAccount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="20dp"
+                android:text="Supprimer son compte"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>
+
+
+    <!--
+    <?xml version="1.0" encoding="utf-8"?>
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/back_post_icon">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white"
+                app:popupTheme="@style/Theme.Ensiblog.PopupOverlay"
+                tools:ignore="MissingConstraints">
+                <TextView
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/Ciel"
+                    android:text="ENSI"/>
+                <TextView
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/MARIN_APP"
+                    android:text="BLOG"/>
+
+            </androidx.appcompat.widget.Toolbar>
+
+            <ImageButton
+                android:id="@+id/imageButtonEditPhoto"
+                android:layout_width="47dp"
+                android:layout_height="52dp"
+                android:layout_marginStart="-13dp"
+                android:layout_marginTop="1dp"
+                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+                android:src="@drawable/edit_icon" />
+
+
             <TextView
-                android:textSize="20dp"
-                android:textStyle="bold"
+                android:id="@+id/textViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/Ciel"
-                android:text="ENSI"/>
-            <TextView
-                android:textSize="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginEnd="20dp"
+                android:text="Gestion De Compte"
+                android:textColor="@color/black"
+                android:textSize="34sp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.61"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/MARIN_APP"
-                android:text="BLOG"/>
+                android:layout_marginTop="52dp"
+                android:text="Prénom NOM"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.826"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
 
-        </androidx.appcompat.widget.Toolbar>
-
-        <ImageButton
-            android:id="@+id/imageButtonEditPhoto"
-            android:layout_width="47dp"
-            android:layout_height="52dp"
-            android:layout_marginStart="-13dp"
-            android:layout_marginTop="1dp"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-            android:src="@drawable/edit_icon" />
-
-
-        <TextView
-            android:id="@+id/textViewTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginEnd="20dp"
-            android:text="Gestion De Compte"
-            android:textColor="@color/black"
-            android:textSize="34sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.61"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textViewName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="52dp"
-            android:text="Prénom NOM"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.826"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
-
-        <TextView
-            android:id="@+id/textViewMail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="prenom.nom@uha.fr"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.858"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewName" />
+            <TextView
+                android:id="@+id/textViewMail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="prenom.nom@uha.fr"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.858"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewName" />
 
 
-        <Button
-            android:id="@+id/buttonEditMdp"
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:layout_marginHorizontal="4dp"
-            android:layout_marginTop="75dp"
-            android:background="@drawable/btn_bg"
-            android:text="MODIFIER MOT DE PASSE "
-            android:textAlignment="center"
-            app:layout_constraintTop_toBottomOf="@+id/textViewMail"
-            app:layout_constraintBottom_toTopOf="@+id/buttonEditFunctions"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            <Button
+                android:id="@+id/buttonEditMdp"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginTop="75dp"
+                android:background="@drawable/btn_bg"
+                android:text="MODIFIER MOT DE PASSE "
+                android:textAlignment="center"
+                app:layout_constraintTop_toBottomOf="@+id/textViewMail"
+                app:layout_constraintBottom_toTopOf="@+id/buttonEditFunctions"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
 
-        <Button
-            android:id="@+id/buttonEditFunctions"
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:layout_marginHorizontal="4dp"
-            android:layout_marginTop="28dp"
-            android:background="@drawable/btn_bg"
-            android:text="Fonction par thème"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonEditMdp" />
+            <Button
+                android:id="@+id/buttonEditFunctions"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginTop="28dp"
+                android:background="@drawable/btn_bg"
+                android:text="Fonction par thème"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonEditMdp" />
 
-        <Button
-            android:id="@+id/buttonEditBio"
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:layout_marginHorizontal="4dp"
-            android:layout_marginTop="28dp"
-            android:background="@drawable/btn_bg"
-            android:text="Modifier sa description"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonEditFunctions" />
+            <Button
+                android:id="@+id/buttonEditBio"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginTop="28dp"
+                android:background="@drawable/btn_bg"
+                android:text="Modifier sa description"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonEditFunctions" />
 
-        <TextView
-            android:id="@+id/textViewBio"
-            android:layout_width="169dp"
-            android:layout_height="25dp"
-            android:layout_marginTop="115dp"
-            android:drawableRight="@drawable/info"
-            android:text="A PROPOS DE MOI"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.123"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonEditFunctions" />
+            <TextView
+                android:id="@+id/textViewBio"
+                android:layout_width="169dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="115dp"
+                android:drawableRight="@drawable/info"
+                android:text="A PROPOS DE MOI"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.123"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonEditFunctions" />
 
-        <TextView
-            android:id="@+id/editTextBio"
-            android:layout_width="wrap_content"
-            android:minWidth="250dp"
-            android:maxWidth="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="8dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/btn_bg"
-            android:textAlignment="center"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/buttonEditMdp"
-            app:layout_constraintTop_toBottomOf="@+id/textViewBio" />
+            <TextView
+                android:id="@+id/editTextBio"
+                android:layout_width="wrap_content"
+                android:minWidth="250dp"
+                android:maxWidth="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/btn_bg"
+                android:textAlignment="center"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/buttonEditMdp"
+                app:layout_constraintTop_toBottomOf="@+id/textViewBio" />
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="133dp"
-            android:layout_height="116dp"
-            android:layout_marginTop="33dp"
-            android:layout_marginEnd="40dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/textViewName"
-            app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
-            app:srcCompat="@drawable/stock_avatar" />
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="133dp"
+                android:layout_height="116dp"
+                android:layout_marginTop="33dp"
+                android:layout_marginEnd="40dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textViewName"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+                app:srcCompat="@drawable/stock_avatar" />
 
-        <Button
-            android:id="@+id/buttonDeleteAccount"
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:layout_marginHorizontal="4dp"
-            android:layout_marginTop="28dp"
-            android:backgroundTint="@android:color/holo_red_dark"
-            android:text="Supprimer son compte"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextBio" />
-
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/editTextBio" />
+            <Button
+                android:id="@+id/buttonDeleteAccount"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginTop="28dp"
+                android:backgroundTint="@android:color/holo_red_dark"
+                android:text="Supprimer son compte"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextBio" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/editTextBio" />
 
-</ScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+    -->
