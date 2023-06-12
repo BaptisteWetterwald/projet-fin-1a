@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     private QuerySnapshot postsSnapshot;
 
-    private User currentUser = null;
+    private TopicUser currentTopicUser = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,10 +96,11 @@ public class MainActivity extends AppCompatActivity {
                                     isModo.set(true);
                                 }
                                 Button button = new Button(MainActivity.this);
-                                Topic btnTopic = topics.get(i).getTopic();
-                                button.setText(btnTopic.getName());
+                                TopicUser btnTopic = topics.get(i);
+                                button.setText(btnTopic.getTopic().getName());
                                 if (i == 0) {
                                     button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
+                                    currentTopicUser = btnTopic;
                                 }
                                 button.setOnClickListener(v -> {
                                     button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
@@ -108,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
                                             otherButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#444444"))); // Change to desired color
                                         }
                                     }
+                                    currentTopicUser = btnTopic;
+                                    loadAllPosts();
                                 });
                                 themesBar.addView(button);
                                 buttons.add(button);
@@ -161,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
             buttonNewPost.setOnClickListener(v -> {
                 Intent intent = new Intent(MainActivity.this, AddPostActivity.class);
                 intent.putExtra("user",user);
+                intent.putExtra("topicUser",currentTopicUser);
                 startActivity(intent);
             });
 
