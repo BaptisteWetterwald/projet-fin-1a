@@ -16,4 +16,13 @@ public enum ContentType {
         return type;
     }
 
+    public static ContentType fromString(String text) {
+        for (ContentType b : ContentType.values()) {
+            if (b.type.equalsIgnoreCase(text)) {
+                return b;
+            }
+        }
+        return null;
+    }
+
 }
