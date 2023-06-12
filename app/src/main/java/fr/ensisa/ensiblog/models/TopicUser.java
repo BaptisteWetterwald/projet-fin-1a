@@ -54,4 +54,14 @@ public class TopicUser {
     public void setFonction(String fonction) {
         this.fonction = fonction;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!(obj instanceof TopicUser))
+            return false;
+        if (obj == this)
+            return true;
+        return this.getTopic().equals(((TopicUser) obj).getTopic()) && this.getUser().equals(((TopicUser) obj).getUser()) && this.getRole().equals(((TopicUser) obj).getRole());
+    }
 }

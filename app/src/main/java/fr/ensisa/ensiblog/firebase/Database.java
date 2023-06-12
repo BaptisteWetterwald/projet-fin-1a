@@ -37,8 +37,8 @@ public class Database {
 
     public void onModif(String tableName, String field, Object value, EventListener<QuerySnapshot> listener){
         db.collection(tableName)
-                .whereEqualTo(field, value)
-                .addSnapshotListener(listener);
+            .whereEqualTo(field, value)
+            .addSnapshotListener(listener);
     }
 
     public void alreadyIn(String tableName, String[] fields, Object[] values, AlreadyInCallback callback) throws IllegalArgumentException {

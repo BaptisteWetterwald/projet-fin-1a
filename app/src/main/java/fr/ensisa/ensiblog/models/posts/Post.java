@@ -69,4 +69,25 @@ public class Post {
     public void addContent(Content content) {
         this.content.add(content);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+    	if (obj == null) {
+    		return false;
+    	}
+    	if (obj == this) {
+    		return true;
+    	}
+    	if (!(obj instanceof Post)) {
+    		return false;
+    	}
+    	Post post = (Post) obj;
+    	return post.getCreation().equals(this.getCreation()) && post.getTopic().equals(this.getTopic()) && post.getAuthor().equals(this.getAuthor()) && post.getContent().equals(this.getContent());
+        //TODO: add expiration
+    }
+
+    @Override
+    public String toString() {
+    	return "Post [creation=" + creation + ", topic=" + topic + ", author=" + author + ", content=" + content + ", expiration=" + expiration + "]";
+    }
 }
