@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,6 +17,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="1.0">
+
 
             <TextView
                 android:id="@+id/titleTextView"
