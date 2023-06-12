@@ -10,9 +10,12 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
@@ -49,6 +52,35 @@ public class AddPostActivity extends AppCompatActivity {
 
         LinearLayout list_content = findViewById(R.id.list_content);
 
+        ActivityResultLauncher<PickVisualMediaRequest> pickImage =
+                registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
+                    if (uri != null) {
+                        ImageView imgView = new ImageView(AddPostActivity.this);
+                        Picasso.get().load(uri).into(imgView);
+                        list_content.addView(imgView);
+                    }
+                });
+        ActivityResultLauncher<PickVisualMediaRequest> pickVideo =
+                registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
+                    if (uri != null) {
+                        VideoView videoView = new VideoView(AddPostActivity.this);
+                        videoView.setVideoURI(uri);
+                        MediaController mediaController = new MediaController(AddPostActivity.this);
+                        mediaController.setAnchorView(videoView);
+                        mediaController.setMediaPlayer(videoView);
+                        videoView.setMediaController(mediaController);
+                        videoView.setScaleY(1.0f);
+                        LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 500);
+                        videoView.setLayoutParams(params2);
+                        FrameLayout frameLayout = new FrameLayout(list_content.getContext());
+                        frameLayout.setBackgroundResource(R.drawable.round_outline);
+                        frameLayout.setClipToOutline(true);
+                        frameLayout.addView(videoView);
+                        list_content.addView(frameLayout);
+                        videoView.start();
+                    }
+                });
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             FirebaseUser user = (FirebaseUser) extras.get("user");
@@ -60,48 +92,28 @@ public class AddPostActivity extends AppCompatActivity {
             Button addText = findViewById(R.id.buttonAddText);
             Button addVideo = findViewById(R.id.buttonAddVideo);
 
-            addImage.setOnClickListener(click -> {
-                ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
-                        registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
-                            if (uri != null) {
-                                ImageView imgView = new ImageView(AddPostActivity.this);
-                                Picasso.get().load(uri).into(imgView);
-                                list_content.addView(imgView);
-                            }
-                        });
-                pickMedia.launch(new PickVisualMediaRequest.Builder()
+            addImage.setOnClickListener(v -> {
+                pickImage.launch(new PickVisualMediaRequest.Builder()
                         .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
                         .build());
             });
 
-            addText.setOnClickListener(click -> {
+            addText.setOnClickListener(v -> {
+                Log.i("n6a","TEXT");
                 EditText editText = new EditText(AddPostActivity.this);
                 list_content.addView(editText);
             });
 
-            addVideo.setOnClickListener(click -> {
-                ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
-                        registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
-                            if (uri != null) {
-                                VideoView videoView = new VideoView(AddPostActivity.this);
-                                videoView.setVideoURI(uri);
-                                MediaController mediaController = new MediaController(this);
-                                mediaController.setAnchorView(videoView);
-                                mediaController.setMediaPlayer(videoView);
-                                videoView.setMediaController(mediaController);
-                                list_content.addView(videoView);
-                            }
-                        });
-                pickMedia.launch(new PickVisualMediaRequest.Builder()
+            addVideo.setOnClickListener(v -> {
+                Log.i("n6a","addVideo");
+
+                Log.i("n6a","pickMedia");
+                pickVideo.launch(new PickVisualMediaRequest.Builder()
                         .setMediaType(ActivityResultContracts.PickVisualMedia.VideoOnly.INSTANCE)
                         .build());
             });
 
             Button buttonPublish = findViewById(R.id.buttonPublish);
-            Topic topic = null;
-
-
-
         }
 
         /*buttonPublish.setOnClickListener(v -> {

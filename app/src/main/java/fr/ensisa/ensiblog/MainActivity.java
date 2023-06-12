@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
 
     private QuerySnapshot postsSnapshot;
 
+    private User currentUser = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,13 +160,14 @@ public class MainActivity extends AppCompatActivity {
 
             buttonNewPost.setOnClickListener(v -> {
                 Intent intent = new Intent(MainActivity.this, AddPostActivity.class);
+                intent.putExtra("user",user);
                 startActivity(intent);
             });
 
             // Passing each menu ID as a set of Ids because each
             // menu should be considered as top level destinations.
             DrawerLayout drawer = binding.drawerLayout;
-            NavigationView navigationViewleft = binding.leftNavView.leftNavView;
+            NavigationView navigationViewleft = binding.leftNavView.leftNavViewPane;
 
             //Left menu Controller
             mAppBarConfigurationLeft = new AppBarConfiguration.Builder(R.id.nav_home).setOpenableLayout(drawer).build();
