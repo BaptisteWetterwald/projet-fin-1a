@@ -1,25 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ENSIBLOG</string>
-    <string name="title_home">Home</string>
-    <string name="open_nav">Open Navigation Drawer</string>
-    <string name="close_nav">Close Navigation Drawer</string>
-    <string name="title_activity_main2">MainActivity2</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
-    <string name="menu_home"></string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="admin_title">Administration</string>
-    <string name="new_theme_button">Nouveau thème</string>
-    <string name="button_name">Modifier le nom</string>
-    <string name="button_delete">Supprimer</string>
-    <string name="supermodo_name">Nom Prénom</string>
-    <string name="supermodo_title">Super-Modérateur :</string>
-    <string name="button_supermodo">Changer Super-Modérateur</string>
-    <string name="baserole_reader">Lecteur</string>
-    <string name="baserole_editor">Editeur</string>
+    <string name="admin_title" translatable="false">Administration</string>
+    <string name="new_theme_button" translatable="true">New Topic</string>
+    <string name="button_name" translatable="true">Change name</string>
+    <string name="button_delete" translatable="true">Delete</string>
+    <string name="supermodo_name" translatable="true">NAME SURNAME</string>
+    <string name="supermodo_title" translatable="false">Super-Moderator :</string>
+    <string name="button_supermodo" translatable="false">Change Super-Moderator</string>
+    <string name="baserole_reader" translatable="true">Reader</string>
+    <string name="baserole_editor" translatable="true">Writer</string>
+    <string name="GestionCompte" translatable="true">Account Management </string>
+    <string name="NomPrenom" translatable="true"> Name Surname </string>
+    <string name="MDP" translatable="true">CHANGE PASSWORD  </string>
+    <string name="FonctionParTheme" translatable="true">Function by topic  </string>
+    <string name="ModifierDescription" translatable="true">Change description </string>
+    <string name="AproposMoi" translatable="true">About me</string>
+    <string name="SuppCompte" translatable="true">Delete Account</string>
+    <string name="UtilisateurNom" translatable="true">Username </string>
+    <string name="AjoutImage" translatable="true">Add Image </string>
+    <string name="AjoutVideo" translatable="true">Add Video </string>
+    <string name="publier" translatable="true">Publish </string>
+    <string name="connexion" translatable="false">Connexion</string>
+    <string name="creeUnCompte" translatable="true">Create Account</string>
+    <string name="avezVousCompte" translatable="true">Have you already an account ?</string>
+    <string name="langue">Langue</string>
 </resources>

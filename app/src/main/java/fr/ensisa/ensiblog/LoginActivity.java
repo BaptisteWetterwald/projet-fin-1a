@@ -3,7 +3,11 @@ package fr.ensisa.ensiblog;
 import static fr.ensisa.ensiblog.Utils.showInfoBox;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -11,6 +15,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Locale;
 
 import fr.ensisa.ensiblog.firebase.Authentication;
 import fr.ensisa.ensiblog.models.Email;
@@ -44,6 +50,8 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseUser user = (FirebaseUser) extras.get("user");
                 edUsername.setText(user.getEmail());
             }
+
+
 
             buttonLog.setOnClickListener(v -> {
 
@@ -91,5 +99,16 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             });
         }
+    }
+    public void setAppLocale(String localeCode){
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        if(Build.VERSION.SDK_INT >=Build.VERSION_CODES.JELLY_BEAN_MR1){
+            conf.setLocale(new Locale(localeCode.toLowerCase()));
+        }else{
+            conf.locale = new Locale(localeCode.toLowerCase());
+        }
+        res.updateConfiguration(conf,dm);
     }
 }

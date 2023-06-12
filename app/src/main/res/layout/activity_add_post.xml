@@ -46,7 +46,7 @@
         android:id="@+id/textViewUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Username"
+        android:text="@string/UtilisateurNom"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -92,41 +92,36 @@
         app:layout_constraintHorizontal_bias="0.584"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/editTextEnterText" />
-
     <Button
         android:id="@+id/buttonAddImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/btn_bg"
-        android:text="Add Image"
+        android:text="@string/AjoutImage"
         app:layout_constraintEnd_toStartOf="@+id/buttonAddVideo"
         app:layout_constraintHorizontal_bias="0.379"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
     <Button
         android:id="@+id/buttonAddVideo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/btn_bg"
-        android:text="Add Video"
+        android:text="@string/AjoutVideo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.831"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/videoView" />
-
     <Button
         android:id="@+id/buttonPublish"
         android:layout_width="381dp"
         android:layout_height="63dp"
         android:layout_marginTop="72dp"
-        android:text="Publish"
+        android:text="@string/publier"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonAddVideo" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

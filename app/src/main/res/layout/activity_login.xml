@@ -56,7 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.298" />
+        app:layout_constraintVertical_bias="0.31" />
 
     <EditText
         android:id="@+id/editTextLoginUsername"
@@ -106,7 +106,7 @@
         android:layout_height="55dp"
         android:layout_marginTop="56dp"
         android:background="@drawable/btn_bg"
-        android:text="Login"
+        android:text="@string/connexion"
         android:textColor="@color/colorWhite"
         android:textColorHighlight="#07599A"
         android:textColorLink="#0F4570"
@@ -121,7 +121,7 @@
         android:layout_height="55dp"
         android:layout_marginTop="140dp"
         android:background="@drawable/btn_bg"
-        android:text="create an account"
+        android:text="@string/creeUnCompte"
         android:textColor="@color/colorWhite"
         android:textColorHighlight="#07599A"
         android:textColorLink="#0F4570"
@@ -129,5 +129,27 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextLoginPassword" />
+
+    <!--<Button
+        android:id="@+id/anglais"
+        android:layout_width="154dp"
+        android:layout_height="78dp"
+        android:layout_marginStart="240dp"
+        android:text="Anglais"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="128dp"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/francais"
+        android:layout_width="154dp"
+        android:layout_height="78dp"
+        android:layout_marginStart="36dp"
+        android:text="Francais"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="128dp"
+        android:adjustViewBounds="true"/>-->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,18 +7,15 @@
     android:background="@color/white"
     android:orientation="vertical"
     tools:context=".AccountActivity">
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
         android:scrollbarSize="0sp">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="251dp"
@@ -29,7 +26,6 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="62dp">
-
                     <TextView
                         android:id="@+id/textViewTitle"
                         android:layout_width="wrap_content"
@@ -38,7 +34,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="28dp"
                         android:layout_marginEnd="20dp"
-                        android:text="Gestion De Compte"
+                        android:text="@string/GestionCompte"
                         android:textColor="@color/black"
                         android:textSize="24sp"
                         android:textStyle="bold" />
@@ -86,7 +82,7 @@
                         android:background="@drawable/btn_bg"
                         android:contentDescription="Username"
                         android:padding="5dp"
-                        android:text="Prénom NOM"
+                        android:text="@string/NomPrenom"
                         android:textAlignment="center"
                         android:textColor="@color/dark"
                         android:textSize="18sp"
@@ -105,7 +101,6 @@
                         android:background="@drawable/btn_bg"
                         android:padding="5dp"
                         android:text="prenom.nom@uha.fr"
-
                         android:textAlignment="center"
                         android:textColor="@color/font"
                         android:textSize="16sp"
@@ -128,7 +123,7 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginVertical="20dp"
                 android:background="@drawable/btn_bg"
-                android:text="MODIFIER MOT DE PASSE "
+                android:text="@string/MDP"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
@@ -140,7 +135,7 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginVertical="20dp"
                 android:background="@drawable/btn_bg"
-                android:text="Fonction par thème"
+                android:text="@string/FonctionParTheme"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
@@ -152,7 +147,7 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginVertical="20dp"
                 android:background="@drawable/btn_bg"
-                android:text="Modifier sa description"
+                android:text="@string/ModifierDescription"
                 android:textAlignment="center"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
@@ -164,18 +159,16 @@
                 android:orientation="vertical"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="@dimen/aaa">
-
                 <TextView
                     android:id="@+id/textViewBio"
                     android:layout_width="354dp"
                     android:layout_height="wrap_content"
                     android:drawableRight="@drawable/info"
-                    android:text="A PROPOS DE MOI"
+                    android:text="@string/AproposMoi"
                     android:textColor="@color/red"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:layout_gravity="center_horizontal" />
-
                 <TextView
                     android:id="@+id/editTextBio"
                     android:layout_width="359dp"
@@ -184,7 +177,6 @@
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/et"
-
                     android:fontFamily="@font/poppins"
                     android:gravity="top"
                     android:hint="This is my bio"
@@ -204,7 +196,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginVertical="20dp"
-                android:text="Supprimer son compte"
+                android:text="@string/SuppCompte"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="16sp" />

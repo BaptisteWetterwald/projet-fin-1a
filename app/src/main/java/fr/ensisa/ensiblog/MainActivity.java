@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -55,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
     private ActivityMainBinding binding;
     private AppBarConfiguration mAppBarConfigurationLeft;
-    private Translation translation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,8 +142,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, AccountActivity.class);
                 startActivity(intent);
             });
-
-
             Button buttonDeco = (Button) findViewById(R.id.button_disconnect);
 
             buttonDeco.setOnClickListener(v -> {
@@ -190,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
                     List<Button> buttons = new ArrayList<>();
                     for (int i = 0; i < topics.size(); i++) {
                         Button button = new Button(this);
+                        button.setBackgroundColor(Color.blue(125));
                         Topic btnTopic = topics.get(i);
                         button.setText(btnTopic.getName());
                         button.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -205,7 +204,6 @@ public class MainActivity extends AppCompatActivity {
                     Log.w("n6a", "listen:error", e);
                     return;
                 }
-
                 assert snapshots != null;
                 for (DocumentChange dc : snapshots.getDocumentChanges()) {
                     switch (dc.getType()) {
@@ -220,7 +218,6 @@ public class MainActivity extends AppCompatActivity {
                             break;
                     }
                 }
-
             });
         }
     }
@@ -277,10 +274,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return posts;
-    }
-    public String[] collectWords(){
-        return null;
-    }
-    public void applyTranslation(String word){
     }
 }
