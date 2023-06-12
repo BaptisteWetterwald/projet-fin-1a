@@ -1,5 +1,8 @@
 package fr.ensisa.ensiblog;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,11 +15,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
+
 
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -55,18 +62,39 @@ public class AddPostActivity extends AppCompatActivity {
 
             addImage.setOnClickListener(click -> {
                 ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
-                        registerForActivityResult(new PickVisualMedia(), uri -> {
-                            // Callback is invoked after the user selects a media item or closes the
-                            // photo picker.
+                        registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
                             if (uri != null) {
-                                Log.d("PhotoPicker", "Selected URI: " + uri);
-                            } else {
-                                Log.d("PhotoPicker", "No media selected");
+                                ImageView imgView = new ImageView(AddPostActivity.this);
+                                Picasso.get().load(uri).into(imgView);
+                                list_content.addView(imgView);
                             }
                         });
-                ImageView imgView = new ImageView(AddPostActivity.this);
-                Picasso.get().load(Uri.parse(content.getData())).into(imgView);
-                list_content.addView(imgView);
+                pickMedia.launch(new PickVisualMediaRequest.Builder()
+                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                        .build());
+            });
+
+            addText.setOnClickListener(click -> {
+                EditText editText = new EditText(AddPostActivity.this);
+                list_content.addView(editText);
+            });
+
+            addVideo.setOnClickListener(click -> {
+                ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
+                        registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
+                            if (uri != null) {
+                                VideoView videoView = new VideoView(AddPostActivity.this);
+                                videoView.setVideoURI(uri);
+                                MediaController mediaController = new MediaController(this);
+                                mediaController.setAnchorView(videoView);
+                                mediaController.setMediaPlayer(videoView);
+                                videoView.setMediaController(mediaController);
+                                list_content.addView(videoView);
+                            }
+                        });
+                pickMedia.launch(new PickVisualMediaRequest.Builder()
+                        .setMediaType(ActivityResultContracts.PickVisualMedia.VideoOnly.INSTANCE)
+                        .build());
             });
 
             Button buttonPublish = findViewById(R.id.buttonPublish);
