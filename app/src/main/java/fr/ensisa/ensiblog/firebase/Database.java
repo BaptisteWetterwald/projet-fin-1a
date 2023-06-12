@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import okhttp3.internal.cache.DiskLruCache;
+
 public class Database {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static Database instance;
@@ -31,6 +33,12 @@ public class Database {
 
     public interface AlreadyInCallback {
         void onResult(boolean alreadyExists);
+    }
+
+    public void onModif(String tableName, String field, Object value, EventListener<QuerySnapshot> listener){
+        db.collection(tableName)
+                .whereEqualTo(field, value)
+                .addSnapshotListener(listener);
     }
 
     public void alreadyIn(String tableName, String[] fields, Object[] values, AlreadyInCallback callback) throws IllegalArgumentException {

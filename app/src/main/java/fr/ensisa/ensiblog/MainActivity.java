@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
@@ -193,8 +194,34 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
+
+            Topic currentTopic = new Topic();
+            Database.getInstance().onModif(Table.POSTS.getName(), "Topic",currentTopic,(snapshots, e) -> {
+                if (e != null) {
+                    Log.w("n6a", "listen:error", e);
+                    return;
+                }
+
+                assert snapshots != null;
+                for (DocumentChange dc : snapshots.getDocumentChanges()) {
+                    switch (dc.getType()) {
+                        case ADDED:
+                            Log.d("n6a", "New : " + dc.getDocument().getData());
+                            break;
+                        case MODIFIED:
+                            Log.d("n6a", "Modified : " + dc.getDocument().getData());
+                            break;
+                        case REMOVED:
+                            Log.d("n6a", "Removed : " + dc.getDocument().getData());
+                            break;
+                    }
+                }
+
+            });
         }
     }
+
+
 
 
 
