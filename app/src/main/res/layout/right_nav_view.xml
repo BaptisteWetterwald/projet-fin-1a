@@ -28,6 +28,7 @@
                      android:background="@color/MARIN_APP"
                      android:src="@drawable/ensisa" />
                  <TextView
+                     android:id="@+id/user_name"
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"
                      android:text="NOM Prénom "

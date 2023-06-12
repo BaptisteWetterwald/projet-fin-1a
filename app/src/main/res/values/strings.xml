@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">
-        <annotation font="title_emphasis">text</annotation>
+        <annotation font="title_emphasis">ENSIBLOG</annotation>
     </string>
     <string name="title_home">Home</string>
     <string name="open_nav">Open Navigation Drawer</string>

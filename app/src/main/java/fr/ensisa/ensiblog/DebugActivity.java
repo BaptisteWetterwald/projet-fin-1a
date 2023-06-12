@@ -25,7 +25,14 @@ public class DebugActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*Topic topic = new Topic("Thème1",new Role(1));
+        /*
+        Database.getInstance().get("Topics", Topic.class, new String[]{}, new Object[]{}).addOnSuccessListener(topics -> {
+            for (Topic topic : topics) {
+                Database.getInstance().add(Table.TOPIC_USERS.getName(), new TopicUser(topic,new User(new Email("arthur.sicard@uha.fr")),new Role(2)), TopicUser.class);
+            }
+        });
+
+        Topic topic = new Topic("Thème1",new Role(1));
         User user = new User(new Email("test.michelkjenezfkjqjksnfjdsqfnjkjnkqdsjf@uha.fr"));
         TopicUser topicuser = new TopicUser(topic,user,new Role(3));
         Database.getInstance().add(Table.USERS.getName(), user, User.class,true);
