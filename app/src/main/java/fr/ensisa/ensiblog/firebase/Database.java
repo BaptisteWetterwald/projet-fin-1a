@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import okhttp3.internal.cache.DiskLruCache;
+
 public class Database {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static Database instance;
@@ -31,6 +33,12 @@ public class Database {
 
     public interface AlreadyInCallback {
         void onResult(boolean alreadyExists);
+    }
+
+    public void onModif(String tableName, String field, Object value, EventListener<QuerySnapshot> listener){
+        db.collection(tableName)
+                .whereEqualTo(field, value)
+                .addSnapshotListener(listener);
     }
 
     public void alreadyIn(String tableName, String[] fields, Object[] values, AlreadyInCallback callback) throws IllegalArgumentException {
@@ -125,7 +133,7 @@ public class Database {
     }
 
     // method to update lines in the database with fields and values parameters as new values and object as the object to update
-    public void update(String tableName, Object object, String[] fields, String[] values) throws IllegalArgumentException {
+    public void update(String tableName, Object object, String[] fields, Object[] values) throws IllegalArgumentException {
         CollectionReference dbTable = db.collection(tableName);
 
         if (fields.length != values.length) {
@@ -215,6 +223,7 @@ public class Database {
 
 
     public Task add(String tableName, Object object, Class objectClass) {
+
         CollectionReference dbTable = db.collection(tableName);
 
         // get instance of object class for the object to add
@@ -259,4 +268,27 @@ public class Database {
         }
     }
 
+    public void add(String tableName, Object object, Class objectClass, String[] uniqueFields) {
+
+        CollectionReference dbTable = db.collection(tableName);
+
+        Object[] values = new Object[uniqueFields.length];
+        for (int i=0;i<uniqueFields.length;i++) {
+            try {
+                Field field = object.getClass().getDeclaredField(uniqueFields[i]);
+                field.setAccessible(true);
+                values[i] = field.get(object);
+                field.setAccessible(false);
+            } catch (NoSuchFieldException | IllegalAccessException e) {}
+        }
+
+        instance.alreadyIn(tableName, uniqueFields, values, alreadyExists -> {
+            if (alreadyExists) {
+                Log.i("n6a","Topic already exists");
+            } else {
+                Log.i("n6a","Topic does not exist, adding topic to DB");
+                dbTable.add(Objects.requireNonNull((objectClass).cast(object)));
+            }
+        });
+    }
 }

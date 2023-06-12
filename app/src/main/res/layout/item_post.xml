@@ -1,12 +1,119 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_margin="20dp"
+    android:background="@drawable/round_outline"
+    android:clipToOutline="true"
+    >
+
+    <LinearLayout
+        android:id="@+id/layout_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#99bbff"
+        >
+
+        <ImageView
+            android:id="@+id/img_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:src="@drawable/ic_user"
+            android:adjustViewBounds="true"
+            android:maxWidth="40dp"
+            android:maxHeight="40dp"
+            android:scaleType="fitXY"
+            android:minHeight="25dp"
+            android:minWidth="25dp"
+            />
+
+        <LinearLayout
+            android:id="@+id/layout_names"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/txt_firstname"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:text="Firstname"
+                android:textColor="#003cb3"
+                android:gravity="bottom|start"
+                />
+
+            <TextView
+                android:id="@+id/txt_lastname"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:text="Lastname"
+                android:textColor="#003cb3"
+                android:gravity="top|start"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_function_topic"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/txt_function"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:text="Function"
+                android:gravity="bottom|start"
+                />
+
+            <TextView
+                android:id="@+id/txt_topic"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:text="Topic"
+                android:gravity="top|start"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_date"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+                <TextView
+                    android:id="@+id/txt_date_day"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
+                    android:text="Day"
+                    android:gravity="bottom"
+                    />
+                <TextView
+                    android:id="@+id/txt_date_hour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
+                    android:text="Hour"
+                    android:gravity="top"
+                    />
+        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/layout_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" />
+        android:orientation="vertical"
+        android:padding="30dp"/>
 
 </LinearLayout>

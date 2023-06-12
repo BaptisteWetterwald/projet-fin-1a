@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity2">
+    tools:context=".MainActivity">
 
     <com.google.android.material.navigation.NavigationView
          android:id="@+id/nav_right_view"
@@ -14,56 +14,87 @@
          android:fitsSystemWindows="true">
          <ScrollView
              android:layout_width="match_parent"
+             android:layout_gravity="bottom"
              android:layout_height="match_parent">
              <LinearLayout
                  android:layout_width="wrap_content"
                  android:layout_height="match_parent"
                  android:orientation="vertical">
                  <ImageView
+                     android:paddingTop="10dp"
+                     android:paddingBottom="10dp"
                      android:layout_width="match_parent"
                      android:layout_height="200dp"
+                     android:background="@color/MARIN_APP"
                      android:src="@drawable/ensisa" />
                  <TextView
+                     android:id="@+id/user_name"
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"
-                     android:text="Name "
+                     android:text="NOM Prénom "
+                     android:textSize="30dp"
+                     android:textAlignment="center"
                      tools:ignore="HardcodedText"
-                     android:paddingBottom="20dp"/>
+                     android:background="@color/MARIN_APP"
+                     android:textColor="@color/white"
+                     android:paddingBottom="20dp" />
+                 <View
+                     android:layout_width="match_parent"
+                     android:layout_height="2dp"
+                     android:background="@android:color/black" />
 
                  <TextView
                      android:layout_width="match_parent"
                      android:layout_height="100dp"
-                     android:text="Ceci est ma bio
-                     I jsbdvksjnckjbsksbndvjbsvkjbsdkjbcsks
-                     jksbcdkjscscskjcdnsdjcscnscdjscbdsjbcd
-                     csdijosicjscdsbcdsdcscsdcjnsodcjcdincc"
+                     android:text="BIO :"
+                     android:background="@color/MARIN_APP"
+                     android:textColor="@color/white"
                      tools:ignore="HardcodedText" />
+                 <View
+                     android:layout_width="match_parent"
+                     android:layout_height="2dp"
+                     android:background="@android:color/black" />
 
-                 <Button
+                 <com.google.android.material.button.MaterialButton
+                     android:layout_marginBottom="10dp"
+                     android:layout_marginTop="10dp"
                      android:layout_width="match_parent"
                      android:layout_height="40dp"
                      android:text="Gestion de Compte "
+                     android:textColor="@color/white"
+                     android:backgroundTint="@color/marinclair"
                      android:id ="@+id/button_gest" />
 
-                 <Button
+                 <com.google.android.material.button.MaterialButton
+                     android:layout_marginBottom="10dp"
+                     android:layout_marginTop="10dp"
                      android:layout_width="match_parent"
+                     android:backgroundTint="@color/marinclair"
                      android:layout_height="40dp"
                      android:text="Modération"
+                     android:textColor="@color/white"
                      android:id ="@+id/button_moderation"/>
 
-                 <Button
+                 <com.google.android.material.button.MaterialButton
+                     android:layout_marginBottom="10dp"
+                     android:layout_marginTop="10dp"
                      android:layout_width="match_parent"
                      android:layout_height="40dp"
+                     android:backgroundTint="@color/marinclair"
                      android:text="Administration"
+                     android:textColor="@color/white"
                      android:id ="@+id/button_admin"/>
-
-                 <Button
-                     android:layout_width="match_parent"
-                     android:layout_height="40dp"
-                     android:text="Decconnexion"
-                     android:id ="@+id/button_disconnect"/>
+                 <!--Not forgive to set Deconnexion bottom-->
              </LinearLayout>
          </ScrollView>
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/MARIN_APP"
+            android:layout_gravity="bottom"
+            android:text="Deconnexion"
+            android:id ="@+id/button_disconnect"/>
      </com.google.android.material.navigation.NavigationView>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

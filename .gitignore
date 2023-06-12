@@ -37,3 +37,6 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# EcoCode cmd
+ecoCode.txt

@@ -4,13 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity2">
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/Theme.Ensiblog.AppBarOverlay">
-    </com.google.android.material.appbar.AppBarLayout>
+    tools:context=".MainActivity">
 
     <include
         android:id="@+id/include"
@@ -19,14 +13,13 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="@color/white"
         app:popupTheme="@style/Theme.Ensiblog.PopupOverlay">
     </androidx.appcompat.widget.Toolbar>
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_marginTop="50dp"
-        android:background="@color/blueLight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
@@ -35,79 +28,62 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
+            android:background="@color/MARIN_APP"
+
+            android:outlineAmbientShadowColor="@color/black"
+            android:outlineSpotShadowColor="@color/black"
             android:layout_height="?attr/actionBarSize">
             <HorizontalScrollView
+                android:id="@+id/scrollview"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
                 <LinearLayout
+                    android:id="@+id/main_topics"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
+                    android:orientation="horizontal">
                     <Button
+                        android:layout_marginRight="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:backgroundTint="@color/marinclair"
                         android:text="Theme1" />
-
                     <Button
+                        android:layout_marginRight="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:backgroundTint="@color/marinclair"
                         android:text="Theme1" />
-
                     <Button
+                        android:layout_marginRight="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Theme1" />
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Theme1" />
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Theme1" />
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Theme1" />
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Theme1" />
-é
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Theme1" />
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/marinclair"
                         android:text="Theme1" />
                 </LinearLayout>
             </HorizontalScrollView>
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include
-        android:id="@+id/bottom_app_bar"
-        layout="@layout/bottom_app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:context=".MainActivity2"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:layout_marginVertical="@dimen/nav_header_height"
-        app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="center" />
+        android:layout_height="625dp"
+        app:layout_anchor="@+id/appBarLayout"
+        app:layout_anchorGravity="bottom"
+        android:layout_gravity="bottom"/>
+
+    <Button
+        android:id="@+id/fixedButton"
+        android:layout_width="50dp"
+        android:layout_height="60dp"
+        android:text="+"
+        android:layout_gravity="bottom|end"
+        android:backgroundTint="@color/MARIN_APP"
+        android:layout_margin="20dp"
+        android:textSize="30sp"
+        android:gravity="center"/>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
