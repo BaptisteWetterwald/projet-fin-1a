@@ -10,20 +10,66 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 import java.sql.Time;
+import java.util.Date;
 
 import fr.ensisa.ensiblog.databinding.ActivityMainBinding;
 import fr.ensisa.ensiblog.firebase.Database;
 import fr.ensisa.ensiblog.firebase.Table;
 import fr.ensisa.ensiblog.models.*;
+import fr.ensisa.ensiblog.models.posts.Content;
+import fr.ensisa.ensiblog.models.posts.ContentType;
+import fr.ensisa.ensiblog.models.posts.ImageContent;
+import fr.ensisa.ensiblog.models.posts.Post;
+import fr.ensisa.ensiblog.models.posts.TextContent;
 
 public class DebugActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
     private ActivityMainBinding binding;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /*
+        // Create some TextContent objects
+        Content textContent1 = new Content(ContentType.TEXT,"Hello, world!");
+        Content textContent2 = new Content(ContentType.TEXT,"This is a sample post.");
+        Content textContent3 = new Content(ContentType.TEXT,"Welcome to the Android 21 app.");
+
+        // Create some ImageContent objects
+        Content imageContent1 = new Content(ContentType.IMAGE,"https://www.parismatch.com/lmnr/var/pm/public/media/image/Emma-Watson_0.jpg?VersionId=RC8sSswLrmMQFNdbRU7FRE3E80WtYdls");
+        Content imageContent2 = new Content(ContentType.IMAGE, "https://www.parismatch.com/lmnr/var/pm/public/media/image/2022/03/01/07/Emma-Watson-son-nouveau-poste-au-sein-d-une-entreprise-francaise.jpg?VersionId=Z4C19TiHw_xvYDNipyHdSIprYGusX1rj");
+
+        Content videoContent1 = new Content(ContentType.VIDEO, "https://joy1.videvo.net/videvo_files/video/free/2014-12/large_watermarked/Metal_Wind_Chimes_at_Sunset_preview.mp4");
+*/
+        Role defaultRole = new Role(2);
+        Topic ruTopic = new Topic("Resto U", defaultRole);
+        Email email = new Email("emma.watson@uha.fr");
+
+        Post post1 = new Post();
+        post1.setCreation(new Date());
+        post1.setTopic(ruTopic);
+        User author = new User(email);
+        author.setPhotoUrl("https://besthqwallpapers.com/Uploads/17-2-2018/41035/thumb2-4k-emma-watson-2018-beautiful-girls-american-actress.jpg");
+        /*post1.setAuthor(author);
+
+        post1.addContent(textContent1);
+        post1.addContent(imageContent1);
+        post1.addContent(textContent2);
+        post1.addContent(imageContent2);
+        post1.addContent(textContent3);
+        post1.addContent(videoContent1);
+
+        Database.getInstance().add(Table.POSTS.getName(), post1, Post.class);*/
+
+        //TODO: Créer un topicuser dans la DB : TopicUser topicUser = new TopicUser(ruTopic, author, defaultRole);
+        TopicUser topicUser = new TopicUser(ruTopic, author, defaultRole);
+        topicUser.setFonction("Meuf fraiche");
+        Database.getInstance().add(Table.TOPIC_USERS.getName(), topicUser, TopicUser.class).addOnSuccessListener(aVoid -> {
+            Log.i("n6a", "TopicUser added");
+        }).addOnFailureListener(e -> {
+            Log.i("n6a", "TopicUser not added");
+        });
+
 
         /*
         Database.getInstance().get("Topics", Topic.class, new String[]{}, new Object[]{}).addOnSuccessListener(topics -> {

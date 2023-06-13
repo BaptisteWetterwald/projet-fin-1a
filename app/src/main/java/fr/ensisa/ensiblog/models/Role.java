@@ -1,5 +1,8 @@
 package fr.ensisa.ensiblog.models;
-public class Role {
+
+import java.io.Serializable;
+
+public class Role implements Serializable {
 
     // Super-Modo : 4
     // Modo : 3
@@ -21,5 +24,15 @@ public class Role {
 
     public void setRole(int role) {
         this.role = role;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!(obj instanceof Role))
+            return false;
+        if (obj == this)
+            return true;
+        return this.getRole() == ((Role) obj).getRole();
     }
 }
