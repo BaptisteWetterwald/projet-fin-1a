@@ -233,25 +233,15 @@ public class AddPostActivity extends AppCompatActivity {
 
                 // Create an ExecutorService
                 ExecutorService executorService = Executors.newFixedThreadPool(tasks.size());
-
+                List<Future<UploadTask>> futures = null;
                 try {
                     // Submit all tasks to the executor
-                    List<Future<UploadTask>> futures = executorService.invokeAll(tasks);
+                    futures = executorService.invokeAll(tasks);
 
                     Log.i("n6a","waiting for all task success");
-                    int j = 0;
-                    for (Future<UploadTask> future : futures) {
-                        UploadTask uploadTask = future.get();
-                        Log.i("n6a","taskUpload finished ??"+uploadTask.isComplete());
-                        listContent[j] = new Content(tasksContent.get(j), listRef.get(j).getDownloadUrl().toString());
-                        if(uploadTask.isSuccessful()){
-                            Log.i("n6a","taskUpload finished");
-                            //listContent[j] = new Content(tasksContent.get(j), listRef.get(j).getDownloadUrl().toString());
-                        }
-                        j++;
-                    }
 
-                } catch (InterruptedException | ExecutionException e) {
+
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
                     executorService.shutdown();
@@ -260,6 +250,17 @@ public class AddPostActivity extends AppCompatActivity {
 
                         if(executorService.awaitTermination(10, TimeUnit.SECONDS)){
                             Log.i("n6a","terminé :o");
+                            int j = 0;
+                            for (Future<UploadTask> future : futures) {
+                                UploadTask uploadTask = future.get();
+                                Log.i("n6a","taskUpload finished ??"+uploadTask.isComplete());
+                                listContent[j] = new Content(tasksContent.get(j), listRef.get(j).getDownloadUrl().toString());
+                                if(uploadTask.isSuccessful()){
+                                    Log.i("n6a","taskUpload finished");
+                                    //listContent[j] = new Content(tasksContent.get(j), listRef.get(j).getDownloadUrl().toString());
+                                }
+                                j++;
+                            }
                             if (listContent.length == 0) {
                                 Toast.makeText(AddPostActivity.this, "Du contenu est requis", Toast.LENGTH_SHORT).show();
                             } else {
@@ -273,7 +274,7 @@ public class AddPostActivity extends AppCompatActivity {
                                 });
                             }
                         }
-                    } catch (InterruptedException e) {
+                    } catch (InterruptedException | ExecutionException e) {
                         throw new RuntimeException(e);
                     }
                 }

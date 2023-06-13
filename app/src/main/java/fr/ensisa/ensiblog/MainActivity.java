@@ -194,89 +194,7 @@ public class MainActivity extends AppCompatActivity {
             get_left_view();
         }
     }
-    private void get_left_view(){
-        Database.getInstance().get(Table.TOPICS.getName(), Topic.class, new String[]{}, new Topic[]{}).addOnSuccessListener(topics_1 -> {
-            LinearLayout left_view = findViewById(R.id.left_scroll);
-            left_view.removeAllViews();
-            Log.i("n6a",userModel.getEmail().getAddress());
-            Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"user"}, new User[]{userModel}).addOnSuccessListener(topics_user -> {
-                Log.i("n6a","nombre de topic_user : "+topics_user.size());
-                for (int j=0;j<topics_user.size();j++){
-                    ToggleButton button = new ToggleButton(this);
-                    TopicUser btnTopic = topics_user.get(j);
-                    button.setTextOn(btnTopic.getTopic().getName());
-                    button.setTextOff(btnTopic.getTopic().getName());
-                    button.setText(btnTopic.getTopic().getName());
-                    button.setChecked(true);
-                    button.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                    button.setOnClickListener(v -> {
-                        showInfoBox("Warning", "Se désabonner de " + btnTopic.getTopic().getName() + " ?", "OK","Annuler", this, (dialog, which) -> {
-                            dialog.cancel();
-                            Database.getInstance().removeFrom(Table.TOPIC_USERS.getName(), new String[]{"user","topic"}, new Object[]{userModel,btnTopic.getTopic()});
-                            LinearLayout themesBar = findViewById(R.id.main_topics);
-                            for (int i = 0; i < themesBar.getChildCount(); i++) {
-                                View childView = themesBar.getChildAt(i);
-                                // Vérifier si la vue est un bouton et si le texte correspond
-                                if (childView instanceof Button) {
-                                    Button button_del = (Button) childView;
-                                    if (button_del.getText().toString().equals(btnTopic.getTopic().getName())) {
-                                        themesBar.removeView(button_del);
-                                        break; // Quitter la boucle après avoir supprimé le bouton
-                                    }
-                                }
-                            }
-                            get_left_view();
-                        },(dialog2, which)->{dialog2.cancel();button.setChecked(true);});
-                    });
-                    left_view.addView(button);
-                }
-                for (int i = 0; i < topics_1.size(); i++) {
-                    already_exist = false;
-                    for (int u = 0; u < topics_user.size(); u++) {
-                        if (topics_1.get(i).getName().equals(topics_user.get(u).getTopic().getName())) {
-                            already_exist = true;
-                            break;
-                        }else{continue;}
-                    }
-                    if (already_exist == false) {
-                        ToggleButton button = new ToggleButton(this);
-                        Topic btnTopic = topics_1.get(i);
-                        button.setText(btnTopic.getName());
-                        button.setTextOn(btnTopic.getName());
-                        button.setTextOff(btnTopic.getName());
-                        button.setChecked(false);
-                        button.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                        button.setOnClickListener(v -> {
-                            showInfoBox("Warning", "S'abonner à " + btnTopic.getName() + " ?", "OK","Annuler", this, (dialog, which) -> {
-                                dialog.cancel();
-                                Topic topic = new Topic(btnTopic.getName(), new Role(1));
-                                User user_left = new User(userModel.getEmail(), userModel.getUid());
-                                TopicUser topic_user = new TopicUser(topic, user_left, new Role(1));
-                                Database.getInstance().add(Table.TOPIC_USERS.getName(), topic_user, TopicUser.class, false);
-                                Button button_tp = new Button(MainActivity.this);
-                                button_tp.setText(btnTopic.getName());
-                                LinearLayout themesBar = findViewById(R.id.main_topics);
-                                button_tp.setOnClickListener(x -> {
-                                    button_tp.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
-                                    for (Button otherButton : buttons) {
-                                        if (otherButton != button_tp) {
-                                            otherButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#444444"))); // Change to desired color
-                                        }
-                                    }
-                                });
-                                themesBar.addView(button_tp);
-                                buttons.add(button_tp);
-                                get_left_view();
-                            },(dialog2, which)->{dialog2.cancel();button.setChecked(false);});
-                        });
-                        left_view.addView(button);
 
-                    }else{continue;}
-                }
-            });
-
-        });
-    }
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -329,6 +247,90 @@ public class MainActivity extends AppCompatActivity {
 
             // Notify the adapter that the data has changed
             //adapter.notifyDataSetChanged();
+        });
+    }
+
+    private void get_left_view(){
+        Database.getInstance().get(Table.TOPICS.getName(), Topic.class, new String[]{}, new Topic[]{}).addOnSuccessListener(topics_1 -> {
+            LinearLayout left_view = findViewById(R.id.left_scroll);
+            left_view.removeAllViews();
+            Log.i("n6a",userModel.getEmail().getAddress());
+            Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"user"}, new User[]{userModel}).addOnSuccessListener(topics_user -> {
+                Log.i("n6a","nombre de topic_user : "+topics_user.size());
+                for (int j=0;j<topics_user.size();j++){
+                    ToggleButton button = new ToggleButton(this);
+                    TopicUser btnTopic = topics_user.get(j);
+                    button.setTextOn(btnTopic.getTopic().getName());
+                    button.setTextOff(btnTopic.getTopic().getName());
+                    button.setText(btnTopic.getTopic().getName());
+                    button.setChecked(true);
+                    button.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                    button.setOnClickListener(v -> {
+                        showInfoBox("Warning", "Se désabonner de " + btnTopic.getTopic().getName() + " ?", "OK","Annuler", this, (dialog, which) -> {
+                            dialog.cancel();
+                            Database.getInstance().removeFrom(Table.TOPIC_USERS.getName(), new String[]{"user","topic"}, new Object[]{userModel,btnTopic.getTopic()});
+                            LinearLayout themesBar = findViewById(R.id.main_topics);
+                            for (int i = 0; i < themesBar.getChildCount(); i++) {
+                                View childView = themesBar.getChildAt(i);
+                                // Vérifier si la vue est un bouton et si le texte correspond
+                                if (childView instanceof Button) {
+                                    Button button_del = (Button) childView;
+                                    if (button_del.getText().toString().equals(btnTopic.getTopic().getName())) {
+                                        themesBar.removeView(button_del);
+                                        break; // Quitter la boucle après avoir supprimé le bouton
+                                    }
+                                }
+                            }
+                            get_left_view();
+                        },(dialog2, which)->{dialog2.cancel();button.setChecked(true);});
+                    });
+                    left_view.addView(button);
+                }
+                for (int i = 0; i < topics_1.size(); i++) {
+                    already_exist = false;
+                    for (int u = 0; u < topics_user.size(); u++) {
+                        if (topics_1.get(i).getName().equals(topics_user.get(u).getTopic().getName())) {
+                            already_exist = true;
+                            break;
+                        }
+                    }
+                    if (!already_exist) {
+                        ToggleButton button = new ToggleButton(this);
+                        Topic btnTopic = topics_1.get(i);
+                        button.setText(btnTopic.getName());
+                        button.setTextOn(btnTopic.getName());
+                        button.setTextOff(btnTopic.getName());
+                        button.setChecked(false);
+                        button.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                        button.setOnClickListener(v -> {
+                            showInfoBox("Warning", "S'abonner à " + btnTopic.getName() + " ?", "OK","Annuler", this, (dialog, which) -> {
+                                dialog.cancel();
+                                Topic topic = new Topic(btnTopic.getName(), new Role(1));
+                                User user_left = new User(userModel.getEmail(), userModel.getUid());
+                                TopicUser topic_user = new TopicUser(topic, user_left, new Role(1));
+                                Database.getInstance().add(Table.TOPIC_USERS.getName(), topic_user, TopicUser.class, false);
+                                Button button_tp = new Button(MainActivity.this);
+                                button_tp.setText(btnTopic.getName());
+                                LinearLayout themesBar = findViewById(R.id.main_topics);
+                                button_tp.setOnClickListener(x -> {
+                                    button_tp.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
+                                    for (Button otherButton : buttons) {
+                                        if (otherButton != button_tp) {
+                                            otherButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#444444"))); // Change to desired color
+                                        }
+                                    }
+                                });
+                                themesBar.addView(button_tp);
+                                buttons.add(button_tp);
+                                get_left_view();
+                            },(dialog2, which)->{dialog2.cancel();button.setChecked(false);});
+                        });
+                        left_view.addView(button);
+
+                    }
+                }
+            });
+
         });
     }
 
