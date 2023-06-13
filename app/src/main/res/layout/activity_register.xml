@@ -13,13 +13,16 @@
         android:background="@color/white"
         app:popupTheme="@style/Theme.Ensiblog.PopupOverlay"
         tools:ignore="MissingConstraints">
+
         <TextView
-            android:textSize="20dp"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/Ciel"
-            android:text="ENSI"/>
+            android:text="ENSI"
+            android:textColor="@color/marinclair"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="14dp" />
         <TextView
             android:textSize="20dp"
             android:textStyle="bold"
