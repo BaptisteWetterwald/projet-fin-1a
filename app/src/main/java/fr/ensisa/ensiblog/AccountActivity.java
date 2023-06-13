@@ -1,48 +1,91 @@
 package fr.ensisa.ensiblog;
 
+import android.content.Intent;
+import android.util.Log;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import fr.ensisa.ensiblog.firebase.Database;
 import fr.ensisa.ensiblog.firebase.Table;
 import fr.ensisa.ensiblog.models.Email;
-import fr.ensisa.ensiblog.models.Password;
+import fr.ensisa.ensiblog.models.Role;
 import fr.ensisa.ensiblog.models.Topic;
 import fr.ensisa.ensiblog.models.TopicUser;
 import fr.ensisa.ensiblog.models.User;
 
 
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+import fr.ensisa.ensiblog.models.Password;
+
+
 public class AccountActivity extends AppCompatActivity {
 
     private ArrayList<Topic> themes = new ArrayList<>();
+
+    // Méthode pour afficher la bio (appelée dans OnCreate et OnResume)
+    private void DisplayBio() {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+        String userUid = user.getUid();
+        Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{}, new String[]{})
+                .addOnSuccessListener(userList -> {
+                    for (User user1 : userList) {
+                        if (user1.getUid() != null) {
+                            if (user1.getUid().equals(userUid)) {
+                                String currentBio = user1.getBiographie();
+                                TextView editTextBio = findViewById(R.id.editTextBio);
+                                editTextBio.setText(currentBio);
+                            }
+                        }
+                    }
+                });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +95,8 @@ public class AccountActivity extends AppCompatActivity {
         Button buttonEditMdp = findViewById(R.id.buttonEditMdp);
         Button buttonEditFunctions = findViewById(R.id.buttonEditFunctions);
         Button buttonEditBio = findViewById(R.id.buttonEditBio);
+        Button buttonDeleteAccount = findViewById(R.id.buttonDeleteAccount);
         ImageButton imageButtonEditPhoto = findViewById(R.id.imageButtonEditPhoto);
-        TextView editTextBio = findViewById(R.id.editTextBio);
         TextView textViewName = findViewById(R.id.textViewName);
         TextView textViewMail = findViewById(R.id.textViewMail);
 
@@ -67,26 +110,7 @@ public class AccountActivity extends AppCompatActivity {
         textViewName.setText(email.firstName() + " " + email.lastName());
         textViewMail.setText(email.getAddress());
 
-
-        /* Retrieve the user's biography and set it to the editTextBio field
-        if (user != null) {
-            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference()
-                    .child(Table.USERS.getName())
-                    .child(userUid);
-            userRef.child("biographie").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    String biography = dataSnapshot.getValue(String.class);
-                    editTextBio.setText(biography);
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    // En cas d'erreur lors de la récupération de la biographie
-                    Toast.makeText(AccountActivity.this, "Erreur lors de la récupération de la biographie", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-*/
+        DisplayBio();
 
         // listener for editMdp button
         buttonEditMdp.setOnClickListener(new View.OnClickListener() {
@@ -166,9 +190,6 @@ public class AccountActivity extends AppCompatActivity {
         });
 
 
-
-
-
         buttonEditBio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -188,10 +209,7 @@ public class AccountActivity extends AppCompatActivity {
                         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                         if (currentUser != null) {
                             String userUid = currentUser.getUid();
-                            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(userUid);
 
-                            Map<String, Object> updates = new HashMap<>();
-                            updates.put("biographie", newBio);
 
                             // Récupérer la liste des utilisateurs existants
                             Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{}, new String[]{})
@@ -207,6 +225,8 @@ public class AccountActivity extends AppCompatActivity {
                                                     updatedUser.setUid(user1.getUid());
 
                                                     Database.getInstance().update(Table.USERS.getName(), updatedUser, new String[]{"uid"}, new String[]{userUid});
+                                                    TextView editTextBio = findViewById(R.id.editTextBio);
+                                                    editTextBio.setText(newBio);
                                                     Toast.makeText(AccountActivity.this, "Biographie mise à jour", Toast.LENGTH_SHORT).show();
                                                     break;
                                                 }
@@ -230,6 +250,7 @@ public class AccountActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
 
         buttonEditFunctions.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -301,5 +322,64 @@ public class AccountActivity extends AppCompatActivity {
             }
         });
 
+
+        buttonDeleteAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(AccountActivity.this);
+                builder.setTitle("Supprimer le compte");
+                builder.setMessage("Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.");
+
+                builder.setPositiveButton("Supprimer", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Supprimer l'utilisateur de la base de données Firebase
+                        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                        if (currentUser != null) {
+                            String userUid = currentUser.getUid();
+                            Database.getInstance().removeFrom(Table.USERS.getName(), new String[]{"uid"}, new String[]{userUid}).addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    currentUser.delete();
+                                    Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{}, new String[]{})
+                                            .addOnSuccessListener(topicUserList -> {
+                                                for (TopicUser topicUser : topicUserList) {
+                                                    User user = topicUser.getUser();
+                                                    if (user != null) {
+                                                        String userUidFromTopicUser = user.getUid();
+                                                        if (userUidFromTopicUser != null && userUidFromTopicUser.equals(userUid)) {
+                                                            Database.getInstance().removeFrom(Table.TOPIC_USERS.getName(), new String[]{"user"}, new User[]{user}).addOnCompleteListener(task2 -> {
+                                                                if (task2.isSuccessful()) {
+                                                                    Toast.makeText(AccountActivity.this, "Votre compte à bien été supprimé", Toast.LENGTH_SHORT).show();
+                                                                    Intent intent = new Intent(AccountActivity.this, RegisterActivity.class);
+                                                                    startActivity(intent);
+                                                                    finish();
+                                                                }
+                                                            });
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                } else {
+                                    Toast.makeText(AccountActivity.this, "Echec de la suppression du compte", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+                });
+
+                builder.setNegativeButton("Annuler", null);
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+
+            }
+        });
+
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DisplayBio();
     }
 }
