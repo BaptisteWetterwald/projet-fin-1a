@@ -29,7 +29,7 @@ public class DebugActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        /*
         // Create some TextContent objects
         Content textContent1 = new Content(ContentType.TEXT,"Hello, world!");
         Content textContent2 = new Content(ContentType.TEXT,"This is a sample post.");
@@ -40,15 +40,17 @@ public class DebugActivity extends AppCompatActivity {
         Content imageContent2 = new Content(ContentType.IMAGE, "https://www.parismatch.com/lmnr/var/pm/public/media/image/2022/03/01/07/Emma-Watson-son-nouveau-poste-au-sein-d-une-entreprise-francaise.jpg?VersionId=Z4C19TiHw_xvYDNipyHdSIprYGusX1rj");
 
         Content videoContent1 = new Content(ContentType.VIDEO, "https://joy1.videvo.net/videvo_files/video/free/2014-12/large_watermarked/Metal_Wind_Chimes_at_Sunset_preview.mp4");
-
+*/
         Role defaultRole = new Role(2);
         Topic ruTopic = new Topic("Resto U", defaultRole);
-        Email email = new Email("baptiste.wetterwald@uha.fr");
+        Email email = new Email("emma.watson@uha.fr");
 
         Post post1 = new Post();
         post1.setCreation(new Date());
         post1.setTopic(ruTopic);
-        post1.setAuthor(new User(email));
+        User author = new User(email);
+        author.setPhotoUrl("https://besthqwallpapers.com/Uploads/17-2-2018/41035/thumb2-4k-emma-watson-2018-beautiful-girls-american-actress.jpg");
+        /*post1.setAuthor(author);
 
         post1.addContent(textContent1);
         post1.addContent(imageContent1);
@@ -57,7 +59,16 @@ public class DebugActivity extends AppCompatActivity {
         post1.addContent(textContent3);
         post1.addContent(videoContent1);
 
-        Database.getInstance().add(Table.POSTS.getName(), post1, Post.class);
+        Database.getInstance().add(Table.POSTS.getName(), post1, Post.class);*/
+
+        //TODO: Créer un topicuser dans la DB : TopicUser topicUser = new TopicUser(ruTopic, author, defaultRole);
+        TopicUser topicUser = new TopicUser(ruTopic, author, defaultRole);
+        topicUser.setFonction("Meuf fraiche");
+        Database.getInstance().add(Table.TOPIC_USERS.getName(), topicUser, TopicUser.class).addOnSuccessListener(aVoid -> {
+            Log.i("n6a", "TopicUser added");
+        }).addOnFailureListener(e -> {
+            Log.i("n6a", "TopicUser not added");
+        });
 
 
         /*
