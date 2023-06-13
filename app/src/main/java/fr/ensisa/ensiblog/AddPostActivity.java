@@ -8,12 +8,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,6 +88,19 @@ public class AddPostActivity extends AppCompatActivity {
         return true;
     }
 
+    private String getFilePathFromUri(Uri uri) {
+        String filePath = null;
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        if (cursor != null) {
+            int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            filePath = cursor.getString(columnIndex);
+            cursor.close();
+        }
+        return filePath;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,7 +139,8 @@ public class AddPostActivity extends AppCompatActivity {
                         if(parcelFileDescriptor.getStatSize() < VIDEO_MAX_SIZE){
                             VideoView videoView = new VideoView(AddPostActivity.this);
                             videoView.setVideoURI(uri);
-                            videoView.setContentDescription(uri.toString());
+                            Log.i("n6a","URI :"+getFilePathFromUri(uri));
+                            videoView.setContentDescription(getFilePathFromUri(uri));
                             MediaController mediaController = new MediaController(AddPostActivity.this);
                             mediaController.setAnchorView(videoView);
                             mediaController.setMediaPlayer(videoView);
@@ -178,6 +194,8 @@ public class AddPostActivity extends AppCompatActivity {
 
             buttonPublish.setOnClickListener(v -> {
 
+                Log.i("n6a","CLICK");
+
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 StorageReference storageRef = storage.getReference();
 
@@ -188,6 +206,7 @@ public class AddPostActivity extends AppCompatActivity {
 
                 for (int i = 0; i < list_content.getChildCount(); i++) {
                     View element = list_content.getChildAt(i);
+                    Log.i("n6a","content ??");
                     if (element instanceof TextView) {
                         listContent[i] = new Content(ContentType.TEXT, ((TextView) element).getText().toString());
                     } else if (element instanceof ImageView) {
@@ -202,30 +221,16 @@ public class AddPostActivity extends AppCompatActivity {
                         listContent[i] = new Content();
                         listContent[i].setType(ContentType.IMAGE.getType());
 
-                    } else if (element instanceof VideoView) {
+                    } else if (element instanceof FrameLayout) {
+                        String uri = (String) ((VideoView)((FrameLayout) element).getChildAt(0)).getContentDescription();
                         StorageReference ref = storageRef.child("videos/" + UUID.randomUUID().toString() + ".mp4");
-                        //UploadTask uploadTask = ref.putFile(Uri.fromFile(new File((String) ((VideoView) element).getContentDescription())));
-                        tasks.add(ref.putFile(Uri.fromFile(new File(((String) ((VideoView) element).getContentDescription()).replace("content","file")))));
+                        tasks.add(ref.putFile(Uri.fromFile(new File(uri))));
                         listContent[i] = new Content();
                         listContent[i].setType(ContentType.VIDEO.getType());
-                        /*tasks.add(() -> {
-                            uploadTask.continueWithTask(task -> {
-                                if (!task.isSuccessful()) {
-                                    Toast.makeText(AddPostActivity.this, "Error while uploading video", Toast.LENGTH_SHORT).show();
-                                }
-                                return ref.getDownloadUrl();
-                            }).addOnCompleteListener(task -> {
-                                if (task.isSuccessful()) {
-                                    Uri downloadUri = task.getResult();
-                                    listContent[final2I] = new Content(ContentType.VIDEO, downloadUri.toString());
-                                    Log.i("n6a", "VIDEO added");
-                                }
-                            });
-                            return null;
-                        });*/
                     }
                 }
                 boolean[] urls = new boolean[tasks.size()];
+                Log.i("n6a","GO !!");
                 int j = 0;
                 for (int i = 0; i < listContent.length; i++) {
                     if(listContent[i].getType() != ContentType.TEXT.getType()){
