@@ -5,8 +5,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
-    android:background="@drawable/ensisa1"
-    >
+    android:background="@drawable/ensisa1">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        app:popupTheme="@style/Theme.Ensiblog.PopupOverlay"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ENSI"
+            android:textColor="@color/top"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="14dp" />
+        <TextView
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/MARIN_APP"
+            android:text="BLOG"/>
+
+        <Button
+            android:id="@+id/anglais"
+            android:layout_marginLeft="25dp"
+            android:text="Anglais"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+        <Button
+            android:layout_marginLeft="25dp"
+            android:id="@+id/francais"
+            android:adjustViewBounds="true"
+            android:text="Francais"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+
+    </androidx.appcompat.widget.Toolbar>
 
     <TextView
         android:id="@+id/textView"
@@ -34,7 +78,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.298" />
+        app:layout_constraintVertical_bias="0.31" />
 
     <EditText
         android:id="@+id/editTextLoginUsername"
@@ -84,7 +128,7 @@
         android:layout_height="55dp"
         android:layout_marginTop="56dp"
         android:background="@drawable/btn_bg"
-        android:text="Login"
+        android:text="@string/connexion"
         android:textColor="@color/colorWhite"
         android:textColorHighlight="#07599A"
         android:textColorLink="#0F4570"
@@ -99,7 +143,7 @@
         android:layout_height="55dp"
         android:layout_marginTop="140dp"
         android:background="@drawable/btn_bg"
-        android:text="create an account"
+        android:text="@string/creeUnCompte"
         android:textColor="@color/colorWhite"
         android:textColorHighlight="#07599A"
         android:textColorLink="#0F4570"
@@ -107,5 +151,6 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextLoginPassword" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

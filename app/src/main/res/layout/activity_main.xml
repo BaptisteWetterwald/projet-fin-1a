@@ -7,11 +7,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@color/white"
     tools:openDrawer="start">
   <include
       android:id="@+id/app_bar_main"
       layout="@layout/app_bar_main"
       android:layout_width="match_parent"
+      android:gravity="bottom"
       android:layout_height="match_parent"/>
 
   <include
@@ -29,7 +31,5 @@
       android:layout_height="match_parent"
       android:layout_gravity="end|right"
       tools:context=".MainActivity"/>
-
-
 
 </androidx.drawerlayout.widget.DrawerLayout>

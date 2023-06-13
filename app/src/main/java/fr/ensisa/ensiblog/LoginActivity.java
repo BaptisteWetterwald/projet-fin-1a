@@ -1,23 +1,25 @@
 package fr.ensisa.ensiblog;
 
-import static fr.ensisa.ensiblog.Utils.showInfoBox;
-
-import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Build;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import java.util.Locale;
+import static fr.ensisa.ensiblog.Utils.showInfoBox;
+import android.content.Intent;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.auth.FirebaseUser;
-
 import fr.ensisa.ensiblog.firebase.Authentication;
 import fr.ensisa.ensiblog.models.Email;
 import fr.ensisa.ensiblog.models.Password;
 
 public class LoginActivity extends AppCompatActivity {
     EditText edUsername, edPassword;
+    Button btnFr, btnEng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,15 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseUser user = (FirebaseUser) extras.get("user");
                 edUsername.setText(user.getEmail());
             }
+
+           /* btnFr = (Button) findViewById(R.id.francais);
+            btnFr.setOnClickListener(v -> {
+                setAppLocale("fr");                               IN PROCESS !!!!!!!!!!!!!!!
+            });
+            btnEng = (Button) findViewById(R.id.anglais);
+            btnEng.setOnClickListener(v -> {
+                setAppLocale("eng");
+            });*/
 
             buttonLog.setOnClickListener(v -> {
 
@@ -92,4 +103,17 @@ public class LoginActivity extends AppCompatActivity {
             });
         }
     }
+
+    private void setAppLocale(String localeCode){
+        Resources resources = getResources();
+        DisplayMetrics dm = resources.getDisplayMetrics();
+        Configuration config = resources.getConfiguration();
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.JELLY_BEAN_MR1){
+            config.setLocale(new Locale(localeCode.toLowerCase()));
+        } else {
+            config.locale = new Locale(localeCode.toLowerCase());
+        }
+        resources.updateConfiguration(config, dm);
+    }
+
 }

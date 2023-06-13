@@ -6,6 +6,29 @@
     android:layout_height="match_parent"
     android:background="@drawable/back_post_icon"
     tools:context=".AddPostActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        app:popupTheme="@style/Theme.Ensiblog.PopupOverlay"
+        tools:ignore="MissingConstraints">
+        <TextView
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/Ciel"
+            android:text="ENSI"/>
+        <TextView
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/MARIN_APP"
+            android:text="BLOG"/>
+
+    </androidx.appcompat.widget.Toolbar>
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -75,7 +98,7 @@
         android:id="@+id/textViewUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Username"
+        android:text="@string/UtilisateurNom"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -116,7 +139,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:background="@drawable/btn_bg"
-        android:text="Add Video"
+        android:text="@string/AjoutVideo"
         app:layout_constraintBottom_toTopOf="@+id/buttonPublish"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.952"
@@ -126,11 +149,10 @@
         android:id="@+id/buttonPublish"
         android:layout_width="381dp"
         android:layout_height="63dp"
-        android:text="Publish"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="72dp"
+        android:text="@string/publier"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.533"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAddVideo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

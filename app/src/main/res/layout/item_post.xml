@@ -11,9 +11,8 @@
         android:id="@+id/layout_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#99bbff"
-        >
+        android:background="@color/top"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/img_avatar"
@@ -43,20 +42,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="0.5"
-                android:text="Firstname"
-                android:textColor="#003cb3"
                 android:gravity="bottom|start"
-                />
+                android:text="Firstname"
+                android:textColor="@color/Ciel"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txt_lastname"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="0.5"
-                android:text="Lastname"
-                android:textColor="#003cb3"
                 android:gravity="top|start"
-                />
+                android:text="Lastname"
+                android:textColor="@color/Ciel"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -73,19 +72,21 @@
                 android:id="@+id/txt_function"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginStart="10dp"
                 android:layout_weight="0.5"
                 android:text="Function"
                 android:gravity="bottom|start"
-                />
+                android:textColor="@color/red" />
 
             <TextView
                 android:id="@+id/txt_topic"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginStart="10dp"
                 android:layout_weight="0.5"
-                android:text="Topic"
                 android:gravity="top|start"
-                />
+                android:text="Topic"
+                android:textColor="@color/red" />
         </LinearLayout>
 
         <LinearLayout

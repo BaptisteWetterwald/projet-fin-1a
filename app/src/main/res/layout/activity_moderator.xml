@@ -7,6 +7,29 @@
     android:layout_height="match_parent"
     android:background="#f6f6f6"
     tools:context=".ModeratorActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        app:popupTheme="@style/Theme.Ensiblog.PopupOverlay"
+        tools:ignore="MissingConstraints">
+        <TextView
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/Ciel"
+            android:text="ENSI"/>
+        <TextView
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/MARIN_APP"
+            android:text="BLOG"/>
+
+    </androidx.appcompat.widget.Toolbar>
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -18,7 +41,7 @@
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#015aa5">
+            android:background="@color/marinclair">
 
             <HorizontalScrollView
                 android:layout_width="fill_parent"
@@ -60,6 +83,7 @@
 
         </LinearLayout>
     </ScrollView>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

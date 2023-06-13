@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
     <com.google.android.material.navigation.NavigationView
         android:layout_width="235dp"
         android:id="@+id/left_nav_view_pane"
@@ -14,6 +15,7 @@
         tools:ignore="MissingConstraints"
         tools:showIn="navigation_view"
         android:layout_gravity="start"
+        android:background="@color/white"
         android:fitsSystemWindows="true">
         <ScrollView
             android:layout_width="match_parent"

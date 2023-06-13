@@ -11,6 +11,7 @@
          android:layout_width="match_parent"
          android:layout_height="match_parent"
          android:layout_gravity="left"
+        android:background="@color/white"
          android:fitsSystemWindows="true">
          <ScrollView
              android:layout_width="match_parent"
@@ -31,7 +32,7 @@
                      android:id="@+id/user_name"
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"
-                     android:text="NOM Prénom "
+                     android:text="@string/UtilisateurNom"
                      android:textSize="30dp"
                      android:textAlignment="center"
                      tools:ignore="HardcodedText"
@@ -46,7 +47,7 @@
                  <TextView
                      android:layout_width="match_parent"
                      android:layout_height="100dp"
-                     android:text="BIO :"
+                     android:text="Description :"
                      android:background="@color/MARIN_APP"
                      android:textColor="@color/white"
                      tools:ignore="HardcodedText" />
@@ -60,7 +61,7 @@
                      android:layout_marginTop="10dp"
                      android:layout_width="match_parent"
                      android:layout_height="40dp"
-                     android:text="Gestion de Compte "
+                     android:text="@string/GestionCompte"
                      android:textColor="@color/white"
                      android:backgroundTint="@color/marinclair"
                      android:id ="@+id/button_gest" />

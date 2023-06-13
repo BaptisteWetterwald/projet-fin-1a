@@ -18,5 +18,16 @@
     <color name="colorYellow">#FFFB00</color>
     <color name="blueLight">#FF9CCDF4</color>
     <color name="clairblue">#B3F2FF</color>
+    <color name="red">#E91E63</color>
+    <color name="dark">#48454D</color>
+
+    <color name="font">#1E182C</color>
+    <color name="top">#66A0B1</color>
+    <color name="white2">#F8F8F8</color>
+
+    <color name="bottom">#E6EFBA</color>
+
+
+
 
 </resources>

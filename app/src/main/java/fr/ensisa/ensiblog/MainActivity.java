@@ -7,9 +7,12 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -32,6 +35,8 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -141,9 +146,9 @@ public class MainActivity extends AppCompatActivity {
             });
 
             setSupportActionBar(binding.appBarMain.toolbar);
-            AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.navigation_home, R.id.nameapp)
-                    .build();
+            /*AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.navigation_home, R.id.name_app)
+                    .build();*/
 
             Button buttonGestionCompte = (Button) findViewById(R.id.button_gest);
 
@@ -151,8 +156,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, AccountActivity.class);
                 startActivity(intent);
             });
-
-
             Button buttonDeco = (Button) findViewById(R.id.button_disconnect);
 
             buttonDeco.setOnClickListener(v -> {
