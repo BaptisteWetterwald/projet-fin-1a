@@ -8,8 +8,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,10 +28,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import fr.ensisa.ensiblog.databinding.ActivityMainBinding;
@@ -45,19 +40,17 @@ import fr.ensisa.ensiblog.models.Role;
 import fr.ensisa.ensiblog.models.Topic;
 import fr.ensisa.ensiblog.models.TopicUser;
 import fr.ensisa.ensiblog.models.User;
-import fr.ensisa.ensiblog.models.posts.Content;
-import fr.ensisa.ensiblog.models.posts.ImageContent;
 import fr.ensisa.ensiblog.models.posts.Post;
-import fr.ensisa.ensiblog.models.posts.VideoContent;
-import fr.ensisa.ensiblog.ui.posts.PostAdapter;
-import fr.ensisa.ensiblog.models.posts.TextContent;
+import fr.ensisa.ensiblog.models.posts.PostWithFunction;
+import fr.ensisa.ensiblog.ui.posts.PostWithFunctionAdapter;
+
 public class MainActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
     private ActivityMainBinding binding;
     private AppBarConfiguration mAppBarConfigurationLeft;
 
-    private List<Post> posts = new ArrayList<>();
-    private PostAdapter adapter;
+    private List<PostWithFunction> postsWithFunctions = new ArrayList<>();
+    private PostWithFunctionAdapter adapter;
 
     private QuerySnapshot postsSnapshot;
 
@@ -182,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
             RecyclerView recyclerView = findViewById(R.id.recyclerView);
             loadAllPosts();
             // Create an instance of the PostAdapter
-            adapter = new PostAdapter(posts);
+            adapter = new PostWithFunctionAdapter(postsWithFunctions);
             // Set the adapter for the RecyclerView
             recyclerView.setAdapter(adapter);
             // Set a layout manager for the RecyclerView
@@ -215,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadAllPosts() {
-        posts = new ArrayList<>();
+        postsWithFunctions = new ArrayList<>();
 
         Topic currentTopic = new Topic("Resto U", new Role(2));
 
@@ -229,21 +222,28 @@ public class MainActivity extends AppCompatActivity {
             assert snapshots != null;
             for (DocumentChange dc : snapshots.getDocumentChanges()) {
                 Post post = dc.getDocument().toObject(Post.class);
+                PostWithFunction postWithFunction = new PostWithFunction(post, null);
                 switch (dc.getType()) {
                     case ADDED:
-                        Log.d("n6a", "New : " + post);
-                        posts.add(post);
-                        adapter.notifyItemInserted(posts.size() - 1);
+                        // Get the function of the author for the topic
+                        Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"topic", "user"}, new Object[]{post.getTopic(), post.getAuthor()}).addOnSuccessListener(topicUsers -> {
+                            if (topicUsers.size() > 0) {
+                                postWithFunction.setFunction(topicUsers.get(0).getFonction());
+                            }
+                            Log.d("n6a", "New : " + postWithFunction);
+                            postsWithFunctions.add(postWithFunction);
+                            adapter.notifyItemInserted(postsWithFunctions.size() - 1);
+                        }).addOnFailureListener(e1 -> Log.w("n6a", "Error getting documents.", e1));
                         break;
                     case MODIFIED:
-                        Log.d("n6a", "Modified : " + post);
+                        Log.d("n6a", "Modified : " + postWithFunction);
                         // Handle modified posts if needed
                         break;
                     case REMOVED:
-                        Log.d("n6a", "Removed : " + post);
-                        int index = posts.indexOf(post);
+                        Log.d("n6a", "Removed : " + postWithFunction);
+                        int index = postsWithFunctions.indexOf(postWithFunction);
                         Log.i("n6a", "Index : " + index);
-                        posts.remove(post);
+                        postsWithFunctions.remove(postWithFunction);
                         adapter.notifyItemRemoved(index);
                         break;
                 }

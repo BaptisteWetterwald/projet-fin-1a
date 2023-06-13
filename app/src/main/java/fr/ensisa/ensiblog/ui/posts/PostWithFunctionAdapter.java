@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -21,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,17 +28,14 @@ import fr.ensisa.ensiblog.R;
 import fr.ensisa.ensiblog.models.Email;
 import fr.ensisa.ensiblog.models.posts.Content;
 import fr.ensisa.ensiblog.models.posts.ContentType;
-import fr.ensisa.ensiblog.models.posts.ImageContent;
 import fr.ensisa.ensiblog.models.posts.Post;
-import fr.ensisa.ensiblog.models.posts.TextContent;
-import fr.ensisa.ensiblog.models.posts.VideoContent;
+import fr.ensisa.ensiblog.models.posts.PostWithFunction;
 
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
-    private final List<Post> postList;
+public class PostWithFunctionAdapter extends RecyclerView.Adapter<PostWithFunctionAdapter.ViewHolder> {
+    private final List<PostWithFunction> postList;
     private long lastClickVideo;
 
-
-    public PostAdapter(List<Post> postList) {
+    public PostWithFunctionAdapter(List<PostWithFunction> postList) {
         this.postList = postList;
     }
 
@@ -54,8 +49,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Post post = postList.get(position);
-        holder.bind(post);
+        PostWithFunction postWithFunction = postList.get(position);
+        holder.bind(postWithFunction);
     }
 
     @Override
@@ -87,13 +82,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             layoutContent = itemView.findViewById(R.id.layout_content);
         }
 
-        public void bind(Post post){
-            // TODO: add avatar and function
+        public void bind(PostWithFunction postWithFunction){
+            Post post = postWithFunction.getPost();
+            String avatarUrl = post.getAuthor().getPhotoUrl();
+            if (avatarUrl != null && !avatarUrl.isEmpty()) {
+                Picasso.get().load(avatarUrl).into(avatar);
+            }
             Email email = post.getAuthor().getEmail();
             firstName.setText(email.firstName());
             lastName.setText(email.lastName());
-            String functionText = "Function";
-            function.setText(functionText);
+            String functionText = postWithFunction.getFunction();
+            function.setText(functionText == null ? "Membre" : functionText);
             topic.setText(post.getTopic().getName());
             String creation = simpleDateFormat.format(post.getCreation());
             String dayString = creation.split(" ")[0];
@@ -176,12 +175,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                                 }
 
                                 // Reset the double click flag after a delay
-                                v.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        isDoubleClick = false;
-                                    }
-                                }, 300);
+                                v.postDelayed(() -> isDoubleClick = false, 300);
                             }
                         });
 
