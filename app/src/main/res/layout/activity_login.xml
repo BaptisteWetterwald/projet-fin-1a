@@ -28,6 +28,25 @@
             android:textColor="@color/MARIN_APP"
             android:text="BLOG"/>
 
+        <Button
+            android:id="@+id/anglais"
+            android:layout_marginLeft="25dp"
+            android:text="Anglais"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+        <Button
+            android:layout_marginLeft="25dp"
+            android:id="@+id/francais"
+            android:adjustViewBounds="true"
+            android:text="Francais"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
@@ -129,27 +148,6 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextLoginPassword" />
-
-    <!--<Button
-        android:id="@+id/anglais"
-        android:layout_width="154dp"
-        android:layout_height="78dp"
-        android:layout_marginStart="240dp"
-        android:text="Anglais"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="128dp"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/francais"
-        android:layout_width="154dp"
-        android:layout_height="78dp"
-        android:layout_marginStart="36dp"
-        android:text="Francais"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="128dp"
-        android:adjustViewBounds="true"/>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

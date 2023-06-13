@@ -1,7 +1,16 @@
 package fr.ensisa.ensiblog;
 
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Build;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.DisplayMetrics;
+import java.util.Locale;
+import static android.graphics.ColorSpace.Model.XYZ;
 import static fr.ensisa.ensiblog.Utils.showInfoBox;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -24,6 +33,7 @@ import fr.ensisa.ensiblog.models.Password;
 
 public class LoginActivity extends AppCompatActivity {
     EditText edUsername, edPassword;
+    Button btnFr, btnEng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +61,14 @@ public class LoginActivity extends AppCompatActivity {
                 edUsername.setText(user.getEmail());
             }
 
-
-
+            btnFr = (Button) findViewById(R.id.francais);
+            btnFr.setOnClickListener(v -> {
+                setAppLocale("fr");
+            });
+            btnEng = (Button) findViewById(R.id.anglais);
+            btnEng.setOnClickListener(v -> {
+                setAppLocale("eng");
+            });
             buttonLog.setOnClickListener(v -> {
 
                 String email = edUsername.getText().toString();
@@ -100,15 +116,17 @@ public class LoginActivity extends AppCompatActivity {
             });
         }
     }
-    public void setAppLocale(String localeCode){
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-        if(Build.VERSION.SDK_INT >=Build.VERSION_CODES.JELLY_BEAN_MR1){
-            conf.setLocale(new Locale(localeCode.toLowerCase()));
-        }else{
-            conf.locale = new Locale(localeCode.toLowerCase());
+
+    private void setAppLocale(String localeCode){
+        Resources resources = getResources();
+        DisplayMetrics dm = resources.getDisplayMetrics();
+        Configuration config = resources.getConfiguration();
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.JELLY_BEAN_MR1){
+            config.setLocale(new Locale(localeCode.toLowerCase()));
+        } else {
+            config.locale = new Locale(localeCode.toLowerCase());
         }
-        res.updateConfiguration(conf,dm);
+        resources.updateConfiguration(config, dm);
     }
+
 }
