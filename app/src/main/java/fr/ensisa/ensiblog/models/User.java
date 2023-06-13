@@ -2,9 +2,10 @@ package fr.ensisa.ensiblog.models;
 
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable {
 
     private Email email;
     private String fonction;

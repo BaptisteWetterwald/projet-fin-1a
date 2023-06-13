@@ -26,7 +26,6 @@ public class DebugActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
     private ActivityMainBinding binding;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +38,8 @@ public class DebugActivity extends AppCompatActivity {
         // Create some ImageContent objects
         Content imageContent1 = new Content(ContentType.IMAGE,"https://www.parismatch.com/lmnr/var/pm/public/media/image/Emma-Watson_0.jpg?VersionId=RC8sSswLrmMQFNdbRU7FRE3E80WtYdls");
         Content imageContent2 = new Content(ContentType.IMAGE, "https://www.parismatch.com/lmnr/var/pm/public/media/image/2022/03/01/07/Emma-Watson-son-nouveau-poste-au-sein-d-une-entreprise-francaise.jpg?VersionId=Z4C19TiHw_xvYDNipyHdSIprYGusX1rj");
+
+        Content videoContent1 = new Content(ContentType.VIDEO, "https://joy1.videvo.net/videvo_files/video/free/2014-12/large_watermarked/Metal_Wind_Chimes_at_Sunset_preview.mp4");
 
         Role defaultRole = new Role(2);
         Topic ruTopic = new Topic("Resto U", defaultRole);
@@ -54,8 +55,11 @@ public class DebugActivity extends AppCompatActivity {
         post1.addContent(textContent2);
         post1.addContent(imageContent2);
         post1.addContent(textContent3);
+        post1.addContent(videoContent1);
 
         Database.getInstance().add(Table.POSTS.getName(), post1, Post.class);
+
+
         /*
         Database.getInstance().get("Topics", Topic.class, new String[]{}, new Object[]{}).addOnSuccessListener(topics -> {
             for (Topic topic : topics) {

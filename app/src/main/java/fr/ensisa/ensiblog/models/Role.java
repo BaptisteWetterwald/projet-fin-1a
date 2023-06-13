@@ -1,5 +1,8 @@
 package fr.ensisa.ensiblog.models;
-public class Role {
+
+import java.io.Serializable;
+
+public class Role implements Serializable {
 
     // Super-Modo : 4
     // Modo : 3
