@@ -229,36 +229,46 @@ public class AddPostActivity extends AppCompatActivity {
                         listContent[i].setType(ContentType.VIDEO.getType());
                     }
                 }
-                boolean[] urls = new boolean[tasks.size()];
-
-                int j = 0;
-                for (int i = 0; i < listContent.length; i++) {
-                    if(listContent[i].getType() != ContentType.TEXT.getType()){
-                        int finalJ = j;
-                        int finalI = i;
-                        tasks.get(j).continueWithTask(task -> {
-                            if (!task.isSuccessful()) {
-                                Toast.makeText(AddPostActivity.this, "Error while uploading video", Toast.LENGTH_SHORT).show();
-                            } else {
-                                task.getResult().getStorage().getDownloadUrl().addOnSuccessListener(downloadUrl -> {
-                                    listContent[finalI].setData(downloadUrl.toString());
-                                    urls[finalJ] = true;
-                                    if(isFull(urls)) {
-                                        Post newPost = new Post(new Date(), topicUser.getTopic(), topicUser.getUser(), Arrays.asList(listContent), new Date());
-                                        Database.getInstance().add(Table.POSTS.getName(), newPost, Post.class).addOnCompleteListener(task2 -> {
-                                            if(task2.isSuccessful()){
-                                                Intent intent = new Intent(AddPostActivity.this, MainActivity.class);
-                                                intent.putExtra("user",user);
-                                                startActivity(intent);
-                                            } else Toast.makeText(AddPostActivity.this, "Erreur lors de la publication du post", Toast.LENGTH_SHORT).show();
-                                        });
-                                    }
-                                });
-                            }
-                            return null;
-                        });
-                        j++;
+                if(tasks.size() > 0){
+                    boolean[] urls = new boolean[tasks.size()];
+                    int j = 0;
+                    for (int i = 0; i < listContent.length; i++) {
+                        if(listContent[i].getType() != ContentType.TEXT.getType()){
+                            int finalJ = j;
+                            int finalI = i;
+                            tasks.get(j).continueWithTask(task -> {
+                                if (!task.isSuccessful()) {
+                                    Toast.makeText(AddPostActivity.this, "Error while uploading video", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    task.getResult().getStorage().getDownloadUrl().addOnSuccessListener(downloadUrl -> {
+                                        listContent[finalI].setData(downloadUrl.toString());
+                                        urls[finalJ] = true;
+                                        if(isFull(urls)) {
+                                            Post newPost = new Post(new Date(), topicUser.getTopic(), topicUser.getUser(), Arrays.asList(listContent), new Date());
+                                            Database.getInstance().add(Table.POSTS.getName(), newPost, Post.class).addOnCompleteListener(task2 -> {
+                                                if(task2.isSuccessful()){
+                                                    Intent intent = new Intent(AddPostActivity.this, MainActivity.class);
+                                                    intent.putExtra("user",user);
+                                                    startActivity(intent);
+                                                } else Toast.makeText(AddPostActivity.this, "Erreur lors de la publication du post", Toast.LENGTH_SHORT).show();
+                                            });
+                                        }
+                                    });
+                                }
+                                return null;
+                            });
+                            j++;
+                        }
                     }
+                } else {
+                    Post newPost = new Post(new Date(), topicUser.getTopic(), topicUser.getUser(), Arrays.asList(listContent), new Date());
+                    Database.getInstance().add(Table.POSTS.getName(), newPost, Post.class).addOnCompleteListener(task2 -> {
+                        if(task2.isSuccessful()){
+                            Intent intent = new Intent(AddPostActivity.this, MainActivity.class);
+                            intent.putExtra("user",user);
+                            startActivity(intent);
+                        } else Toast.makeText(AddPostActivity.this, "Erreur lors de la publication du post", Toast.LENGTH_SHORT).show();
+                    });
                 }
             });
         }
