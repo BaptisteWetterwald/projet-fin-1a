@@ -1,66 +1,43 @@
 package fr.ensisa.ensiblog;
 
-import android.util.Log;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.ScrollView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputConnection;
-
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import fr.ensisa.ensiblog.firebase.Database;
-import fr.ensisa.ensiblog.firebase.Table;
-import fr.ensisa.ensiblog.models.Email;
-import fr.ensisa.ensiblog.models.Role;
-import fr.ensisa.ensiblog.models.Topic;
-import fr.ensisa.ensiblog.models.TopicUser;
-import fr.ensisa.ensiblog.models.User;
-
-
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import fr.ensisa.ensiblog.firebase.Database;
+import fr.ensisa.ensiblog.firebase.Table;
+import fr.ensisa.ensiblog.models.Email;
 import fr.ensisa.ensiblog.models.Password;
+import fr.ensisa.ensiblog.models.Topic;
+import fr.ensisa.ensiblog.models.TopicUser;
+import fr.ensisa.ensiblog.models.User;
 
 
 public class AccountActivity extends AppCompatActivity {
@@ -226,7 +203,6 @@ public class AccountActivity extends AppCompatActivity {
                                                     // Dupliquer l'utilisateur
                                                     User updatedUser = new User();
                                                     updatedUser.setEmail(user1.getEmail());
-                                                    updatedUser.setFonction(user1.getFonction());
                                                     updatedUser.setBiographie(newBio);
                                                     updatedUser.setUid(user1.getUid());
 
@@ -254,19 +230,6 @@ public class AccountActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         buttonEditFunctions.setOnClickListener(new View.OnClickListener() {
             @Override
