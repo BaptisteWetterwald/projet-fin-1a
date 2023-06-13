@@ -141,7 +141,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                         frameLayout.addView(videoView);
 
                         layoutContent.addView(frameLayout);
-                        videoView.start();
+                        videoView.setOnPreparedListener(mp -> {
+                            videoView.start();
+                            videoView.pause();
+                        });
 
                         videoView.setOnClickListener(new View.OnClickListener() {
                             private long lastClickTime = 0;
