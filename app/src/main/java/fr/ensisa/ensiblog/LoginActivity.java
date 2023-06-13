@@ -7,26 +7,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import java.util.Locale;
-import static android.graphics.ColorSpace.Model.XYZ;
 import static fr.ensisa.ensiblog.Utils.showInfoBox;
-
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.os.Build;
-import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Locale;
-
 import fr.ensisa.ensiblog.firebase.Authentication;
 import fr.ensisa.ensiblog.models.Email;
 import fr.ensisa.ensiblog.models.Password;
@@ -61,14 +47,15 @@ public class LoginActivity extends AppCompatActivity {
                 edUsername.setText(user.getEmail());
             }
 
-            btnFr = (Button) findViewById(R.id.francais);
+           /* btnFr = (Button) findViewById(R.id.francais);
             btnFr.setOnClickListener(v -> {
-                setAppLocale("fr");
+                setAppLocale("fr");                               IN PROCESS !!!!!!!!!!!!!!!
             });
             btnEng = (Button) findViewById(R.id.anglais);
             btnEng.setOnClickListener(v -> {
                 setAppLocale("eng");
-            });
+            });*/
+
             buttonLog.setOnClickListener(v -> {
 
                 String email = edUsername.getText().toString();
