@@ -15,7 +15,7 @@
         tools:ignore="MissingConstraints"
         tools:showIn="navigation_view"
         android:layout_gravity="start"
-        android:background="@color/white"
+        android:background="@color/leftBack"
         android:fitsSystemWindows="true">
         <ScrollView
             android:layout_width="match_parent"
@@ -28,6 +28,11 @@
                 android:weightSum="1">
             </LinearLayout>
         </ScrollView>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/refresh"
+            android:layout_gravity="bottom"/><!---->
     </com.google.android.material.navigation.NavigationView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
