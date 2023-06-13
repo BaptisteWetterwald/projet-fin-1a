@@ -32,9 +32,7 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             intent.putExtra("user",firebaseUser);
             startActivity(intent);
-
         } else {
-
             setContentView(R.layout.activity_login);
             edUsername = findViewById(R.id.editTextLoginUsername);
             edPassword = findViewById(R.id.editTextLoginPassword);

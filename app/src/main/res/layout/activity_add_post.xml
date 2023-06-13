@@ -6,27 +6,29 @@
     android:layout_height="match_parent"
     android:background="@drawable/back_post_icon"
     tools:context=".AddPostActivity">
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
-        app:popupTheme="@style/Theme.Ensiblog.PopupOverlay"
-        tools:ignore="MissingConstraints">
+        android:background="@color/top"
+        app:popupTheme="@style/Theme.Ensiblog.PopupOverlay">
+
         <TextView
-            android:textSize="20dp"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="ENSI"
+            android:textColor="@color/design_default_color_surface"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BLOG"
             android:textColor="@color/Ciel"
-            android:text="ENSI"/>
-        <TextView
             android:textSize="20dp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/MARIN_APP"
-            android:text="BLOG"/>
+            android:textStyle="bold" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -34,6 +36,9 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -61,25 +66,23 @@
     <ScrollView
         android:id="@+id/scroll_View"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="140dp"
+        android:layout_height="0dp"
         android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="70dp"
         android:layout_marginBottom="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
         app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
             android:id="@+id/list_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-        </LinearLayout>
+            android:orientation="vertical"></LinearLayout>
     </ScrollView>
-
 
 
     <ImageView
@@ -114,45 +117,40 @@
         android:id="@+id/buttonAddImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="78dp"
         android:background="@drawable/btn_bg"
         android:text="Add Image"
-        app:layout_constraintBottom_toTopOf="@+id/buttonPublish"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="14dp" />
 
     <Button
         android:id="@+id/buttonAddText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginStart="151dp"
+        android:layout_marginBottom="90dp"
         android:background="@drawable/btn_bg"
         android:text="Add Text"
-        app:layout_constraintBottom_toTopOf="@+id/buttonPublish"
-        app:layout_constraintEnd_toStartOf="@+id/buttonAddVideo"
-        app:layout_constraintHorizontal_bias="0.531"
-        app:layout_constraintStart_toEndOf="@+id/buttonAddImage" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/buttonAddVideo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="281dp"
+        android:layout_marginBottom="78dp"
         android:background="@drawable/btn_bg"
         android:text="@string/AjoutVideo"
-        app:layout_constraintBottom_toTopOf="@+id/buttonPublish"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.952"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/buttonPublish"
         android:layout_width="381dp"
         android:layout_height="63dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginBottom="4dp"
         android:text="@string/publier"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonAddVideo" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="14dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,4 @@
 package fr.ensisa.ensiblog;
-
 import static fr.ensisa.ensiblog.Utils.removeElement;
 import static fr.ensisa.ensiblog.Utils.showInfoBox;
 
@@ -54,15 +53,12 @@ import fr.ensisa.ensiblog.models.User;
 import fr.ensisa.ensiblog.models.posts.Post;
 import fr.ensisa.ensiblog.models.posts.PostWithFunction;
 import fr.ensisa.ensiblog.ui.posts.PostWithFunctionAdapter;
-
 public class MainActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
     private ActivityMainBinding binding;
     private AppBarConfiguration mAppBarConfigurationLeft;
-
     private List<PostWithFunction> postsWithFunctions = new ArrayList<>();
     private PostWithFunctionAdapter adapter;
-
     private QuerySnapshot postsSnapshot;
     private Boolean already_exist;
     private User userModel;
@@ -74,10 +70,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             FirebaseUser user = (FirebaseUser) extras.get("user");
@@ -136,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
                             } else removeElement(buttonModo);
                         }
                     });
-
                     Database.getInstance().alreadyIn(Table.ADMINS.getName(), new String[]{"user"}, new User[]{userModel}, alreadyExists -> {
                         if(!alreadyExists)
                             removeElement(buttonAdmin);
@@ -156,13 +149,11 @@ public class MainActivity extends AppCompatActivity {
                     .build();*/
 
             Button buttonGestionCompte = (Button) findViewById(R.id.button_gest);
-
             buttonGestionCompte.setOnClickListener(v -> {
                 Intent intent = new Intent(MainActivity.this, AccountActivity.class);
                 startActivity(intent);
             });
             Button buttonDeco = (Button) findViewById(R.id.button_disconnect);
-
             buttonDeco.setOnClickListener(v -> {
                 new Authentication().signOut();
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -198,7 +189,13 @@ public class MainActivity extends AppCompatActivity {
             // Set a layout manager for the RecyclerView
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             get_left_view();
+            Button button_refresh = (Button) findViewById(R.id.refresh_button);
+            button_refresh.setOnClickListener(v -> {
+                get_left_view();
+            });
+
         }
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
     private void get_left_view(){
         Database.getInstance().get(Table.TOPICS.getName(), Topic.class, new String[]{}, new Topic[]{}).addOnSuccessListener(topics_1 -> {
@@ -211,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
                     ToggleButton button = new ToggleButton(this);
                     TopicUser btnTopic = topics_user.get(j);
                     button.setTextOn(btnTopic.getTopic().getName());
+                    button.setWidth(500);
                     button.setTextOff(btnTopic.getTopic().getName());
                     button.setText(btnTopic.getTopic().getName());
                     button.setChecked(true);
@@ -218,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
                     button.setOnClickListener(v -> {
                         showInfoBox("Warning", "Se désabonner de " + btnTopic.getTopic().getName() + " ?", "OK","Annuler", this, (dialog, which) -> {
                             dialog.cancel();
+                            button.setWidth(500);
                             Database.getInstance().removeFrom(Table.TOPIC_USERS.getName(), new String[]{"user","topic"}, new Object[]{userModel,btnTopic.getTopic()});
                             LinearLayout themesBar = findViewById(R.id.main_topics);
                             for (int i = 0; i < themesBar.getChildCount(); i++) {
@@ -242,12 +241,13 @@ public class MainActivity extends AppCompatActivity {
                         if (topics_1.get(i).getName().equals(topics_user.get(u).getTopic().getName())) {
                             already_exist = true;
                             break;
-                        }else{continue;}
+                        }
                     }
-                    if (already_exist == false) {
+                    if (!already_exist) {
                         ToggleButton button = new ToggleButton(this);
                         Topic btnTopic = topics_1.get(i);
                         button.setText(btnTopic.getName());
+                        button.setWidth(500);
                         button.setTextOn(btnTopic.getName());
                         button.setTextOff(btnTopic.getName());
                         button.setChecked(false);
@@ -260,6 +260,7 @@ public class MainActivity extends AppCompatActivity {
                                 TopicUser topic_user = new TopicUser(topic, user_left, new Role(1));
                                 Database.getInstance().add(Table.TOPIC_USERS.getName(), topic_user, TopicUser.class, false);
                                 Button button_tp = new Button(MainActivity.this);
+                                button_tp.setWidth(500);
                                 button_tp.setText(btnTopic.getName());
                                 LinearLayout themesBar = findViewById(R.id.main_topics);
                                 button_tp.setOnClickListener(x -> {
