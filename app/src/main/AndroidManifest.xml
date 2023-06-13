@@ -5,6 +5,8 @@
     <!--Permissions for internet-->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--Permission require by picasso (usage from com.squareup.picasso.RemoteViewsAction.NotificationAction) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:allowBackup="true"
