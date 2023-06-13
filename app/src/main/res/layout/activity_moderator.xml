@@ -41,7 +41,7 @@
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#015aa5">
+            android:background="@color/marinclair">
 
             <HorizontalScrollView
                 android:layout_width="fill_parent"
