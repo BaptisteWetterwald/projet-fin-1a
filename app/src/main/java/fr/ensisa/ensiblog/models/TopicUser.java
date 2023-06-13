@@ -1,5 +1,8 @@
 package fr.ensisa.ensiblog.models;
-public class TopicUser {
+
+import java.io.Serializable;
+
+public class TopicUser implements Serializable {
     private Topic topic;
     private User user;
     private Role role;

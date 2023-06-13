@@ -70,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
     private List<Button> buttons = new ArrayList<>();
 
 
+    private TopicUser currentTopicUser = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,10 +104,11 @@ public class MainActivity extends AppCompatActivity {
                                     isModo.set(true);
                                 }
                                 Button button = new Button(MainActivity.this);
-                                Topic btnTopic = topics.get(i).getTopic();
-                                button.setText(btnTopic.getName());
+                                TopicUser btnTopic = topics.get(i);
+                                button.setText(btnTopic.getTopic().getName());
                                 if (i == 0) {
                                     button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
+                                    currentTopicUser = btnTopic;
                                 }
                                 button.setOnClickListener(v -> {
                                     button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
@@ -114,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
                                             otherButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#444444"))); // Change to desired color
                                         }
                                     }
+                                    currentTopicUser = btnTopic;
+                                    loadAllPosts();
                                 });
                                 themesBar.addView(button);
                                 buttons.add(button);
@@ -166,13 +171,15 @@ public class MainActivity extends AppCompatActivity {
 
             buttonNewPost.setOnClickListener(v -> {
                 Intent intent = new Intent(MainActivity.this, AddPostActivity.class);
+                intent.putExtra("user",user);
+                intent.putExtra("topicUser",currentTopicUser);
                 startActivity(intent);
             });
 
             // Passing each menu ID as a set of Ids because each
             // menu should be considered as top level destinations.
             DrawerLayout drawer = binding.drawerLayout;
-            NavigationView navigationViewleft = binding.leftNavView.leftNavView;
+            NavigationView navigationViewleft = binding.leftNavView.leftNavViewPane;
 
             //Left menu Controller
             mAppBarConfigurationLeft = new AppBarConfiguration.Builder(R.id.nav_home).setOpenableLayout(drawer).build();
