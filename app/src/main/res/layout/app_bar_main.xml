@@ -63,26 +63,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="20dp"
-                        android:backgroundTint="@color/marinclair"
-                        android:text="Theme1" />
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="20dp"
-                        android:backgroundTint="@color/marinclair"
-                        android:text="Theme1" />
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="20dp"
-                        android:backgroundTint="@color/marinclair"
-                        android:text="Theme1" />
                 </LinearLayout>
             </HorizontalScrollView>
         </com.google.android.material.appbar.MaterialToolbar>

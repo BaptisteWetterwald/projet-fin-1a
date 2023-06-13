@@ -25,6 +25,14 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".FullScreenVideoActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".DebugActivity"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:exported="true">
         </activity>

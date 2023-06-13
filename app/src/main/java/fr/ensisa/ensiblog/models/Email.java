@@ -1,6 +1,7 @@
 package fr.ensisa.ensiblog.models;
+import java.io.Serializable;
 import java.util.regex.Pattern;
-public class Email {
+public class Email implements Serializable {
 
     private String address;
 
@@ -59,5 +60,15 @@ public class Email {
 
     public String lastName(){
         return names()[1];
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!(obj instanceof Email))
+            return false;
+        if (obj == this)
+            return true;
+        return this.getAddress().equals(((Email) obj).getAddress());
     }
 }

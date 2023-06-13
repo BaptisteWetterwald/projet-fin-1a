@@ -14,23 +14,28 @@
         android:background="@color/top"
         android:orientation="horizontal">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/img_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:src="@drawable/ic_baseline_person_24"
+            android:adjustViewBounds="true"
             android:maxWidth="40dp"
             android:maxHeight="40dp"
-            android:minWidth="25dp"
-            android:minHeight="25dp"
-            android:layout_width="60sp"
-            android:layout_height="60sp"
-            android:src="@drawable/profile_icon" />
-
+            android:scaleType="fitXY"
+            android:minWidth="40dp"
+            android:minHeight="40dp"
+            android:background="@drawable/circle"
+            android:clipToOutline="true"
+            />
 
         <LinearLayout
             android:id="@+id/layout_names"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <TextView
                 android:id="@+id/txt_firstname"
@@ -55,9 +60,13 @@
 
         <LinearLayout
             android:id="@+id/layout_function_topic"
-            android:layout_width="115dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_weight="0.5"
+            android:orientation="vertical"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
+            >
 
             <TextView
                 android:id="@+id/txt_function"
@@ -65,8 +74,8 @@
                 android:layout_height="0dp"
                 android:layout_marginStart="10dp"
                 android:layout_weight="0.5"
-                android:gravity="bottom|start"
                 android:text="Function"
+                android:gravity="bottom|start"
                 android:textColor="@color/red" />
 
             <TextView
@@ -84,25 +93,25 @@
             android:id="@+id/layout_date"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/txt_date_day"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="0.5"
-                android:gravity="bottom"
-                android:text="Day" />
-
-            <TextView
-                android:id="@+id/txt_date_hour"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="0.5"
-                android:gravity="top"
-                android:text="Hour" />
+            android:orientation="vertical"
+            >
+                <TextView
+                    android:id="@+id/txt_date_day"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
+                    android:text="Day"
+                    android:gravity="bottom"
+                    />
+                <TextView
+                    android:id="@+id/txt_date_hour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
+                    android:text="Hour"
+                    android:gravity="top"
+                    android:layout_marginEnd="50dp"
+                    />
         </LinearLayout>
     </LinearLayout>
 

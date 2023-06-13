@@ -10,7 +10,7 @@
 
     <com.google.android.material.navigation.NavigationView
         android:layout_width="235dp"
-        android:id="@+id/left_nav_view"
+        android:id="@+id/left_nav_view_pane"
         android:layout_height="match_parent"
         tools:ignore="MissingConstraints"
         tools:showIn="navigation_view"

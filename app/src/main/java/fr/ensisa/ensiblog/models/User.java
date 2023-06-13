@@ -2,14 +2,15 @@ package fr.ensisa.ensiblog.models;
 
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable {
 
     private Email email;
-    private String fonction;
     private String biographie;
     private String uid;
+    private String photoUrl;
 
     public User(){
         // empty constructor required for firebase
@@ -24,12 +25,11 @@ public class User {
         setUid(uid);
     }
 
-    public String getFonction() {
-        return fonction;
-    }
-
-    public void setFonction(String fonction) {
-        this.fonction = fonction;
+    public User(Email email, String uid, String biographie, String photoUrl){
+        setEmail(email);
+        setUid(uid);
+        setBiographie(biographie);
+        setPhotoUrl(photoUrl);
     }
 
     public String getBiographie() {
@@ -54,5 +54,23 @@ public class User {
 
     public void setEmail(Email email) {
         this.email = email;
+    }
+
+    public void setPhotoUrl(String photoUrl){
+        this.photoUrl = photoUrl;
+    }
+
+    public String getPhotoUrl(){
+        return photoUrl;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!(obj instanceof User))
+            return false;
+        if (obj == this)
+            return true;
+        return this.getEmail().equals(((User) obj).getEmail());
     }
 }
