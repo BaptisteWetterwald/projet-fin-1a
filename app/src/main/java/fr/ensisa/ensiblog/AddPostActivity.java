@@ -230,7 +230,7 @@ public class AddPostActivity extends AppCompatActivity {
                     }
                 }
                 boolean[] urls = new boolean[tasks.size()];
-                Log.i("n6a","GO !!");
+
                 int j = 0;
                 for (int i = 0; i < listContent.length; i++) {
                     if(listContent[i].getType() != ContentType.TEXT.getType()){
