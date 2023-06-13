@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
             // Set a layout manager for the RecyclerView
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             get_left_view();
-        }
+        }/**/
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
