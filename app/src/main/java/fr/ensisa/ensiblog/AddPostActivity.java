@@ -57,6 +57,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import fr.ensisa.ensiblog.firebase.Database;
 import fr.ensisa.ensiblog.firebase.Table;
@@ -242,31 +243,42 @@ public class AddPostActivity extends AppCompatActivity {
                     for (Future<UploadTask> future : futures) {
                         UploadTask uploadTask = future.get();
                         Log.i("n6a","taskUpload finished ??"+uploadTask.isComplete());
+                        listContent[j] = new Content(tasksContent.get(j), listRef.get(j).getDownloadUrl().toString());
                         if(uploadTask.isSuccessful()){
                             Log.i("n6a","taskUpload finished");
-                            listContent[j] = new Content(tasksContent.get(j), listRef.get(j).getDownloadUrl().toString());
+                            //listContent[j] = new Content(tasksContent.get(j), listRef.get(j).getDownloadUrl().toString());
                         }
                         j++;
-                    }
-
-                    if (listContent.length == 0) {
-                        Toast.makeText(AddPostActivity.this, "Du contenu est requis", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Post newPost = new Post(new Date(), topicUser.getTopic(), topicUser.getUser(), Arrays.asList(listContent), new Date());
-                        Database.getInstance().add(Table.POSTS.getName(), newPost, Post.class).addOnCompleteListener(task -> {
-                            if(task.isSuccessful()){
-                                Intent intent = new Intent(AddPostActivity.this, MainActivity.class);
-                                intent.putExtra("user",user);
-                                startActivity(intent);
-                            } else Toast.makeText(AddPostActivity.this, "Erreur lors de la publication du post", Toast.LENGTH_SHORT).show();
-                        });
                     }
 
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 } finally {
                     executorService.shutdown();
+
+                    try {
+
+                        if(executorService.awaitTermination(10, TimeUnit.SECONDS)){
+                            Log.i("n6a","terminé :o");
+                            if (listContent.length == 0) {
+                                Toast.makeText(AddPostActivity.this, "Du contenu est requis", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Post newPost = new Post(new Date(), topicUser.getTopic(), topicUser.getUser(), Arrays.asList(listContent), new Date());
+                                Database.getInstance().add(Table.POSTS.getName(), newPost, Post.class).addOnCompleteListener(task -> {
+                                    if(task.isSuccessful()){
+                                        Intent intent = new Intent(AddPostActivity.this, MainActivity.class);
+                                        intent.putExtra("user",user);
+                                        startActivity(intent);
+                                    } else Toast.makeText(AddPostActivity.this, "Erreur lors de la publication du post", Toast.LENGTH_SHORT).show();
+                                });
+                            }
+                        }
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
+
+
 
             });
         }
