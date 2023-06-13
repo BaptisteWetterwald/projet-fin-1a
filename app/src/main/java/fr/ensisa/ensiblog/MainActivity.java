@@ -67,9 +67,9 @@ public class MainActivity extends AppCompatActivity {
     private Boolean already_exist;
     private User userModel;
     private List<Button> buttons = new ArrayList<>();
-
-
     private TopicUser currentTopicUser = null;
+    private List<Topic> displayedTopics = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,19 +105,24 @@ public class MainActivity extends AppCompatActivity {
                                 Button button = new Button(MainActivity.this);
                                 TopicUser btnTopic = topics.get(i);
                                 button.setText(btnTopic.getTopic().getName());
-                                if (i == 0) {
-                                    button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
-                                    currentTopicUser = btnTopic;
-                                }
                                 button.setOnClickListener(v -> {
-                                    button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
-                                    for (Button otherButton : buttons) {
-                                        if (otherButton != button) {
-                                            otherButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#444444"))); // Change to desired color
+                                    // check if displayedTopics contains a topic with name button.getText()
+                                    boolean contains = false;
+                                    for (Topic topic : displayedTopics) {
+                                        if (topic.getName().contentEquals(button.getText())) {
+                                            contains = true;
+                                            displayedTopics.remove(topic);
+                                            break;
                                         }
                                     }
-                                    currentTopicUser = btnTopic;
-                                    loadAllPosts();
+                                    if (!contains) {
+                                        displayedTopics.add(btnTopic.getTopic());
+                                    }
+
+                                    button.setBackgroundTintList(displayedTopics.contains(btnTopic.getTopic()) ? ColorStateList.valueOf(Color.parseColor("#FF0000")) : ColorStateList.valueOf(Color.parseColor("#444444")));
+                                    Log.d("n6a", "displayedTopics: " + displayedTopics);
+                                    adapter.notifyDataSetChanged();
+
                                 });
                                 themesBar.addView(button);
                                 buttons.add(button);
@@ -265,6 +270,7 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                     }
                                 });
+
                                 themesBar.addView(button_tp);
                                 buttons.add(button_tp);
                                 get_left_view();
