@@ -11,7 +11,7 @@
          android:layout_width="match_parent"
          android:layout_height="match_parent"
          android:layout_gravity="left"
-        android:background="@color/white"
+        android:background="@color/background"
          android:fitsSystemWindows="true">
          <ScrollView
              android:layout_width="match_parent"
@@ -75,7 +75,6 @@
                      android:text="Modération"
                      android:textColor="@color/white"
                      android:id ="@+id/button_moderation"/>
-
                  <com.google.android.material.button.MaterialButton
                      android:layout_marginBottom="10dp"
                      android:layout_marginTop="10dp"

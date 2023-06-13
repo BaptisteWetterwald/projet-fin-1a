@@ -183,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
             NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfigurationLeft);
             NavigationUI.setupWithNavController(navigationViewleft, navController);
-
             RecyclerView recyclerView = findViewById(R.id.recyclerView);
             loadAllPosts();
             // Create an instance of the PostAdapter

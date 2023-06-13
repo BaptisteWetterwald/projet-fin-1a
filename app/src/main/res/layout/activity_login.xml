@@ -31,25 +31,6 @@
             android:textColor="@color/MARIN_APP"
             android:text="BLOG"/>
 
-        <Button
-            android:id="@+id/anglais"
-            android:layout_marginLeft="25dp"
-            android:text="Anglais"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"/>
-        <Button
-            android:layout_marginLeft="25dp"
-            android:id="@+id/francais"
-            android:adjustViewBounds="true"
-            android:text="Francais"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"/>
-
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
@@ -70,7 +51,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="@string/connexion"
         android:textColor="@color/colorWhite"
         android:textSize="34sp"
         android:textStyle="bold"
