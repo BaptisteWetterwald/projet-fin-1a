@@ -8,26 +8,29 @@
     <include
         android:id="@+id/include"
         layout="@layout/content_main" />
-     <androidx.appcompat.widget.Toolbar
+
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
+        android:background="@color/top"
         app:popupTheme="@style/Theme.Ensiblog.PopupOverlay">
-         <TextView
-             android:textSize="20dp"
-             android:textStyle="bold"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:textColor="@color/Ciel"
-             android:text="ENSI"/>
-         <TextView
-             android:textSize="20dp"
-             android:textStyle="bold"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:textColor="@color/MARIN_APP"
-             android:text="BLOG"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ENSI"
+            android:textColor="@color/design_default_color_surface"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BLOG"
+            android:textColor="@color/Ciel"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -39,39 +42,45 @@
 
         android:layout_gravity="top"
         tools:ignore="MissingConstraints">
+
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
-            android:background="@color/MARIN_APP"
+            android:layout_height="?attr/actionBarSize"
 
+            android:background="@drawable/back_post_icon"
             android:outlineAmbientShadowColor="@color/black"
-            android:outlineSpotShadowColor="@color/black"
-            android:layout_height="?attr/actionBarSize">
+            android:outlineSpotShadowColor="@color/black">
+
             <HorizontalScrollView
                 android:id="@+id/scrollview"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
+
                 <LinearLayout
                     android:id="@+id/main_topics"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
                     <Button
-                        android:layout_marginRight="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
                         android:backgroundTint="@color/marinclair"
                         android:text="Theme1" />
+
                     <Button
-                        android:layout_marginRight="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
                         android:backgroundTint="@color/marinclair"
                         android:text="Theme1" />
+
                     <Button
-                        android:layout_marginRight="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
                         android:backgroundTint="@color/marinclair"
                         android:text="Theme1" />
                 </LinearLayout>
@@ -92,10 +101,10 @@
         android:id="@+id/fixedButton"
         android:layout_width="50dp"
         android:layout_height="60dp"
-        android:text="+"
         android:layout_gravity="bottom|end"
-        android:backgroundTint="@color/MARIN_APP"
         android:layout_margin="20dp"
-        android:textSize="30sp"
-        android:gravity="center"/>
+        android:backgroundTint="@color/red"
+        android:gravity="center"
+        android:text="+"
+        android:textSize="30sp" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

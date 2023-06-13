@@ -11,101 +11,98 @@
         android:id="@+id/layout_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#99bbff"
-        >
+        android:background="@color/top"
+        android:orientation="horizontal">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_avatar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:src="@drawable/ic_user"
-            android:adjustViewBounds="true"
             android:maxWidth="40dp"
             android:maxHeight="40dp"
-            android:scaleType="fitXY"
-            android:minHeight="25dp"
             android:minWidth="25dp"
-            />
+            android:minHeight="25dp"
+            android:layout_width="60sp"
+            android:layout_height="60sp"
+            android:src="@drawable/profile_icon" />
+
 
         <LinearLayout
             android:id="@+id/layout_names"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/txt_firstname"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="0.5"
-                android:text="Firstname"
-                android:textColor="#003cb3"
                 android:gravity="bottom|start"
-                />
+                android:text="Firstname"
+                android:textColor="@color/Ciel"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txt_lastname"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="0.5"
-                android:text="Lastname"
-                android:textColor="#003cb3"
                 android:gravity="top|start"
-                />
+                android:text="Lastname"
+                android:textColor="@color/Ciel"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/layout_function_topic"
-            android:layout_width="0dp"
+            android:layout_width="115dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/txt_function"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginStart="10dp"
                 android:layout_weight="0.5"
-                android:text="Function"
                 android:gravity="bottom|start"
-                />
+                android:text="Function"
+                android:textColor="@color/red" />
 
             <TextView
                 android:id="@+id/txt_topic"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginStart="10dp"
                 android:layout_weight="0.5"
-                android:text="Topic"
                 android:gravity="top|start"
-                />
+                android:text="Topic"
+                android:textColor="@color/red" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/layout_date"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
-                <TextView
-                    android:id="@+id/txt_date_day"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="0.5"
-                    android:text="Day"
-                    android:gravity="bottom"
-                    />
-                <TextView
-                    android:id="@+id/txt_date_hour"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="0.5"
-                    android:text="Hour"
-                    android:gravity="top"
-                    />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_date_day"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="0.5"
+                android:gravity="bottom"
+                android:text="Day" />
+
+            <TextView
+                android:id="@+id/txt_date_hour"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="0.5"
+                android:gravity="top"
+                android:text="Hour" />
         </LinearLayout>
     </LinearLayout>
 
