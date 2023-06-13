@@ -11,15 +11,14 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
-        app:popupTheme="@style/Theme.Ensiblog.PopupOverlay"
-        tools:ignore="MissingConstraints">
+        android:background="@color/top"
+        app:popupTheme="@style/Theme.Ensiblog.PopupOverlay">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ENSI"
-            android:textColor="@color/Ciel"
+            android:textColor="@color/design_default_color_surface"
             android:textSize="20dp"
             android:textStyle="bold" />
 
@@ -27,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="BLOG"
-            android:textColor="@color/MARIN_APP"
+            android:textColor="@color/Ciel"
             android:textSize="20dp"
             android:textStyle="bold" />
 
@@ -37,6 +36,9 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -64,15 +66,15 @@
     <ScrollView
         android:id="@+id/scroll_View"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="70dp"
         android:layout_marginBottom="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
         app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout

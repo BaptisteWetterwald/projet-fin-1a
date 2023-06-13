@@ -7,6 +7,31 @@
     android:background="@color/white"
     android:orientation="vertical"
     tools:context=".AccountActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/top"
+        app:popupTheme="@style/Theme.Ensiblog.PopupOverlay">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ENSI"
+            android:textColor="@color/design_default_color_surface"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BLOG"
+            android:textColor="@color/Ciel"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+    </androidx.appcompat.widget.Toolbar>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -159,16 +184,7 @@
                 android:orientation="vertical"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="@dimen/aaa">
-                <TextView
-                    android:id="@+id/textViewBio"
-                    android:layout_width="354dp"
-                    android:layout_height="wrap_content"
-                    android:drawableRight="@drawable/info"
-                    android:text="@string/AproposMoi"
-                    android:textColor="@color/red"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:layout_gravity="center_horizontal" />
+
                 <TextView
                     android:id="@+id/editTextBio"
                     android:layout_width="359dp"
