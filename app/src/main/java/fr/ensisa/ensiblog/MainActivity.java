@@ -149,12 +149,9 @@ public class MainActivity extends AppCompatActivity {
                 //return;
             }
             button.setBackgroundTintList(displayedTopics.contains(btnTopic) ? ColorStateList.valueOf(Color.parseColor("#FF0000")) : ColorStateList.valueOf(Color.parseColor("#444444")));
-            Log.d("n6a", "displayedTopics: " + displayedTopics);
 
             Collections.sort(postsWithFunctions, (o1, o2) -> o2.getPost().getCreation().compareTo(o1.getPost().getCreation()));
-            Log.i("n6a","before notify");
             adapter.notifyDataSetChanged();
-            Log.i("n6a","after notify");
 
         });
     }
@@ -208,9 +205,7 @@ public class MainActivity extends AppCompatActivity {
                             } else removeElement(buttonModo);
                         }
                     });
-                    Log.i("n6a","avant admins");
                     Database.getInstance().alreadyIn(Table.ADMINS.getName(), new String[]{"email"}, new Email[]{userModel.getEmail()}, alreadyExists -> {
-                        Log.i("n6a","already ?"+alreadyExists);
                         if(!alreadyExists)
                             removeElement(buttonAdmin);
                         else{
@@ -335,7 +330,6 @@ public class MainActivity extends AppCompatActivity {
                                         TopicUser topicUser = new TopicUser(topics.get(0),userModel,topics.get(0).getDefaultRole());
                                         Database.getInstance().add(Table.TOPIC_USERS.getName(), topicUser, TopicUser.class, false);
                                         Button button_tp = new Button(MainActivity.this);
-                                        button_tp.setWidth(500);
                                         button_tp.setText(btnTopic.getName());
                                         LinearLayout themesBar = findViewById(R.id.main_topics);
 
