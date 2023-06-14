@@ -23,5 +23,5 @@
     <string name="connexion" translatable="false">Connexion</string>
     <string name="creeUnCompte" translatable="true">Create Account</string>
     <string name="avezVousCompte" translatable="true">Have you already an account ?</string>
-    <string name="langue">Langue</string>
+    <string name="refresh">Refresh</string>
 </resources>

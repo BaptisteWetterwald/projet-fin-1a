@@ -46,4 +46,12 @@ public class Topic implements Serializable {
             return true;
         return this.getName().equals(((Topic) obj).getName()) && this.getDefaultRole().equals(((Topic) obj).getDefaultRole());
     }
+
+    @Override
+    public String toString() {
+        return "Topic{" +
+                "name='" + name + '\'' +
+                ", defaultRole=" + defaultRole +
+                '}';
+    }
 }
