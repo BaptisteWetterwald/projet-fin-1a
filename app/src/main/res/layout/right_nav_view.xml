@@ -18,6 +18,7 @@
             android:layout_gravity="bottom"
             android:layout_height="match_parent">
             <LinearLayout
+                android:id="@+id/buttons_right_panel"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -64,7 +65,7 @@
                     android:layout_height="2dp"
                     android:background="@color/Ciel" />
 
-                <com.google.android.material.button.MaterialButton
+                <!--com.google.android.material.button.MaterialButton
                     android:id="@+id/button_gest"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -94,8 +95,8 @@
                     android:background="@drawable/btn_bg"
                     android:backgroundTint="@color/marinclair"
                     android:text="Administration"
-                    android:textColor="@color/white" />
-                <!--Not forgive to set Deconnexion bottom-->
+                    android:textColor="@color/white" /-->
+
             </LinearLayout>
         </ScrollView>
 
@@ -103,6 +104,8 @@
             android:id="@+id/button_disconnect"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_gravity="bottom"
             android:backgroundTint="@color/red"
             android:drawableRight="@drawable/logout"

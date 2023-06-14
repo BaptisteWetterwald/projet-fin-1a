@@ -1,8 +1,12 @@
 package fr.ensisa.ensiblog;
 
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -65,6 +69,24 @@ public class Utils {
         ViewGroup layout = (ViewGroup) element.getParent();
         if(null!=layout)
             layout.removeView(element);
+    }
+
+
+    /**
+     * traduce an unusable Uri to a usable Path
+     @param uri : the unusable uri
+     **/
+    public static String getFilePathFromUri(ContentResolver resolver, Uri uri) {
+        String filePath = null;
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = resolver.query(uri, projection, null, null, null);
+        if (cursor != null) {
+            int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            filePath = cursor.getString(columnIndex);
+            cursor.close();
+        }
+        return filePath;
     }
 
 }

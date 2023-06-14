@@ -3,14 +3,18 @@ package fr.ensisa.ensiblog;
 import static fr.ensisa.ensiblog.Utils.removeElement;
 import static fr.ensisa.ensiblog.Utils.showInfoBox;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,12 +30,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -157,26 +164,53 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private MaterialButton createButton(Context context, String buttonText) {
+        MaterialButton button = new MaterialButton(context);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                100
+        );
+        params.setMargins(10, 20, 10, 20); // Set margins for the buttons
+        button.setLayoutParams(params);
+
+        Drawable background = getResources().getDrawable(R.drawable.btn_bg); // Set the background drawable for the button
+        button.setBackground(background);
+
+        button.setTextColor(Color.WHITE); // Set the text color for the button
+        button.setText(buttonText); // Set the text for the button
+
+        return button;
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         Bundle extras = getIntent().getExtras();
+
         if (extras != null) {
+
             FirebaseUser user = (FirebaseUser) extras.get("user");
             TextView textUserName = findViewById(R.id.user_name);
             Email usrEmail = new Email(user.getEmail());
             textUserName.setText(usrEmail.firstName() + " " + usrEmail.lastName());
+
+            LinearLayout buttonsLayout = findViewById(R.id.buttons_right_panel);
+
             // On commence par récupérer l'user courant dans notre DB pour filtrer les topics
             Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{"uid"}, new String[]{user.getUid()}).addOnSuccessListener(users -> {
                 if (users.size() > 0) {
                     userModel = users.get(0);
+                    if(userModel.getPhotoUrl() != null){
+                        ImageView avatar = findViewById(R.id.img_avatar);
+                        Picasso.get().load(userModel.getPhotoUrl()).into(avatar);
+                    }
+
                     get_left_view();
                     AtomicBoolean isModo = new AtomicBoolean(false);
-
-                    Button buttonModo = (Button) findViewById(R.id.button_moderation);
-                    Button buttonAdmin = (Button) findViewById(R.id.button_admin);
 
                     // On récupère la liste des topics auquel l'user est abonné
                     Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"user"}, new User[]{userModel}).addOnSuccessListener(topics -> {
@@ -197,43 +231,54 @@ public class MainActivity extends AppCompatActivity {
                                 buttons.add(button);
                             }
                             if(isModo.get()){
+                                MaterialButton buttonModo = createButton(this, "Modération");
+                                buttonsLayout.addView(buttonModo);
                                 buttonModo.setOnClickListener(v -> {
                                     Intent intent = new Intent(MainActivity.this, ModeratorActivity.class);
                                     intent.putExtra("user",user);
                                     startActivity(intent);
                                 });
-                            } else removeElement(buttonModo);
+                            }
                         }
                     });
+
+
+
                     Database.getInstance().alreadyIn(Table.ADMINS.getName(), new String[]{"email"}, new Email[]{userModel.getEmail()}, alreadyExists -> {
-                        if(!alreadyExists)
-                            removeElement(buttonAdmin);
-                        else{
+                        if(alreadyExists) {
+                            MaterialButton buttonAdmin = createButton(this, "Administration");
+                            buttonsLayout.addView(buttonAdmin);
                             buttonAdmin.setOnClickListener(v -> {
                                 Intent intent = new Intent(MainActivity.this, AdminActivity.class);
                                 startActivity(intent);
                             });
                         }
                     });
+
+                    MaterialButton buttonGestionCompte = createButton(this, "Gestion Compte");
+                    buttonsLayout.addView(buttonGestionCompte);
+                    buttonGestionCompte.setOnClickListener(v -> {
+                        Intent intent = new Intent(MainActivity.this, AccountActivity.class);
+                        intent.putExtra("user",user);
+                        intent.putExtra("User",userModel);
+                        startActivity(intent);
+                    });
+
+                    Button buttonNewPost = (Button) findViewById(R.id.fixedButton);
+                    buttonNewPost.setOnClickListener(v -> {
+                        Intent intent = new Intent(MainActivity.this, AddPostActivity.class);
+                        intent.putExtra("user",user);
+                        intent.putExtra("User",userModel);
+                        startActivity(intent);
+                    });
                 }
             });
             setSupportActionBar(binding.appBarMain.toolbar);
-            Button buttonGestionCompte = (Button) findViewById(R.id.button_gest);
-            buttonGestionCompte.setOnClickListener(v -> {
-                Intent intent = new Intent(MainActivity.this, AccountActivity.class);
-                startActivity(intent);
-            });
+
             Button buttonDeco = (Button) findViewById(R.id.button_disconnect);
             buttonDeco.setOnClickListener(v -> {
                 new Authentication().signOut();
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-            });
-            Button buttonNewPost = (Button) findViewById(R.id.fixedButton);
-            buttonNewPost.setOnClickListener(v -> {
-                Intent intent = new Intent(MainActivity.this, AddPostActivity.class);
-                intent.putExtra("user",user);
-                intent.putExtra("User",userModel);
                 startActivity(intent);
             });
             // Passing each menu ID as a set of Ids because each
@@ -257,6 +302,7 @@ public class MainActivity extends AppCompatActivity {
         }
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         DisplayBio();
+
     }
     private void get_left_view(){
         Database.getInstance().get(Table.TOPICS.getName(), Topic.class, new String[]{}, new Topic[]{}).addOnSuccessListener(topics_1 -> {
