@@ -24,4 +24,7 @@
     <string name="creeUnCompte" translatable="true">Create Account</string>
     <string name="avezVousCompte" translatable="true">Have you already an account ?</string>
     <string name="refresh">Refresh</string>
+    <string name="change_picture">Change picture</string>
+    <string name="add_image">Add Image</string>
+    <string name="add_text">Add Text</string>
 </resources>
