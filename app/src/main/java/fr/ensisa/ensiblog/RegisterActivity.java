@@ -11,6 +11,7 @@ import fr.ensisa.ensiblog.firebase.Authentication;
 import fr.ensisa.ensiblog.firebase.Database;
 import fr.ensisa.ensiblog.firebase.Table;
 import fr.ensisa.ensiblog.models.Email;
+import fr.ensisa.ensiblog.models.Password;
 import fr.ensisa.ensiblog.models.User;
 
 import static fr.ensisa.ensiblog.Utils.showInfoBox;
@@ -31,6 +32,15 @@ public class RegisterActivity extends AppCompatActivity {
         buttonReg.setOnClickListener(v -> {
             String email = edUsername.getText().toString();
             String password = edPassword.getText().toString();
+
+            if(!Email.isValid(email)) {
+                Toast.makeText(getApplicationContext(), "Invalid uha email", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(!Password.isValid(password)) {
+                Toast.makeText(getApplicationContext(), "Invalid password", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             Authentication auth = new Authentication();
 
