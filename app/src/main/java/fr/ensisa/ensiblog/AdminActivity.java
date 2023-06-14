@@ -35,6 +35,9 @@ import fr.ensisa.ensiblog.models.Topic;
 import fr.ensisa.ensiblog.models.TopicUser;
 import fr.ensisa.ensiblog.models.User;
 
+/**
+ * Activity used on the admin page of the application
+ **/
 public class AdminActivity extends AppCompatActivity {
 
     private ListView listView;
@@ -42,6 +45,9 @@ public class AdminActivity extends AppCompatActivity {
 
     private ArrayList<Topic> themes = new ArrayList<Topic>();
 
+    /**
+     * Function called when AdminActivity starts
+     **/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

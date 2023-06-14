@@ -17,6 +17,9 @@ import java.util.Objects;
 
 import okhttp3.internal.cache.DiskLruCache;
 
+/**
+ * Class containing all functions needed to work with the database
+ **/
 public class Database {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static Database instance;

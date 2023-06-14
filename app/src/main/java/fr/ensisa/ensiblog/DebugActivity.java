@@ -22,10 +22,16 @@ import fr.ensisa.ensiblog.models.posts.ImageContent;
 import fr.ensisa.ensiblog.models.posts.Post;
 import fr.ensisa.ensiblog.models.posts.TextContent;
 
+/**
+ * Activity not used in any page of the app. It is just for managing the database before launching the app
+ **/
 public class DebugActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
     private ActivityMainBinding binding;
 
+    /**
+     * Function called when DebugActivity starts
+     **/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

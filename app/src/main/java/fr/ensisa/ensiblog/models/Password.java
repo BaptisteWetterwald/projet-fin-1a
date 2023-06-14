@@ -3,6 +3,9 @@ package fr.ensisa.ensiblog.models;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+/**
+ * Class used to verify passwords
+ **/
 public class Password {
     private String password;
 

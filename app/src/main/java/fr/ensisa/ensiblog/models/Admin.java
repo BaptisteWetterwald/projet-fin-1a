@@ -2,6 +2,9 @@ package fr.ensisa.ensiblog.models;
 
 import java.io.Serializable;
 
+/**
+ * Class used to assign an admin role to a user
+ **/
 public class Admin implements Serializable {
 
     private Email email;

@@ -15,9 +15,15 @@ import fr.ensisa.ensiblog.models.User;
 
 import static fr.ensisa.ensiblog.Utils.showInfoBox;
 
+/**
+ * Activity used on the register page of the application
+ **/
 public class RegisterActivity extends AppCompatActivity {
     EditText edUsername, edPassword;
 
+    /**
+     * Function called when RegisterActivity starts
+     **/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

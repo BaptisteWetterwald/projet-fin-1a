@@ -17,10 +17,16 @@ import fr.ensisa.ensiblog.firebase.Authentication;
 import fr.ensisa.ensiblog.models.Email;
 import fr.ensisa.ensiblog.models.Password;
 
+/**
+ * Activity used on the login page of the application
+ **/
 public class LoginActivity extends AppCompatActivity {
     EditText edUsername, edPassword;
     Button btnFr, btnEng;
 
+    /**
+     * Function called when LoginActivity starts
+     **/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -2,6 +2,9 @@ package fr.ensisa.ensiblog.models;
 
 import java.io.Serializable;
 
+/**
+ * Class used for the database that links a user and a topic
+ **/
 public class TopicUser implements Serializable {
     private Topic topic;
     private User user;

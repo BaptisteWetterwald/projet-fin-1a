@@ -73,6 +73,9 @@ import fr.ensisa.ensiblog.models.posts.ContentType;
 import fr.ensisa.ensiblog.models.posts.Post;
 import fr.ensisa.ensiblog.models.posts.TextContent;
 
+/**
+ * Activity used on the AddPost page of the application
+ **/
 public class AddPostActivity extends AppCompatActivity {
 
     private final long IMAGE_MAX_SIZE = 1_000_000;
@@ -80,6 +83,10 @@ public class AddPostActivity extends AppCompatActivity {
     private final long VIDEO_MAX_SIZE = 10_000_000;
     private Topic currentTopic;
 
+    /**
+     * check if there is a boolean false in an array of boolean
+     @param array : the array to check
+     **/
     private static boolean isFull(boolean[] array) {
         for (int i = 0; i < array.length; i++) {
             if (!array[i]) {
@@ -89,6 +96,10 @@ public class AddPostActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * traduce an unusable Uri to a usable Path
+     @param uri : the unusable uri
+     **/
     private String getFilePathFromUri(Uri uri) {
         String filePath = null;
         String[] projection = {MediaStore.Images.Media.DATA};
@@ -102,6 +113,9 @@ public class AddPostActivity extends AppCompatActivity {
         return filePath;
     }
 
+    /**
+     * Function called when AddPostActivity starts
+     **/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

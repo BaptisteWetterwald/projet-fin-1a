@@ -8,13 +8,34 @@ import android.view.ViewGroup;
 
 import java.util.Objects;
 
+/**
+ * some tools used in activity file
+ **/
 public class Utils {
 
+    /**
+     * Used to display a tooltip in pages of the application with only one option to close the tooltip
+     * @param title : tooltip title
+     * @param text : principal text of the tooltip
+     * @param PositiveText : button with Positive answer to the tooltip
+     * @param context : page where to display the tooltip
+     * @param onPositiveListener : Listener on the PositiveText button
+     **/
     public static void showInfoBox(String title, String text, String PositiveText, Context context,
                                    DialogInterface.OnClickListener onPositiveListener) {
         showInfoBox(title,text,PositiveText,"",context,onPositiveListener,null);
     }
 
+    /**
+     * Used to display a tooltip in pages of the application with two options to close the tooltip
+     * @param title : tooltip title
+     * @param text : principal text of the tooltip
+     * @param PositiveText : button with Positive answer to the tooltip
+     * @param NegativeText : button with Negative answer to the tooltip
+     * @param context : page where to display the tooltip
+     * @param onPositiveListener : Listener on the PositiveText button
+     * @param onNegativeListener : Listener on the NegativeText button
+     **/
     public static void showInfoBox(String title, String text, String PositiveText, String NegativeText, Context context,
                                    DialogInterface.OnClickListener onPositiveListener, DialogInterface.OnClickListener onNegativeListener) {
 
@@ -36,6 +57,10 @@ public class Utils {
         alertDialog.show();
     }
 
+    /**
+     * Allow to remove an element from a view
+     * @param element : the element to remove
+     **/
     public static void removeElement(View element){
         ViewGroup layout = (ViewGroup) element.getParent();
         if(null!=layout)

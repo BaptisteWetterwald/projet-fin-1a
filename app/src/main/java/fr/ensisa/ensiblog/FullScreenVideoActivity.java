@@ -10,10 +10,16 @@ import android.view.WindowManager;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
+/**
+ * Activity used for posting videos
+ **/
 public class FullScreenVideoActivity extends Activity {
 
     private VideoView videoView;
 
+    /**
+     * Function called when FullScreenActivity starts
+     **/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,10 +50,12 @@ public class FullScreenVideoActivity extends Activity {
         videoView.start();
     }
 
+    /**
+     * Return to the previous screen when back button is pressed
+     **/
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        // Return to the previous screen when back button is pressed
         finish();
     }
 }

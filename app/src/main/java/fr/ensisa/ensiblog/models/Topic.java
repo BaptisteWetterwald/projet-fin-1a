@@ -2,6 +2,9 @@ package fr.ensisa.ensiblog.models;
 
 import java.io.Serializable;
 
+/**
+ * Class representing a topic on the application
+ **/
 public class Topic implements Serializable {
 
     private String name;

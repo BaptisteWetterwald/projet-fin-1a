@@ -1,6 +1,10 @@
 package fr.ensisa.ensiblog.models;
 import java.io.Serializable;
 import java.util.regex.Pattern;
+
+/**
+ * Class used to verify and get the Email of a user
+ **/
 public class Email implements Serializable {
 
     private String address;

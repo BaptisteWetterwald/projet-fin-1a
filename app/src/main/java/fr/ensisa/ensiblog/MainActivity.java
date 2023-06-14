@@ -52,6 +52,9 @@ import fr.ensisa.ensiblog.models.posts.Post;
 import fr.ensisa.ensiblog.models.posts.PostWithFunction;
 import fr.ensisa.ensiblog.ui.posts.PostWithFunctionAdapter;
 
+/**
+ * Activity representing the main page of the application
+ **/
 public class MainActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
     private ActivityMainBinding binding;
@@ -74,8 +77,13 @@ public class MainActivity extends AppCompatActivity {
                 Objects.requireNonNull(topicsRegistered.get(t)).remove();
                 break;
             }
-
     }
+
+    /**
+     * Allow to see posts of Topics selected in the Topics selection bar
+     * @param button : represent the button in the Topics selection bar
+     * @param btnTopic : represent the Topic link to the button
+     **/
     private void addListener(Button button,Topic btnTopic){
         button.setOnClickListener(v -> {
             // check if displayedTopics contains a topic with name button.getText()
@@ -154,7 +162,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * Function called when the MainActivity starts
+     **/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -267,6 +277,10 @@ public class MainActivity extends AppCompatActivity {
         }
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
+
+    /**
+     * Function that manages the subscription part of the app
+     **/
     private void get_left_view(){
         Database.getInstance().get(Table.TOPICS.getName(), Topic.class, new String[]{}, new Topic[]{}).addOnSuccessListener(topics_1 -> {
             LinearLayout left_view = findViewById(R.id.left_scroll);
@@ -356,12 +370,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Function needed to open the left_nav_view with swipe
+     **/
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfigurationLeft)
                 || super.onSupportNavigateUp();
     }
+
 
     private void loadAllPosts() {
         postsWithFunctions = new ArrayList<>();

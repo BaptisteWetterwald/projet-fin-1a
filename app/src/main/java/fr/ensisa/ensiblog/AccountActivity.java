@@ -63,10 +63,16 @@ import java.util.Objects;
 
 import fr.ensisa.ensiblog.models.Password;
 
-
+/**
+ * Activity used on the account_management page of the application
+ **/
 public class AccountActivity extends AppCompatActivity {
     private ArrayList<Topic> themes = new ArrayList<>();
     // Méthode pour afficher la bio (appelée dans OnCreate et OnResume)
+
+    /**
+     * Display the bio
+     **/
     private void DisplayBio() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
@@ -85,6 +91,9 @@ public class AccountActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Function called when AccountActivity starts
+     **/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +119,9 @@ public class AccountActivity extends AppCompatActivity {
         DisplayBio();
         // listener for editMdp button
         buttonEditMdp.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Code to execute when click on the button
+             **/
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(AccountActivity.this);
@@ -136,6 +148,9 @@ public class AccountActivity extends AppCompatActivity {
                 builder.setView(layout);
 
                 builder.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
+                    /**
+                     * Code to execute when click on the button
+                     **/
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String currentPassword = currentPasswordText.getText().toString();
@@ -187,6 +202,9 @@ public class AccountActivity extends AppCompatActivity {
 
 
         buttonEditBio.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Code to execute when click on the button
+             **/
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(AccountActivity.this);
@@ -197,6 +215,9 @@ public class AccountActivity extends AppCompatActivity {
                 builder.setView(editTextBio);
 
                 builder.setPositiveButton("Enregistrer", new DialogInterface.OnClickListener() {
+                    /**
+                     * Code to execute when click on the button
+                     **/
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String newBio = editTextBio.getText().toString().trim();
@@ -235,6 +256,9 @@ public class AccountActivity extends AppCompatActivity {
                     }
                 });
                 builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                    /**
+                     * Code to execute when click on the button
+                     **/
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.cancel();
@@ -245,6 +269,9 @@ public class AccountActivity extends AppCompatActivity {
             }
         });
         buttonEditFunctions.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Code to execute when click on the button
+             **/
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(AccountActivity.this);
@@ -276,6 +303,9 @@ public class AccountActivity extends AppCompatActivity {
                             }
                             builder.setView(scrollView);
                             builder.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
+                                /**
+                                 * Code to execute when click on the button
+                                 **/
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     // Récupérer les valeurs saisies par l'utilisateur pour chaque thème
@@ -307,6 +337,9 @@ public class AccountActivity extends AppCompatActivity {
 
 
         buttonDeleteAccount.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Code to execute when click on the button
+             **/
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(AccountActivity.this);

@@ -5,6 +5,9 @@ import com.google.firebase.auth.FirebaseUser;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Class representing the basic user on the application
+ **/
 public class User implements Serializable {
 
     private Email email;
@@ -12,19 +15,37 @@ public class User implements Serializable {
     private String uid;
     private String photoUrl;
 
+    /**
+     * User constructor
+     **/
     public User(){
         // empty constructor required for firebase
     }
 
+    /**
+     * User constructor
+     @param email : User
+     **/
     public User(Email email){
         setEmail(email);
     }
 
+    /**
+     * User constructor
+     @param email : User email
+     @param uid : User uid
+     **/
     public User(Email email, String uid){
         setEmail(email);
         setUid(uid);
     }
 
+    /**
+     * User constructor
+     @param email : User email
+     @param uid : User uid
+     @param photoUrl : User photo
+     **/
     public User(Email email, String uid, String biographie, String photoUrl){
         setEmail(email);
         setUid(uid);

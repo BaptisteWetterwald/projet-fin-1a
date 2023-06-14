@@ -8,6 +8,9 @@ import com.google.firebase.auth.FirebaseUser;
 import fr.ensisa.ensiblog.models.Email;
 import fr.ensisa.ensiblog.models.Password;
 
+/**
+ * Class used for the authentication of users
+ **/
 public class Authentication {
     private FirebaseAuth mAuth;
 

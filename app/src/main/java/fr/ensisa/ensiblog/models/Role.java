@@ -2,6 +2,9 @@ package fr.ensisa.ensiblog.models;
 
 import java.io.Serializable;
 
+/**
+ * Class used to assign a role to a user
+ **/
 public class Role implements Serializable {
 
     // Super-Modo : 4
