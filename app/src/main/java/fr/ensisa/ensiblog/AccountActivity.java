@@ -6,7 +6,7 @@ import android.util.Log;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.InputType;
 import android.view.View;
 import android.widget.ArrayAdapter;

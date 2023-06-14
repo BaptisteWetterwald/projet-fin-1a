@@ -1,3 +1,5 @@
 gradlew build sonar -Dsonar.projectKey=EnsiBlog -Dsonar.host.url=http://localhost:9000 -Dsonar.login=sqp_7e19496994e77ca7dcbe722829e4b59cf0ac4df2
 
 gradlew sonar -Dsonar.projectKey=EnsiBlog -Dsonar.host.url=http://localhost:9000 -Dsonar.login=sqp_7e19496994e77ca7dcbe722829e4b59cf0ac4df2
+
+gradlew createDebugAndroidTestCoverageReport
