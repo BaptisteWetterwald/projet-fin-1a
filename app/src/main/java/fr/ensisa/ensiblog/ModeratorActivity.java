@@ -54,7 +54,8 @@ public class ModeratorActivity extends AppCompatActivity {
                     RadioGroup radioGroup = componentView.findViewById(R.id.list_members_radioGroup);
                     TopicUser tpUsr = topicUsers.get(i);
 
-                    if(!Objects.equals(tpUsr.getUser().getEmail().getAddress(), currentTopic.getUser().getEmail().getAddress())){
+                    if(!Objects.equals(tpUsr.getUser().getEmail().getAddress(), currentTopic.getUser().getEmail().getAddress()) &&
+                    tpUsr.getRole().getRole() < currentTopic.getRole().getRole()){
 
                         Email members_email = tpUsr.getUser().getEmail();
                         // Modify the views as needed
