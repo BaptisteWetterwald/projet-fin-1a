@@ -137,7 +137,6 @@ public class AdminActivity extends AppCompatActivity {
             });
             //.addOnSuccessListener(o -> Toast.makeText(AdminActivity.this,"Topic successfully created !",Toast.LENGTH_SHORT))
             builder.setNegativeButton("Annuler", null);
-
             AlertDialog dialog = builder.create();
             dialog.show();
         });
@@ -152,12 +151,12 @@ public class AdminActivity extends AppCompatActivity {
                 public View getView(int position, View convertView, ViewGroup parent) {
 
                     View view = super.getView(position, convertView, parent);
-
-                    TextView themeTitle = view.findViewById(R.id.itemTextView);
-                    themeTitle.setText(themes.get(position).getName());
-
-                    TextView moderatorName = view.findViewById(R.id.moderatorNameTextView);
                     Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"topic"}, new Topic[]{themes.get(position)}).addOnSuccessListener(topicUsers -> {
+
+                        TextView themeTitle = view.findViewById(R.id.itemTextView);
+                        themeTitle.setText(themes.get(position).getName());
+
+                        TextView moderatorName = view.findViewById(R.id.moderatorNameTextView);
                         for (TopicUser tu : topicUsers) {
                             if (tu.getRole().getRole() == 4) {
                                 moderatorName.setText(tu.getUser().getEmail().firstName() + " " + tu.getUser().getEmail().lastName());
@@ -252,9 +251,8 @@ public class AdminActivity extends AppCompatActivity {
                             builder.setView(input);
 
                             builder.setPositiveButton("Valider", (dialog, which) -> {
-                                String newModerator = input.getText().toString();
+                                String newModerator = input.getText().toString().toLowerCase();
                                 if (newModerator.isEmpty() || !Email.isValid(newModerator)) {
-                                    Log.e("n6a",newModerator);
                                     Toast.makeText(AdminActivity.this, "Un email valide est requis", Toast.LENGTH_SHORT).show();
                                 } else {
                                     int pos = listView.getPositionForView(v);

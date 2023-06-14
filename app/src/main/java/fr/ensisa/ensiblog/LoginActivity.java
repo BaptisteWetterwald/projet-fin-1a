@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
 
            /* btnFr = (Button) findViewById(R.id.francais);
             btnFr.setOnClickListener(v -> {
-                setAppLocale("fr");                               IN PROCESS !!!!!!!!!!!!!!!
+                setAppLocale("fr");
             });
             btnEng = (Button) findViewById(R.id.anglais);
             btnEng.setOnClickListener(v -> {
