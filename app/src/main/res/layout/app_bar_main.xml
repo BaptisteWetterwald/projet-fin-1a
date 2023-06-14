@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,14 +9,12 @@
     <include
         android:id="@+id/include"
         layout="@layout/content_main" />
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/top"
         app:popupTheme="@style/Theme.Ensiblog.PopupOverlay">
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -23,7 +22,6 @@
             android:textColor="@color/design_default_color_surface"
             android:textSize="20dp"
             android:textStyle="bold" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,15 +29,12 @@
             android:textColor="@color/Ciel"
             android:textSize="20dp"
             android:textStyle="bold" />
-
     </androidx.appcompat.widget.Toolbar>
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_gravity="top"
         tools:ignore="MissingConstraints">
 
@@ -65,6 +60,11 @@
 
                 </LinearLayout>
             </HorizontalScrollView>
+            <TextView
+                android:text="Menu"
+                android:layout_width="wrap_content"
+                android:gravity="right"
+                android:layout_height="match_parent"/>
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 

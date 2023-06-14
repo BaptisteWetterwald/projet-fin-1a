@@ -9,6 +9,7 @@ buildscript {
     dependencies {
         // Add the dependency for the Google services Gradle plugin
         classpath 'com.google.gms:google-services:4.3.15'
+        classpath 'org.jacoco:org.jacoco.core:0.8.8'
     }
 
 }
@@ -18,6 +19,7 @@ buildscript {
 plugins {
     id 'com.android.application' version '8.0.2' apply false
     id 'com.android.library' version '8.0.2' apply false
+    id 'jacoco'
     id "org.sonarqube" version "3.5.0.2730"
 }
 
@@ -28,15 +30,3 @@ sonar {
         property "sonar.login", "sqp_7e19496994e77ca7dcbe722829e4b59cf0ac4df2"
     }
 }
-
-
-/*
-allprojects {
-    repositories {
-        // Make sure that you have the following two repositories
-        google()  // Google's Maven repository
-
-        mavenCentral()  // Maven Central repository
-
-    }
-}*/

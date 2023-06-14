@@ -7,95 +7,107 @@
     tools:context=".MainActivity">
 
     <com.google.android.material.navigation.NavigationView
-         android:id="@+id/nav_right_view"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:layout_gravity="left"
-        android:background="@color/white"
-         android:fitsSystemWindows="true">
-         <ScrollView
-             android:layout_width="match_parent"
-             android:layout_gravity="bottom"
-             android:layout_height="match_parent">
-             <LinearLayout
-                 android:layout_width="wrap_content"
-                 android:layout_height="match_parent"
-                 android:orientation="vertical">
-                 <ImageView
-                     android:paddingTop="10dp"
-                     android:paddingBottom="10dp"
-                     android:layout_width="match_parent"
-                     android:layout_height="200dp"
-                     android:background="@color/MARIN_APP"
-                     android:src="@drawable/ensisa" />
-                 <TextView
-                     android:id="@+id/user_name"
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                     android:text="@string/UtilisateurNom"
-                     android:textSize="30dp"
-                     android:textAlignment="center"
-                     tools:ignore="HardcodedText"
-                     android:background="@color/MARIN_APP"
-                     android:textColor="@color/white"
-                     android:paddingBottom="20dp" />
-                 <View
-                     android:layout_width="match_parent"
-                     android:layout_height="2dp"
-                     android:background="@android:color/black" />
+        android:id="@+id/nav_right_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:background="@color/background"
+        android:fitsSystemWindows="true">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                 <TextView
-                     android:layout_width="match_parent"
-                     android:layout_height="100dp"
-                     android:text="Description :"
-                     android:background="@color/MARIN_APP"
-                     android:textColor="@color/white"
-                     tools:ignore="HardcodedText" />
-                 <View
-                     android:layout_width="match_parent"
-                     android:layout_height="2dp"
-                     android:background="@android:color/black" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_avatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@drawable/back_post_icon"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:src="@drawable/profile_icon" />
 
-                 <com.google.android.material.button.MaterialButton
-                     android:layout_marginBottom="10dp"
-                     android:layout_marginTop="10dp"
-                     android:layout_width="match_parent"
-                     android:layout_height="40dp"
-                     android:text="@string/GestionCompte"
-                     android:textColor="@color/white"
-                     android:backgroundTint="@color/marinclair"
-                     android:id ="@+id/button_gest" />
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/top"
+                    android:paddingBottom="20dp"
+                    android:text="@string/UtilisateurNom"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="30dp"
+                    tools:ignore="HardcodedText" />
 
-                 <com.google.android.material.button.MaterialButton
-                     android:layout_marginBottom="10dp"
-                     android:layout_marginTop="10dp"
-                     android:layout_width="match_parent"
-                     android:backgroundTint="@color/marinclair"
-                     android:layout_height="40dp"
-                     android:text="Modération"
-                     android:textColor="@color/white"
-                     android:id ="@+id/button_moderation"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/Ciel" />
 
-                 <com.google.android.material.button.MaterialButton
-                     android:layout_marginBottom="10dp"
-                     android:layout_marginTop="10dp"
-                     android:layout_width="match_parent"
-                     android:layout_height="40dp"
-                     android:backgroundTint="@color/marinclair"
-                     android:text="Administration"
-                     android:textColor="@color/white"
-                     android:id ="@+id/button_admin"/>
-                 <!--Not forgive to set Deconnexion bottom-->
-             </LinearLayout>
-         </ScrollView>
+                <TextView
+                    android:id="@+id/editTextBio"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@drawable/et"
+                    android:hint="This is my bio"
+                    android:textColor="@color/dark"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/Ciel" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_gest"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/btn_bg"
+                    android:backgroundTint="@color/marinclair"
+                    android:text="@string/GestionCompte"
+                    android:textColor="@color/white" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_moderation"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/input_bg"
+                    android:backgroundTint="@color/marinclair"
+                    android:text="Modération"
+                    android:textColor="@color/white" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_admin"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/btn_bg"
+                    android:backgroundTint="@color/marinclair"
+                    android:text="Administration"
+                    android:textColor="@color/white" />
+                <!--Not forgive to set Deconnexion bottom-->
+            </LinearLayout>
+        </ScrollView>
+
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_disconnect"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:textSize="20dp"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/MARIN_APP"
             android:layout_gravity="bottom"
+            android:backgroundTint="@color/red"
+            android:drawableRight="@drawable/logout"
             android:text="Deconnexion"
-            android:id ="@+id/button_disconnect"/>
-     </com.google.android.material.navigation.NavigationView>
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+    </com.google.android.material.navigation.NavigationView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

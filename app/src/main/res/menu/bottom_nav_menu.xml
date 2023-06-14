@@ -8,6 +8,6 @@
     <item
         android:icon="@drawable/baseline_arrow_back_ios_24"
         android:id="@+id/name_app"
-        android:title="" />
+        android:title="  " />
 
 </menu>

@@ -98,10 +98,10 @@ public class AdminActivity extends AppCompatActivity {
                     Toast.makeText(AdminActivity.this, "Un mail correct est requis", Toast.LENGTH_SHORT).show();
                 } else {
                     Topic newTopic = new Topic(themeName,new Role(selectedRole));
-                    Database.getInstance().add(Table.TOPICS.getName(), newTopic, Topic.class,new String[]{"name"});
+                    Database.getInstance().add(Table.TOPICS.getName(), newTopic, Topic.class, new String[]{"name"});
                     Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{"email"}, new Email[]{new Email(moderatorEmail)}).addOnSuccessListener(users -> {
                         if(users.size()>0) {
-                            Database.getInstance().add(Table.TOPIC_USERS.getName(), new TopicUser(newTopic, users.get(0), new Role(4)), TopicUser.class, true);
+                            Database.getInstance().add(Table.TOPIC_USERS.getName(), new TopicUser(newTopic, users.get(0), new Role(4)), TopicUser.class);
 
                             // On affiche le thème créé à la vue
                             themes.add(newTopic);
