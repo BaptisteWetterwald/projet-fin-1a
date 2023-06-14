@@ -26,6 +26,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import fr.ensisa.ensiblog.firebase.Database;
 import fr.ensisa.ensiblog.firebase.Table;
@@ -34,6 +36,8 @@ import fr.ensisa.ensiblog.models.Role;
 import fr.ensisa.ensiblog.models.Topic;
 import fr.ensisa.ensiblog.models.TopicUser;
 import fr.ensisa.ensiblog.models.User;
+import fr.ensisa.ensiblog.models.posts.Content;
+import fr.ensisa.ensiblog.models.posts.Post;
 
 /**
  * Activity used on the admin page of the application
@@ -188,8 +192,15 @@ public class AdminActivity extends AppCompatActivity {
                                             Topic topic = adapter.getItem(pos);
                                             Topic newTopic = new Topic(newThemeName, topic.getDefaultRole());
                                             Database.getInstance().update(Table.TOPICS.getName(), newTopic, new String[]{"name"}, new String[]{topic.getName()});
-                                            TextView themeName = ((LinearLayout) v.getParent().getParent()).findViewById(R.id.itemTextView);
-                                            themeName.setText(newThemeName);
+                                            Database.getInstance().get(Table.POSTS.getName(), Post.class, new String[]{"topic"}, new Topic[]{topic}).addOnSuccessListener(posts -> {
+                                                for (Post post: posts) {
+                                                    post.setTopic(newTopic);
+                                                    Database.getInstance().update(Table.POSTS.getName(), post, new String[]{"creation","content"}, new Object[]{post.getCreation(),post.getContent()});
+                                                }
+                                                TextView themeName = ((LinearLayout) v.getParent().getParent()).findViewById(R.id.itemTextView);
+                                                themeName.setText(newThemeName);
+                                            });
+
                                         }
                                     });
                                 }

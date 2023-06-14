@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -52,9 +53,6 @@ import fr.ensisa.ensiblog.models.posts.Post;
 import fr.ensisa.ensiblog.models.posts.PostWithFunction;
 import fr.ensisa.ensiblog.ui.posts.PostWithFunctionAdapter;
 
-/**
- * Activity representing the main page of the application
- **/
 public class MainActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
     private ActivityMainBinding binding;
@@ -78,12 +76,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
     }
-
-    /**
-     * Allow to see posts of Topics selected in the Topics selection bar
-     * @param button : represent the button in the Topics selection bar
-     * @param btnTopic : represent the Topic link to the button
-     **/
     private void addListener(Button button,Topic btnTopic){
         button.setOnClickListener(v -> {
             // check if displayedTopics contains a topic with name button.getText()
@@ -106,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
             }
-
             if (!contains) {
                 displayedTopics.add(btnTopic);
                 topicsRegistered.put(btnTopic,
@@ -162,9 +153,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Function called when the MainActivity starts
-     **/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -214,7 +203,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                     Log.i("n6a","avant admins");
-
                     Database.getInstance().alreadyIn(Table.ADMINS.getName(), new String[]{"email"}, new Email[]{userModel.getEmail()}, alreadyExists -> {
                         Log.i("n6a","already ?"+alreadyExists);
                         if(!alreadyExists)
@@ -228,12 +216,7 @@ public class MainActivity extends AppCompatActivity {
                     });
                 }
             });
-
             setSupportActionBar(binding.appBarMain.toolbar);
-            /*AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.navigation_home, R.id.name_app)
-                    .build();*/
-
             Button buttonGestionCompte = (Button) findViewById(R.id.button_gest);
             buttonGestionCompte.setOnClickListener(v -> {
                 Intent intent = new Intent(MainActivity.this, AccountActivity.class);
@@ -260,6 +243,8 @@ public class MainActivity extends AppCompatActivity {
             DrawerLayout drawer = binding.drawerLayout;
             NavigationView navigationViewleft = binding.leftNavView.leftNavViewPane;
 
+            ((Button)findViewById(R.id.refresh_button)).setOnClickListener(click -> get_left_view());
+
             //Left menu Controller
             mAppBarConfigurationLeft = new AppBarConfiguration.Builder(R.id.nav_home).setOpenableLayout(drawer).build();
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -276,11 +261,8 @@ public class MainActivity extends AppCompatActivity {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
         }
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        DisplayBio();
     }
-
-    /**
-     * Function that manages the subscription part of the app
-     **/
     private void get_left_view(){
         Database.getInstance().get(Table.TOPICS.getName(), Topic.class, new String[]{}, new Topic[]{}).addOnSuccessListener(topics_1 -> {
             LinearLayout left_view = findViewById(R.id.left_scroll);
@@ -352,34 +334,25 @@ public class MainActivity extends AppCompatActivity {
                                         LinearLayout themesBar = findViewById(R.id.main_topics);
 
                                         addListener(button_tp,topics.get(0));
-
                                         themesBar.addView(button_tp);
                                         buttons.add(button_tp);
                                         get_left_view();
                                     } else Toast.makeText(MainActivity.this,"User not in topic",Toast.LENGTH_SHORT).show();
                                 });
-
                             },(dialog2, which)->{dialog2.cancel();button.setChecked(false);});
                         });
                         left_view.addView(button);
-
                     }
                 }
             });
-
         });
     }
-
-    /**
-     * Function needed to open the left_nav_view with swipe
-     **/
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfigurationLeft)
                 || super.onSupportNavigateUp();
     }
-
 
     private void loadAllPosts() {
         postsWithFunctions = new ArrayList<>();
@@ -426,6 +399,23 @@ public class MainActivity extends AppCompatActivity {
             // Notify the adapter that the data has changed
             //adapter.notifyDataSetChanged();
         });
+    }
+    private void DisplayBio() {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+        String userUid = user.getUid();
+        Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{}, new String[]{})
+                .addOnSuccessListener(userList -> {
+                    for (User user1 : userList) {
+                        if (user1.getUid() != null) {
+                            if (user1.getUid().equals(userUid)) {
+                                String currentBio = user1.getBiographie();
+                                TextView editTextBio = findViewById(R.id.editTextBio);
+                                editTextBio.setText(currentBio);
+                            }
+                        }
+                    }
+                });
     }
 
 

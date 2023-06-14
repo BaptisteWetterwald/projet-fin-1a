@@ -9,6 +9,7 @@ import android.util.DisplayMetrics;
 import java.util.Locale;
 import static fr.ensisa.ensiblog.Utils.showInfoBox;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -34,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         Authentication authentication = new Authentication();
         FirebaseUser firebaseUser = authentication.getCurrentUser();
 
-        if(firebaseUser != null){
+        if(firebaseUser != null && firebaseUser.isEmailVerified()){
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             intent.putExtra("user",firebaseUser);
             startActivity(intent);
@@ -78,17 +79,14 @@ public class LoginActivity extends AppCompatActivity {
                 auth.signInUser(email,password).addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
                         if(auth.getCurrentUser().isEmailVerified()){
+                            Log.i("n6a","EMail already verified !");
                             Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                             intent.putExtra("user",auth.getCurrentUser());
                             startActivity(intent);
                         } else {
                             Toast.makeText(getApplicationContext(), "Please verify your email", Toast.LENGTH_SHORT).show();
                             auth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task1 -> {
-                                if (task1.isSuccessful() && auth.getCurrentUser().isEmailVerified()) {
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    intent.putExtra("user",auth.getCurrentUser());
-                                    startActivity(intent);
-                                } else {
+                                if (task1.isSuccessful()){
                                     showInfoBox("Alert !","Please verify your email","OK",LoginActivity.this, (dialog, which) -> {
                                         dialog.cancel();
                                         auth.getCurrentUser().sendEmailVerification();
@@ -108,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void setAppLocale(String localeCode){
+/*    private void setAppLocale(String localeCode){
         Resources resources = getResources();
         DisplayMetrics dm = resources.getDisplayMetrics();
         Configuration config = resources.getConfiguration();
@@ -118,6 +116,6 @@ public class LoginActivity extends AppCompatActivity {
             config.locale = new Locale(localeCode.toLowerCase());
         }
         resources.updateConfiguration(config, dm);
-    }
+    }*/
 
 }
