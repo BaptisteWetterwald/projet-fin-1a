@@ -92,6 +92,7 @@ public class PostWithFunctionAdapter extends RecyclerView.Adapter<PostWithFuncti
             firstName.setText(email.firstName());
             lastName.setText(email.lastName());
             String functionText = postWithFunction.getFunction();
+            Log.d("n6a", "Post " + post + " function " + functionText);
             function.setText(functionText == null ? "Membre" : functionText);
             topic.setText(post.getTopic().getName());
             String creation = simpleDateFormat.format(post.getCreation());

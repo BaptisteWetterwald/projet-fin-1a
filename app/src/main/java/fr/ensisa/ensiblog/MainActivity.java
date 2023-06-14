@@ -34,6 +34,7 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
                     for (PostWithFunction ps: remove) {
                         postsWithFunctions.remove(ps);
                     }
+                    // sort the list by date of creation of the post for api 21
+                    Collections.sort(postsWithFunctions, (o1, o2) -> o2.getPost().getCreation().compareTo(o1.getPost().getCreation()));
                     adapter.notifyDataSetChanged();
                     break;
                 }
@@ -120,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                         Log.d("n6a", "New : " + postWithFunction);
                                         postsWithFunctions.add(postWithFunction);
+                                        Collections.sort(postsWithFunctions, (o1, o2) -> o2.getPost().getCreation().compareTo(o1.getPost().getCreation()));
                                         adapter.notifyItemInserted(postsWithFunctions.size() - 1);
                                     }).addOnFailureListener(e1 -> Log.w("n6a", "Error getting documents.", e1));
                                     break;
@@ -132,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
                                     int index = postsWithFunctions.indexOf(postWithFunction);
                                     Log.i("n6a", "Index : " + index);
                                     postsWithFunctions.remove(postWithFunction);
+                                    Collections.sort(postsWithFunctions, (o1, o2) -> o2.getPost().getCreation().compareTo(o1.getPost().getCreation()));
                                     adapter.notifyItemRemoved(index);
                                     break;
                             }
@@ -146,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
             button.setBackgroundTintList(displayedTopics.contains(btnTopic) ? ColorStateList.valueOf(Color.parseColor("#FF0000")) : ColorStateList.valueOf(Color.parseColor("#444444")));
             Log.d("n6a", "displayedTopics: " + displayedTopics);
 
+            Collections.sort(postsWithFunctions, (o1, o2) -> o2.getPost().getCreation().compareTo(o1.getPost().getCreation()));
             Log.i("n6a","before notify");
             adapter.notifyDataSetChanged();
             Log.i("n6a","after notify");
@@ -354,52 +360,6 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    private void loadAllPosts() {
-        postsWithFunctions = new ArrayList<>();
-
-        Topic currentTopic = new Topic("Kfet Lumière", new Role(2));
-
-        // Get all existing posts once
-        Database.getInstance().onModif(Table.POSTS.getName(), "topic", currentTopic, (snapshots, e) -> {
-            if (e != null) {
-                Log.w("n6a", "listen:error", e);
-                return;
-            }
-
-            assert snapshots != null;
-            for (DocumentChange dc : snapshots.getDocumentChanges()) {
-                Post post = dc.getDocument().toObject(Post.class);
-                PostWithFunction postWithFunction = new PostWithFunction(post, null);
-                switch (dc.getType()) {
-                    case ADDED:
-                        // Get the function of the author for the topic
-                        Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"topic", "user"}, new Object[]{post.getTopic(), post.getAuthor()}).addOnSuccessListener(topicUsers -> {
-                            if (topicUsers.size() > 0) {
-                                postWithFunction.setFunction(topicUsers.get(0).getFonction());
-                            }
-                            Log.d("n6a", "New : " + postWithFunction);
-                            postsWithFunctions.add(postWithFunction);
-                            adapter.notifyItemInserted(postsWithFunctions.size() - 1);
-                        }).addOnFailureListener(e1 -> Log.w("n6a", "Error getting documents.", e1));
-                        break;
-                    case MODIFIED:
-                        Log.d("n6a", "Modified : " + postWithFunction);
-                        // Handle modified posts if needed
-                        break;
-                    case REMOVED:
-                        Log.d("n6a", "Removed : " + postWithFunction);
-                        int index = postsWithFunctions.indexOf(postWithFunction);
-                        Log.i("n6a", "Index : " + index);
-                        postsWithFunctions.remove(postWithFunction);
-                        adapter.notifyItemRemoved(index);
-                        break;
-                }
-            }
-
-            // Notify the adapter that the data has changed
-            //adapter.notifyDataSetChanged();
-        });
-    }
     private void DisplayBio() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
