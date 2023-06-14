@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -29,6 +30,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
@@ -305,6 +307,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void get_left_view(){
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        // Center horizontally within the parent
+        layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
+        layoutParams.topMargin = 20;
         Database.getInstance().get(Table.TOPICS.getName(), Topic.class, new String[]{}, new Topic[]{}).addOnSuccessListener(topics_1 -> {
             LinearLayout left_view = findViewById(R.id.left_scroll);
             left_view.removeAllViews();
@@ -319,7 +329,8 @@ public class MainActivity extends AppCompatActivity {
                     button.setTextOff(btnTopic.getTopic().getName());
                     button.setText(btnTopic.getTopic().getName());
                     button.setChecked(true);
-                    button.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+                    button.setLayoutParams(layoutParams);
                     button.setOnClickListener(v -> {
                         showInfoBox("Warning", "Se désabonner de " + btnTopic.getTopic().getName() + " ?", "OK","Annuler", this, (dialog, which) -> {
                             dialog.cancel();
@@ -360,11 +371,10 @@ public class MainActivity extends AppCompatActivity {
                         button.setTextOn(btnTopic.getName());
                         button.setTextOff(btnTopic.getName());
                         button.setChecked(false);
-                        button.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                        button.setLayoutParams(layoutParams);
                         button.setOnClickListener(v -> {
                             showInfoBox("Warning", "S'abonner à " + btnTopic.getName() + " ?", "OK","Annuler", this, (dialog, which) -> {
                                 dialog.cancel();
-                                //Topic topic = new Topic(btnTopic.getName(), new Role(1));
                                 Database.getInstance().get(Table.TOPICS.getName(), Topic.class, new String[]{"name"}, new String[]{btnTopic.getName()}).addOnSuccessListener(topics -> {
                                     if(topics.size()>0){
                                         TopicUser topicUser = new TopicUser(topics.get(0),userModel,topics.get(0).getDefaultRole());
