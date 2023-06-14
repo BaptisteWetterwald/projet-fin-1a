@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -266,6 +267,7 @@ public class MainActivity extends AppCompatActivity {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
         }
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        DisplayBio();
     }
     private void get_left_view(){
         Database.getInstance().get(Table.TOPICS.getName(), Topic.class, new String[]{}, new Topic[]{}).addOnSuccessListener(topics_1 -> {
@@ -408,6 +410,23 @@ public class MainActivity extends AppCompatActivity {
             // Notify the adapter that the data has changed
             //adapter.notifyDataSetChanged();
         });
+    }
+    private void DisplayBio() {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+        String userUid = user.getUid();
+        Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{}, new String[]{})
+                .addOnSuccessListener(userList -> {
+                    for (User user1 : userList) {
+                        if (user1.getUid() != null) {
+                            if (user1.getUid().equals(userUid)) {
+                                String currentBio = user1.getBiographie();
+                                TextView editTextBio = findViewById(R.id.editTextBio);
+                                editTextBio.setText(currentBio);
+                            }
+                        }
+                    }
+                });
     }
 
 
