@@ -23,12 +23,8 @@
     <color name="font">#1E182C</color>
     <color name="top">#66A0B1</color>
     <color name="white2">#F8F8F8</color>
-    <color name="background">#E9EBED</color>
+    <color name="background">#D9DCDF</color>
     <color name="bottom">#E6EFBA</color>
     <color name="cielbutton">#DDE9F5</color>
     <color name="leftBack">#929598</color>
-
-
-
-
 </resources>

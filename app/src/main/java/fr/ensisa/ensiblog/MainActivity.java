@@ -1,5 +1,4 @@
 package fr.ensisa.ensiblog;
-
 import static fr.ensisa.ensiblog.Utils.removeElement;
 import static fr.ensisa.ensiblog.Utils.showInfoBox;
 
@@ -54,7 +53,6 @@ import fr.ensisa.ensiblog.models.User;
 import fr.ensisa.ensiblog.models.posts.Post;
 import fr.ensisa.ensiblog.models.posts.PostWithFunction;
 import fr.ensisa.ensiblog.ui.posts.PostWithFunctionAdapter;
-
 public class MainActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
     private ActivityMainBinding binding;
@@ -84,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
             Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{"uid"}, new String[]{user.getUid()}).addOnSuccessListener(users -> {
                 if (users.size() > 0) {
                     userModel = users.get(0);
-                    get_left_view();
                     AtomicBoolean isModo = new AtomicBoolean(false);
 
                     Button buttonModo = (Button) findViewById(R.id.button_moderation);
@@ -133,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
                             } else removeElement(buttonModo);
                         }
                     });
-
                     Database.getInstance().alreadyIn(Table.ADMINS.getName(), new String[]{"user"}, new User[]{userModel}, alreadyExists -> {
                         if(!alreadyExists)
                             removeElement(buttonAdmin);
@@ -158,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             });
             Button buttonDeco = (Button) findViewById(R.id.button_disconnect);
-
             buttonDeco.setOnClickListener(v -> {
                 new Authentication().signOut();
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -193,6 +188,12 @@ public class MainActivity extends AppCompatActivity {
             recyclerView.setAdapter(adapter);
             // Set a layout manager for the RecyclerView
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            get_left_view();
+            Button button_refresh = (Button) findViewById(R.id.refresh_button);
+            button_refresh.setOnClickListener(v -> {
+                get_left_view();
+            });
+
         }
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
@@ -278,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
                         });
                         left_view.addView(button);
 
-                    }
+                    }else{continue;}
                 }
             });
 
