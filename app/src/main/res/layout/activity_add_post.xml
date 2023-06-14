@@ -113,37 +113,44 @@
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
         app:layout_constraintVertical_bias="0.044" />
 
-
-    <Button
-        android:id="@+id/buttonAddImage"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
-        android:background="@drawable/btn_bg"
-        android:text="Add Image"
-        app:layout_constraintBottom_toBottomOf="@+id/buttonAddText"
-        app:layout_constraintEnd_toStartOf="@+id/buttonAddText"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/buttonAddText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="151dp"
-        android:background="@drawable/btn_bg"
-        android:text="Add Text"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/buttonPublish"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/buttonPublish"
+        app:layout_constraintStart_toStartOf="@+id/buttonPublish"
+        tools:ignore="MissingConstraints">
 
-    <Button
-        android:id="@+id/buttonAddVideo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/btn_bg"
-        android:text="@string/AjoutVideo"
-        app:layout_constraintBottom_toBottomOf="@+id/buttonAddText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/buttonAddText" />
+        <Button
+            android:id="@+id/buttonAddImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_bg"
+            android:text="Add Image"
+            app:layout_constraintEnd_toStartOf="@+id/buttonAddText"
+            app:layout_constraintStart_toStartOf="@+id/buttonPublish"
+            tools:layout_editor_absoluteY="581dp" />
+
+        <Button
+            android:id="@+id/buttonAddText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_bg"
+            android:text="Add Text"
+            app:layout_constraintBottom_toTopOf="@+id/buttonPublish"
+            tools:layout_editor_absoluteX="148dp" />
+
+        <Button
+            android:id="@+id/buttonAddVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_bg"
+            android:text="@string/AjoutVideo"
+            app:layout_constraintEnd_toEndOf="@+id/buttonPublish"
+            app:layout_constraintStart_toEndOf="@+id/buttonAddText"
+            tools:layout_editor_absoluteY="581dp" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/buttonPublish"
