@@ -164,41 +164,36 @@ public class AddPostActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             FirebaseUser user = (FirebaseUser) extras.get("user");
+            User userModel = (User) extras.get("User");
             TextView userName = findViewById(R.id.textViewUsername);
             Email usrEmail = new Email(user.getEmail());
             userName.setText(usrEmail.firstName() + " " + usrEmail.lastName());
 
-            TopicUser topicUser = (TopicUser) extras.get("topicUser");
 
-            Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{"uid"}, new String[]{user.getUid()}).addOnSuccessListener(users -> {
-                if (users.size() > 0) {
-                    User userModel = users.get(0);
-                    // On récupère la liste des topics auquel l'user est abonné
-                    Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"user"}, new User[]{userModel}).addOnSuccessListener(topics -> {
-                        List<Button> buttons = new ArrayList<>();
-                        if (topics.size() > 0) {
-                            LinearLayout themesBar = findViewById(R.id.theme_bar);
-                            themesBar.removeAllViews();
-                            for (int i = 0; i < topics.size(); i++) {
-                                if (topics.get(i).getRole().getRole() >= 2) {
-                                    Button button = new Button(this);
-                                    TopicUser btnTopic = topics.get(i);
-                                    button.setText(btnTopic.getTopic().getName());
-                                    button.setOnClickListener(v -> {
-                                        currentTopic=btnTopic.getTopic();
-                                        button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
-                                        for (Button otherButton : buttons) {
-                                            if (otherButton != button) {
-                                                otherButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#444444"))); // Change to desired color
-                                            }
-                                        }
-                                    });
-                                    themesBar.addView(button);
-                                    buttons.add(button);
+            // On récupère la liste des topics auquel l'user est abonné
+            Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"user"}, new User[]{userModel}).addOnSuccessListener(topics -> {
+                List<Button> buttons = new ArrayList<>();
+                if (topics.size() > 0) {
+                    LinearLayout themesBar = findViewById(R.id.theme_bar);
+                    themesBar.removeAllViews();
+                    for (int i = 0; i < topics.size(); i++) {
+                        if (topics.get(i).getRole().getRole() >= 2) {
+                            Button button = new Button(this);
+                            TopicUser btnTopic = topics.get(i);
+                            button.setText(btnTopic.getTopic().getName());
+                            button.setOnClickListener(v -> {
+                                currentTopic=btnTopic.getTopic();
+                                button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
+                                for (Button otherButton : buttons) {
+                                    if (otherButton != button) {
+                                        otherButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#444444"))); // Change to desired color
+                                    }
                                 }
-                            }
+                            });
+                            themesBar.addView(button);
+                            buttons.add(button);
                         }
-                    });
+                    }
                 }
             });
 
@@ -262,7 +257,7 @@ public class AddPostActivity extends AppCompatActivity {
                         listContent[i].setType(ContentType.VIDEO.getType());
                     }
                 }
-                if(tasks.size() > 0){
+                if(!tasks.isEmpty()){
                     boolean[] urls = new boolean[tasks.size()];
                     int j = 0;
                     for (int i = 0; i < listContent.length; i++) {
@@ -277,11 +272,12 @@ public class AddPostActivity extends AppCompatActivity {
                                         listContent[finalI].setData(downloadUrl.toString());
                                         urls[finalJ] = true;
                                         if(isFull(urls)) {
-                                            Post newPost = new Post(new Date(), topicUser.getTopic(), topicUser.getUser(), Arrays.asList(listContent), new Date());
+                                            Post newPost = new Post(new Date(), currentTopic, userModel, Arrays.asList(listContent), new Date());
                                             Database.getInstance().add(Table.POSTS.getName(), newPost, Post.class).addOnCompleteListener(task2 -> {
                                                 if(task2.isSuccessful()){
                                                     Intent intent = new Intent(AddPostActivity.this, MainActivity.class);
                                                     intent.putExtra("user",user);
+                                                    //intent.putExtra("User",userModel);
                                                     startActivity(intent);
                                                 } else Toast.makeText(AddPostActivity.this, "Erreur lors de la publication du post", Toast.LENGTH_SHORT).show();
                                             });
@@ -294,7 +290,8 @@ public class AddPostActivity extends AppCompatActivity {
                         }
                     }
                 } else {
-                    Post newPost = new Post(new Date(), topicUser.getTopic(), topicUser.getUser(), Arrays.asList(listContent), new Date());
+                    Log.i("n6a","HEY");
+                    Post newPost = new Post(new Date(), currentTopic, userModel, Arrays.asList(listContent), new Date());
                     Database.getInstance().add(Table.POSTS.getName(), newPost, Post.class).addOnCompleteListener(task2 -> {
                         if(task2.isSuccessful()){
                             Intent intent = new Intent(AddPostActivity.this, MainActivity.class);

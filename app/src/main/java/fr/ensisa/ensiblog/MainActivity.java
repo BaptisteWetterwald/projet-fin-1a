@@ -88,8 +88,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
             }
-            button.setBackgroundTintList(displayedTopics.contains(btnTopic) ? ColorStateList.valueOf(Color.parseColor("#FF0000")) : ColorStateList.valueOf(Color.parseColor("#444444")));
-            Log.d("n6a", "displayedTopics: " + displayedTopics);
+
             if (!contains) {
                 displayedTopics.add(btnTopic);
                 topicsRegistered.put(btnTopic,
@@ -135,6 +134,9 @@ public class MainActivity extends AppCompatActivity {
                 );
                 //return;
             }
+            button.setBackgroundTintList(displayedTopics.contains(btnTopic) ? ColorStateList.valueOf(Color.parseColor("#FF0000")) : ColorStateList.valueOf(Color.parseColor("#444444")));
+            Log.d("n6a", "displayedTopics: " + displayedTopics);
+
             Log.i("n6a","before notify");
             adapter.notifyDataSetChanged();
             Log.i("n6a","after notify");
@@ -230,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
             buttonNewPost.setOnClickListener(v -> {
                 Intent intent = new Intent(MainActivity.this, AddPostActivity.class);
                 intent.putExtra("user",user);
-                intent.putExtra("topicUser",currentTopicUser);
+                intent.putExtra("User",userModel);
                 startActivity(intent);
             });
 
