@@ -1,5 +1,4 @@
 package fr.ensisa.ensiblog;
-
 import static fr.ensisa.ensiblog.Utils.removeElement;
 import static fr.ensisa.ensiblog.Utils.showInfoBox;
 
@@ -7,15 +6,18 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.provider.ContactsContract;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
@@ -27,16 +29,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import fr.ensisa.ensiblog.databinding.ActivityMainBinding;
@@ -51,7 +54,6 @@ import fr.ensisa.ensiblog.models.User;
 import fr.ensisa.ensiblog.models.posts.Post;
 import fr.ensisa.ensiblog.models.posts.PostWithFunction;
 import fr.ensisa.ensiblog.ui.posts.PostWithFunctionAdapter;
-
 public class MainActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
     private ActivityMainBinding binding;
@@ -64,85 +66,6 @@ public class MainActivity extends AppCompatActivity {
     private List<Button> buttons = new ArrayList<>();
     private TopicUser currentTopicUser = null;
     private List<Topic> displayedTopics = new ArrayList<>();
-
-    private Map<Topic,ListenerRegistration> topicsRegistered = new HashMap<>();
-
-    private void removeListener(Button btn){
-        btn.setOnClickListener(null);
-        for (Topic t : displayedTopics)
-            if (t.getName() == btn.getText()){
-                Objects.requireNonNull(topicsRegistered.get(t)).remove();
-                break;
-            }
-
-    }
-    private void addListener(Button button,Topic btnTopic){
-        button.setOnClickListener(v -> {
-            // check if displayedTopics contains a topic with name button.getText()
-            boolean contains = false;
-            for (Topic topic : displayedTopics) {
-                if (topic.getName().contentEquals(button.getText())) {
-                    contains = true;
-                    displayedTopics.remove(topic);
-                    Objects.requireNonNull(topicsRegistered.get(topic)).remove();
-                    break;
-                }
-            }
-
-            if (!contains) {
-                displayedTopics.add(btnTopic);
-                topicsRegistered.put(btnTopic,
-                    Database.getInstance().onModif(Table.POSTS.getName(), "topic", btnTopic, (snapshots, e) -> {
-                        if (e != null) {
-                            Log.w("n6a", "listen:error", e);
-                            return;
-                        }
-
-                        assert snapshots != null;
-                        for (DocumentChange dc : snapshots.getDocumentChanges()) {
-                            Post post = dc.getDocument().toObject(Post.class);
-                            PostWithFunction postWithFunction = new PostWithFunction(post, null);
-                            switch (dc.getType()) {
-                                case ADDED:
-                                    // Get the function of the author for the topic
-                                    Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"topic", "user"}, new Object[]{post.getTopic(), post.getAuthor()}).addOnSuccessListener(topicUsers -> {
-                                        if (topicUsers.size() > 0) {
-                                            postWithFunction.setFunction(topicUsers.get(0).getFonction());
-                                        }
-                                        Log.d("n6a", "New : " + postWithFunction);
-                                        postsWithFunctions.add(postWithFunction);
-                                        adapter.notifyItemInserted(postsWithFunctions.size() - 1);
-                                    }).addOnFailureListener(e1 -> Log.w("n6a", "Error getting documents.", e1));
-                                    break;
-                                case MODIFIED:
-                                    Log.d("n6a", "Modified : " + postWithFunction);
-                                    // Handle modified posts if needed
-                                    break;
-                                case REMOVED:
-                                    Log.d("n6a", "Removed : " + postWithFunction);
-                                    int index = postsWithFunctions.indexOf(postWithFunction);
-                                    Log.i("n6a", "Index : " + index);
-                                    postsWithFunctions.remove(postWithFunction);
-                                    adapter.notifyItemRemoved(index);
-                                    break;
-                            }
-                        }
-
-                        // Notify the adapter that the data has changed
-                        //adapter.notifyDataSetChanged();
-                    })
-                );
-                //return;
-            }
-            button.setBackgroundTintList(displayedTopics.contains(btnTopic) ? ColorStateList.valueOf(Color.parseColor("#FF0000")) : ColorStateList.valueOf(Color.parseColor("#444444")));
-            Log.d("n6a", "displayedTopics: " + displayedTopics);
-
-            Log.i("n6a","before notify");
-            adapter.notifyDataSetChanged();
-            Log.i("n6a","after notify");
-
-        });
-    }
 
 
     @Override
@@ -160,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
             Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{"uid"}, new String[]{user.getUid()}).addOnSuccessListener(users -> {
                 if (users.size() > 0) {
                     userModel = users.get(0);
-                    get_left_view();
                     AtomicBoolean isModo = new AtomicBoolean(false);
 
                     Button buttonModo = (Button) findViewById(R.id.button_moderation);
@@ -178,9 +100,25 @@ public class MainActivity extends AppCompatActivity {
                                 Button button = new Button(MainActivity.this);
                                 TopicUser btnTopic = topics.get(i);
                                 button.setText(btnTopic.getTopic().getName());
+                                button.setOnClickListener(v -> {
+                                    // check if displayedTopics contains a topic with name button.getText()
+                                    boolean contains = false;
+                                    for (Topic topic : displayedTopics) {
+                                        if (topic.getName().contentEquals(button.getText())) {
+                                            contains = true;
+                                            displayedTopics.remove(topic);
+                                            break;
+                                        }
+                                    }
+                                    if (!contains) {
+                                        displayedTopics.add(btnTopic.getTopic());
+                                    }
 
-                                addListener(button,btnTopic.getTopic());
+                                    button.setBackgroundTintList(displayedTopics.contains(btnTopic.getTopic()) ? ColorStateList.valueOf(Color.parseColor("#FF0000")) : ColorStateList.valueOf(Color.parseColor("#444444")));
+                                    Log.d("n6a", "displayedTopics: " + displayedTopics);
+                                    adapter.notifyDataSetChanged();
 
+                                });
                                 themesBar.addView(button);
                                 buttons.add(button);
                             }
@@ -193,10 +131,7 @@ public class MainActivity extends AppCompatActivity {
                             } else removeElement(buttonModo);
                         }
                     });
-                    Log.i("n6a","avant admins");
-
-                    Database.getInstance().alreadyIn(Table.ADMINS.getName(), new String[]{"email"}, new Email[]{userModel.getEmail()}, alreadyExists -> {
-                        Log.i("n6a","already ?"+alreadyExists);
+                    Database.getInstance().alreadyIn(Table.ADMINS.getName(), new String[]{"user"}, new User[]{userModel}, alreadyExists -> {
                         if(!alreadyExists)
                             removeElement(buttonAdmin);
                         else{
@@ -220,7 +155,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             });
             Button buttonDeco = (Button) findViewById(R.id.button_disconnect);
-
             buttonDeco.setOnClickListener(v -> {
                 new Authentication().signOut();
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -232,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
             buttonNewPost.setOnClickListener(v -> {
                 Intent intent = new Intent(MainActivity.this, AddPostActivity.class);
                 intent.putExtra("user",user);
-                intent.putExtra("User",userModel);
+                intent.putExtra("topicUser",currentTopicUser);
                 startActivity(intent);
             });
 
@@ -248,15 +182,22 @@ public class MainActivity extends AppCompatActivity {
             NavigationUI.setupWithNavController(navigationViewleft, navController);
 
             RecyclerView recyclerView = findViewById(R.id.recyclerView);
-            //loadAllPosts();
+            loadAllPosts();
             // Create an instance of the PostAdapter
             adapter = new PostWithFunctionAdapter(postsWithFunctions);
             // Set the adapter for the RecyclerView
             recyclerView.setAdapter(adapter);
             // Set a layout manager for the RecyclerView
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            get_left_view();
+            Button button_refresh = (Button) findViewById(R.id.refresh_button);
+            button_refresh.setOnClickListener(v -> {
+                get_left_view();
+            });
+
         }
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        DisplayBio();
     }
     private void get_left_view(){
         Database.getInstance().get(Table.TOPICS.getName(), Topic.class, new String[]{}, new Topic[]{}).addOnSuccessListener(topics_1 -> {
@@ -287,8 +228,6 @@ public class MainActivity extends AppCompatActivity {
                                     Button button_del = (Button) childView;
                                     if (button_del.getText().toString().equals(btnTopic.getTopic().getName())) {
                                         themesBar.removeView(button_del);
-                                        buttons.remove(button_del);
-                                        topicsRegistered.remove(btnTopic.getTopic());
                                         break; // Quitter la boucle après avoir supprimé le bouton
                                     }
                                 }
@@ -318,29 +257,31 @@ public class MainActivity extends AppCompatActivity {
                         button.setOnClickListener(v -> {
                             showInfoBox("Warning", "S'abonner à " + btnTopic.getName() + " ?", "OK","Annuler", this, (dialog, which) -> {
                                 dialog.cancel();
-                                //Topic topic = new Topic(btnTopic.getName(), new Role(1));
-                                Database.getInstance().get(Table.TOPICS.getName(), Topic.class, new String[]{"name"}, new String[]{btnTopic.getName()}).addOnSuccessListener(topics -> {
-                                    if(topics.size()>0){
-                                        TopicUser topicUser = new TopicUser(topics.get(0),userModel,topics.get(0).getDefaultRole());
-                                        Database.getInstance().add(Table.TOPIC_USERS.getName(), topicUser, TopicUser.class, false);
-                                        Button button_tp = new Button(MainActivity.this);
-                                        button_tp.setWidth(500);
-                                        button_tp.setText(btnTopic.getName());
-                                        LinearLayout themesBar = findViewById(R.id.main_topics);
-
-                                        addListener(button_tp,topics.get(0));
-
-                                        themesBar.addView(button_tp);
-                                        buttons.add(button_tp);
-                                        get_left_view();
-                                    } else Toast.makeText(MainActivity.this,"User not in topic",Toast.LENGTH_SHORT).show();
+                                Topic topic = new Topic(btnTopic.getName(), new Role(1));
+                                User user_left = new User(userModel.getEmail(), userModel.getUid());
+                                TopicUser topic_user = new TopicUser(topic, user_left, new Role(1));
+                                Database.getInstance().add(Table.TOPIC_USERS.getName(), topic_user, TopicUser.class, false);
+                                Button button_tp = new Button(MainActivity.this);
+                                button_tp.setWidth(500);
+                                button_tp.setText(btnTopic.getName());
+                                LinearLayout themesBar = findViewById(R.id.main_topics);
+                                button_tp.setOnClickListener(x -> {
+                                    button_tp.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
+                                    for (Button otherButton : buttons) {
+                                        if (otherButton != button_tp) {
+                                            otherButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#444444"))); // Change to desired color
+                                        }
+                                    }
                                 });
 
+                                themesBar.addView(button_tp);
+                                buttons.add(button_tp);
+                                get_left_view();
                             },(dialog2, which)->{dialog2.cancel();button.setChecked(false);});
                         });
                         left_view.addView(button);
 
-                    }
+                    }else{continue;}
                 }
             });
 
@@ -357,7 +298,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadAllPosts() {
         postsWithFunctions = new ArrayList<>();
 
-        Topic currentTopic = new Topic("Kfet Lumière", new Role(2));
+        Topic currentTopic = new Topic("Resto U", new Role(2));
 
         // Get all existing posts once
         Database.getInstance().onModif(Table.POSTS.getName(), "topic", currentTopic, (snapshots, e) -> {
@@ -399,6 +340,24 @@ public class MainActivity extends AppCompatActivity {
             // Notify the adapter that the data has changed
             //adapter.notifyDataSetChanged();
         });
+    }
+
+    private void DisplayBio() {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+        String userUid = user.getUid();
+        Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{}, new String[]{})
+                .addOnSuccessListener(userList -> {
+                    for (User user1 : userList) {
+                        if (user1.getUid() != null) {
+                            if (user1.getUid().equals(userUid)) {
+                                String currentBio = user1.getBiographie();
+                                TextView editTextBio = findViewById(R.id.editTextBio);
+                                editTextBio.setText(currentBio);
+                            }
+                        }
+                    }
+                });
     }
 
 

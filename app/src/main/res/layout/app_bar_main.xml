@@ -60,6 +60,11 @@
 
                 </LinearLayout>
             </HorizontalScrollView>
+            <TextView
+                android:text="Menu"
+                android:layout_width="wrap_content"
+                android:gravity="right"
+                android:layout_height="match_parent"/>
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
