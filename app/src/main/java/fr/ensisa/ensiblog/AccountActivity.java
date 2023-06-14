@@ -65,7 +65,7 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     /**
-     * Function called chen AccountActivity starts
+     * Function called when AccountActivity starts
      **/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
