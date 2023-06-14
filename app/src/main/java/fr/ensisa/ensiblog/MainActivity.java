@@ -286,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadAllPosts() {
         postsWithFunctions = new ArrayList<>();
 
-        Topic currentTopic = new Topic("Resto U", new Role(2));
+        Topic currentTopic = new Topic("Kfet Lumière", new Role(2));
 
         // Get all existing posts once
         Database.getInstance().onModif(Table.POSTS.getName(), "topic", currentTopic, (snapshots, e) -> {
