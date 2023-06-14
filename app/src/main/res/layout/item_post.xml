@@ -64,29 +64,27 @@
             android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:orientation="vertical"
-            android:paddingEnd="20dp"
-            android:paddingStart="20dp"
-            >
+            android:paddingStart="10dp">
 
             <TextView
                 android:id="@+id/txt_function"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginStart="10dp"
                 android:layout_weight="0.5"
-                android:text="Function"
-                android:gravity="bottom|start"
-                android:textColor="@color/red" />
+                android:text="Function can be long"
+                android:gravity="bottom|center_horizontal"
+                android:textColor="@color/red"
+                />
 
             <TextView
                 android:id="@+id/txt_topic"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginStart="10dp"
                 android:layout_weight="0.5"
-                android:gravity="top|start"
                 android:text="Topic"
-                android:textColor="@color/red" />
+                android:textColor="@color/red"
+                android:gravity="top|center_horizontal"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -94,14 +92,16 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:layout_weight="0.2"
             >
                 <TextView
                     android:id="@+id/txt_date_day"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="0.5"
-                    android:text="Day"
+                    android:text="05/10/2023"
                     android:gravity="bottom"
+                    android:layout_gravity="center_horizontal"
                     />
                 <TextView
                     android:id="@+id/txt_date_hour"
@@ -110,7 +110,8 @@
                     android:layout_weight="0.5"
                     android:text="Hour"
                     android:gravity="top"
-                    android:layout_marginEnd="50dp"
+                    android:layout_gravity="center_horizontal"
+
                     />
         </LinearLayout>
     </LinearLayout>

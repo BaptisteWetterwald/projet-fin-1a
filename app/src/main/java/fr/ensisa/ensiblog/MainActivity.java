@@ -50,25 +50,21 @@ public class MainActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
     private ActivityMainBinding binding;
     private AppBarConfiguration mAppBarConfigurationLeft;
-
     private List<PostWithFunction> postsWithFunctions = new ArrayList<>();
     private PostWithFunctionAdapter adapter;
-
     private QuerySnapshot postsSnapshot;
     private Boolean already_exist;
     private User userModel;
     private List<Button> buttons = new ArrayList<>();
-
-
     private TopicUser currentTopicUser = null;
+    private List<Topic> displayedTopics = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             FirebaseUser user = (FirebaseUser) extras.get("user");
@@ -97,19 +93,24 @@ public class MainActivity extends AppCompatActivity {
                                 Button button = new Button(MainActivity.this);
                                 TopicUser btnTopic = topics.get(i);
                                 button.setText(btnTopic.getTopic().getName());
-                                if (i == 0) {
-                                    button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
-                                    currentTopicUser = btnTopic;
-                                }
                                 button.setOnClickListener(v -> {
-                                    button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
-                                    for (Button otherButton : buttons) {
-                                        if (otherButton != button) {
-                                            otherButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#444444"))); // Change to desired color
+                                    // check if displayedTopics contains a topic with name button.getText()
+                                    boolean contains = false;
+                                    for (Topic topic : displayedTopics) {
+                                        if (topic.getName().contentEquals(button.getText())) {
+                                            contains = true;
+                                            displayedTopics.remove(topic);
+                                            break;
                                         }
                                     }
-                                    currentTopicUser = btnTopic;
-                                    loadAllPosts();
+                                    if (!contains) {
+                                        displayedTopics.add(btnTopic.getTopic());
+                                    }
+
+                                    button.setBackgroundTintList(displayedTopics.contains(btnTopic.getTopic()) ? ColorStateList.valueOf(Color.parseColor("#FF0000")) : ColorStateList.valueOf(Color.parseColor("#444444")));
+                                    Log.d("n6a", "displayedTopics: " + displayedTopics);
+                                    adapter.notifyDataSetChanged();
+
                                 });
                                 themesBar.addView(button);
                                 buttons.add(button);
@@ -143,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
                     .build();*/
 
             Button buttonGestionCompte = (Button) findViewById(R.id.button_gest);
-
             buttonGestionCompte.setOnClickListener(v -> {
                 Intent intent = new Intent(MainActivity.this, AccountActivity.class);
                 startActivity(intent);
@@ -185,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
             // Set a layout manager for the RecyclerView
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
         }
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
     private void get_left_view(){
         Database.getInstance().get(Table.TOPICS.getName(), Topic.class, new String[]{}, new Topic[]{}).addOnSuccessListener(topics_1 -> {
@@ -197,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
                     ToggleButton button = new ToggleButton(this);
                     TopicUser btnTopic = topics_user.get(j);
                     button.setTextOn(btnTopic.getTopic().getName());
+                    button.setWidth(500);
                     button.setTextOff(btnTopic.getTopic().getName());
                     button.setText(btnTopic.getTopic().getName());
                     button.setChecked(true);
@@ -204,6 +206,7 @@ public class MainActivity extends AppCompatActivity {
                     button.setOnClickListener(v -> {
                         showInfoBox("Warning", "Se désabonner de " + btnTopic.getTopic().getName() + " ?", "OK","Annuler", this, (dialog, which) -> {
                             dialog.cancel();
+                            button.setWidth(500);
                             Database.getInstance().removeFrom(Table.TOPIC_USERS.getName(), new String[]{"user","topic"}, new Object[]{userModel,btnTopic.getTopic()});
                             LinearLayout themesBar = findViewById(R.id.main_topics);
                             for (int i = 0; i < themesBar.getChildCount(); i++) {
@@ -228,12 +231,13 @@ public class MainActivity extends AppCompatActivity {
                         if (topics_1.get(i).getName().equals(topics_user.get(u).getTopic().getName())) {
                             already_exist = true;
                             break;
-                        }else{continue;}
+                        }
                     }
-                    if (already_exist == false) {
+                    if (!already_exist) {
                         ToggleButton button = new ToggleButton(this);
                         Topic btnTopic = topics_1.get(i);
                         button.setText(btnTopic.getName());
+                        button.setWidth(500);
                         button.setTextOn(btnTopic.getName());
                         button.setTextOff(btnTopic.getName());
                         button.setChecked(false);
@@ -246,6 +250,7 @@ public class MainActivity extends AppCompatActivity {
                                 TopicUser topic_user = new TopicUser(topic, user_left, new Role(1));
                                 Database.getInstance().add(Table.TOPIC_USERS.getName(), topic_user, TopicUser.class, false);
                                 Button button_tp = new Button(MainActivity.this);
+                                button_tp.setWidth(500);
                                 button_tp.setText(btnTopic.getName());
                                 LinearLayout themesBar = findViewById(R.id.main_topics);
                                 button_tp.setOnClickListener(x -> {
@@ -256,6 +261,7 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                     }
                                 });
+
                                 themesBar.addView(button_tp);
                                 buttons.add(button_tp);
                                 get_left_view();
@@ -280,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadAllPosts() {
         postsWithFunctions = new ArrayList<>();
 
-        Topic currentTopic = new Topic("Kfet Lumière", new Role(2));
+        Topic currentTopic = new Topic("Resto U", new Role(2));
 
         // Get all existing posts once
         Database.getInstance().onModif(Table.POSTS.getName(), "topic", currentTopic, (snapshots, e) -> {
