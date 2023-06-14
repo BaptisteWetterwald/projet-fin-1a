@@ -229,6 +229,8 @@ public class MainActivity extends AppCompatActivity {
 
                                 themesBar.addView(button);
                                 buttons.add(button);
+                                // Par défaut on va cocher tous les thèmes auquel on est abonné
+                                button.performClick();
                             }
                             if(isModo.get()){
                                 MaterialButton buttonModo = createButton(this, "Modération");
@@ -241,7 +243,6 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     });
-
 
 
                     Database.getInstance().alreadyIn(Table.ADMINS.getName(), new String[]{"email"}, new Email[]{userModel.getEmail()}, alreadyExists -> {
@@ -292,7 +293,6 @@ public class MainActivity extends AppCompatActivity {
             NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfigurationLeft);
             NavigationUI.setupWithNavController(navigationViewleft, navController);
             RecyclerView recyclerView = findViewById(R.id.recyclerView);
-            //loadAllPosts();
             // Create an instance of the PostAdapter
             adapter = new PostWithFunctionAdapter(postsWithFunctions);
             // Set the adapter for the RecyclerView
