@@ -78,6 +78,7 @@ public class AddPostActivity extends AppCompatActivity {
     private final long IMAGE_MAX_SIZE = 1_000_000;
 
     private final long VIDEO_MAX_SIZE = 10_000_000;
+    private Topic currentTopic;
 
     private static boolean isFull(boolean[] array) {
         for (int i = 0; i < array.length; i++) {
@@ -184,6 +185,7 @@ public class AddPostActivity extends AppCompatActivity {
                                     TopicUser btnTopic = topics.get(i);
                                     button.setText(btnTopic.getTopic().getName());
                                     button.setOnClickListener(v -> {
+                                        currentTopic=btnTopic.getTopic();
                                         button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
                                         for (Button otherButton : buttons) {
                                             if (otherButton != button) {
