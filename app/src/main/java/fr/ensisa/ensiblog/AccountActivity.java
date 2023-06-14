@@ -1,17 +1,25 @@
 package fr.ensisa.ensiblog;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.ParcelFileDescriptor;
 import android.util.Log;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +33,10 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import fr.ensisa.ensiblog.firebase.Database;
 import fr.ensisa.ensiblog.firebase.Table;
@@ -32,7 +44,12 @@ import fr.ensisa.ensiblog.models.Email;
 import fr.ensisa.ensiblog.models.TopicUser;
 import fr.ensisa.ensiblog.models.User;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import fr.ensisa.ensiblog.models.Password;
 
@@ -42,6 +59,7 @@ import fr.ensisa.ensiblog.models.Password;
 public class AccountActivity extends AppCompatActivity {
 
     private User userModel;
+    private final long IMAGE_MAX_SIZE = 1_000_000;
 
     /**
      * display the bio (called in OnCreate and OnResume)
@@ -78,6 +96,8 @@ public class AccountActivity extends AppCompatActivity {
         Button buttonDeleteAccount = findViewById(R.id.buttonDeleteAccount);
         TextView textViewName = findViewById(R.id.textViewName);
         TextView textViewMail = findViewById(R.id.textViewMail);
+        ImageView imageView2 = findViewById(R.id.imageView2);
+        ImageButton imageButtonEditPhoto = findViewById(R.id.imageButtonEditPhoto);
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
@@ -89,6 +109,23 @@ public class AccountActivity extends AppCompatActivity {
         textViewMail.setText(email.getAddress());
 
         DisplayBio();
+
+        ActivityResultLauncher<PickVisualMediaRequest> pickImage =
+                registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
+                    if (uri != null) {
+                        ParcelFileDescriptor parcelFileDescriptor = null;
+                        try {
+                            parcelFileDescriptor = getContentResolver().openFileDescriptor(uri, "r");
+                        } catch (FileNotFoundException e) {
+                            Toast.makeText(AccountActivity.this,"Error while reading the size of image",Toast.LENGTH_SHORT).show();
+                        }
+                        if(parcelFileDescriptor.getStatSize() < IMAGE_MAX_SIZE){
+                            Picasso.get().load(uri).into(imageView2);
+                        } else {
+                            Toast.makeText(AccountActivity.this,"Error, image is too big must be < "+IMAGE_MAX_SIZE,Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
         // listener for editMdp button
         buttonEditMdp.setOnClickListener(new View.OnClickListener() {
@@ -357,8 +394,49 @@ public class AccountActivity extends AppCompatActivity {
 
                 AlertDialog dialog = builder.create();
                 dialog.show();
+            }
+        });
 
 
+
+
+
+        imageButtonEditPhoto.setOnClickListener(v -> {
+            pickImage.launch(new PickVisualMediaRequest.Builder()
+                    .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                    .build());
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageRef = storage.getReference();
+            List<UploadTask> tasks = new ArrayList<>();
+            StorageReference ref = storageRef.child("images/" + UUID.randomUUID().toString() + ".jpg");
+            imageView2.setDrawingCacheEnabled(true);
+            imageView2.buildDrawingCache();
+            Bitmap bitmap = ((BitmapDrawable) imageView2.getDrawable()).getBitmap();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
+            byte[] data = baos.toByteArray();
+            tasks.add(ref.putBytes(data));
+            if(!tasks.isEmpty()){
+                int j = 0;
+                tasks.get(j).continueWithTask(task -> {
+                    if (!task.isSuccessful()) {
+                        Toast.makeText(AccountActivity.this, "Error while uploading image", Toast.LENGTH_SHORT).show();
+                    } else {
+                        task.getResult().getStorage().getDownloadUrl().addOnSuccessListener(downloadUrl -> {
+                            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+                            Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{"uid"}, new String[]{currentUser.getUid()}).addOnSuccessListener(users -> {
+                                if (users.size() > 0) {
+                                    userModel = users.get(0);
+                                    userModel.setPhotoUrl(downloadUrl.toString());
+                                    Database.getInstance().update(Table.USERS.getName(), userModel, new String[]{"uid"}, new String[]{currentUser.getUid()});
+                                    Toast.makeText(AccountActivity.this, "Photo de profil mise à jour", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        });
+                    }
+                    return null;
+                });
             }
         });
 
