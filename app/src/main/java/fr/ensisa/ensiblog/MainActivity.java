@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
                 Objects.requireNonNull(topicsRegistered.get(t)).remove();
                 break;
             }
-
     }
     private void addListener(Button button,Topic btnTopic){
         button.setOnClickListener(v -> {
@@ -99,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
             }
-
             if (!contains) {
                 displayedTopics.add(btnTopic);
                 topicsRegistered.put(btnTopic,
@@ -205,7 +203,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                     Log.i("n6a","avant admins");
-
                     Database.getInstance().alreadyIn(Table.ADMINS.getName(), new String[]{"email"}, new Email[]{userModel.getEmail()}, alreadyExists -> {
                         Log.i("n6a","already ?"+alreadyExists);
                         if(!alreadyExists)
@@ -219,12 +216,7 @@ public class MainActivity extends AppCompatActivity {
                     });
                 }
             });
-
             setSupportActionBar(binding.appBarMain.toolbar);
-            /*AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.navigation_home, R.id.name_app)
-                    .build();*/
-
             Button buttonGestionCompte = (Button) findViewById(R.id.button_gest);
             buttonGestionCompte.setOnClickListener(v -> {
                 Intent intent = new Intent(MainActivity.this, AccountActivity.class);
@@ -340,24 +332,19 @@ public class MainActivity extends AppCompatActivity {
                                         LinearLayout themesBar = findViewById(R.id.main_topics);
 
                                         addListener(button_tp,topics.get(0));
-
                                         themesBar.addView(button_tp);
                                         buttons.add(button_tp);
                                         get_left_view();
                                     } else Toast.makeText(MainActivity.this,"User not in topic",Toast.LENGTH_SHORT).show();
                                 });
-
                             },(dialog2, which)->{dialog2.cancel();button.setChecked(false);});
                         });
                         left_view.addView(button);
-
                     }
                 }
             });
-
         });
     }
-
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
