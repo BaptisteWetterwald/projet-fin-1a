@@ -106,7 +106,7 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/scroll_View"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.058"
         app:layout_constraintStart_toEndOf="@+id/imageViewUserPicture"
@@ -119,11 +119,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
-        android:layout_marginBottom="78dp"
         android:background="@drawable/btn_bg"
         android:text="Add Image"
-        tools:layout_editor_absoluteX="14dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonAddText"
+        app:layout_constraintEnd_toStartOf="@+id/buttonAddText"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -131,31 +130,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="151dp"
-        android:layout_marginBottom="90dp"
         android:background="@drawable/btn_bg"
         android:text="Add Text"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/buttonPublish"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/buttonAddVideo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="281dp"
-        android:layout_marginBottom="78dp"
         android:background="@drawable/btn_bg"
         android:text="@string/AjoutVideo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/buttonAddText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonAddText" />
 
     <Button
         android:id="@+id/buttonPublish"
         android:layout_width="381dp"
         android:layout_height="63dp"
         android:layout_marginBottom="4dp"
-        android:layout_marginStart="14dp"
         android:text="@string/publier"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="14dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -196,42 +196,32 @@ public class AddPostActivity extends AppCompatActivity {
                     }
                 }
             });
-
             Button addImage = findViewById(R.id.buttonAddImage);
             Button addText = findViewById(R.id.buttonAddText);
             Button addVideo = findViewById(R.id.buttonAddVideo);
-
             addImage.setOnClickListener(v -> {
                 pickImage.launch(new PickVisualMediaRequest.Builder()
                         .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
                         .build());
             });
-
             addText.setOnClickListener(v -> {
                 EditText editText = new EditText(AddPostActivity.this);
+                editText.setTextColor(Color.rgb(0,0,0));
                 list_content.addView(editText);
             });
-
             addVideo.setOnClickListener(v -> {
                 pickVideo.launch(new PickVisualMediaRequest.Builder()
                         .setMediaType(ActivityResultContracts.PickVisualMedia.VideoOnly.INSTANCE)
                         .build());
             });
-
             Button buttonPublish = findViewById(R.id.buttonPublish);
-
             buttonPublish.setOnClickListener(v -> {
-
                 Log.i("n6a","CLICK");
-
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 StorageReference storageRef = storage.getReference();
-
                 Content[] listContent = new Content[list_content.getChildCount()];
-
                 // Create a list of tasks
                 List<UploadTask> tasks = new ArrayList<>();
-
                 for (int i = 0; i < list_content.getChildCount(); i++) {
                     View element = list_content.getChildAt(i);
                     Log.i("n6a","content ??");

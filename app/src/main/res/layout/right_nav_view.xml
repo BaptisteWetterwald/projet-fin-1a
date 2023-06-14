@@ -49,10 +49,11 @@
                     android:background="@color/Ciel" />
 
                 <TextView
+                    android:id="@+id/editTextBio"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:background="@drawable/et"
-                    android:text="Description :"
+                    android:hint="This is my bio"
                     android:textColor="@color/dark"
                     android:textSize="16sp"
                     android:textStyle="bold"
