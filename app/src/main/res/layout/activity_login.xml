@@ -47,7 +47,7 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="500dp"
+        android:layout_height="550dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="@+id/scrollView2"
@@ -150,7 +150,7 @@
             android:id="@+id/buttonRegister"
             android:layout_width="200dp"
             android:layout_gravity="center"
-            android:layout_height="55dp"
+            android:layout_height="63dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/btn_bg"
             android:text="@string/creeUnCompte"

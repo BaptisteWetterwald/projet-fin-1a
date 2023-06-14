@@ -83,7 +83,7 @@
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/input_bg"
                     android:backgroundTint="@color/marinclair"
-                    android:text="Modération"
+                    android:text="@string/mod_ration"
                     android:textColor="@color/white" />
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_admin"
