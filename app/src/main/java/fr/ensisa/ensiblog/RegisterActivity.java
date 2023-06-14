@@ -1,5 +1,6 @@
 package fr.ensisa.ensiblog;
 
+import android.util.Log;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -53,6 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
                             showInfoBox("Alert !","Please verify your email","OK",RegisterActivity.this ,(dialog, which) -> {
                                 dialog.cancel();
                                 user.sendEmailVerification();
+                                Log.i("n6a","GO to login !");
                                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                                 intent.putExtra("user",user);
                                 startActivity(intent);

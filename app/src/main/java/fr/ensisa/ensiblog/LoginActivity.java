@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
         Authentication authentication = new Authentication();
         FirebaseUser firebaseUser = authentication.getCurrentUser();
 
-        if(firebaseUser != null){
+        if(firebaseUser != null && firebaseUser.isEmailVerified()){
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             intent.putExtra("user",firebaseUser);
             startActivity(intent);

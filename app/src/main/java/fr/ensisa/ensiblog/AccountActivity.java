@@ -65,7 +65,10 @@ import fr.ensisa.ensiblog.models.Password;
 
 
 public class AccountActivity extends AppCompatActivity {
+
     private ArrayList<Topic> themes = new ArrayList<>();
+    private User userModel;
+
     // Méthode pour afficher la bio (appelée dans OnCreate et OnResume)
     private void DisplayBio() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -84,6 +87,37 @@ public class AccountActivity extends AppCompatActivity {
                     }
                 });
     }
+
+
+    // Method to get a list of the user's subbed themes
+    private List<TopicUser> GetTopicUsers(String userUid) {
+        List<TopicUser> topicUsers = new ArrayList<>();
+        Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{"uid"}, new Object[]{userUid}).addOnSuccessListener(userList -> {
+            User ourUser = userList.get(0);
+            Log.e("DEBUG", "ourUser" + ourUser);
+            Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"user"}, new User[]{ourUser})
+                    .addOnSuccessListener(topicUserList -> {
+                        Log.e("DEBUG", "taille de topicUserList :" + topicUserList.size());
+                        Log.e("DEBUG", "topicUserList :" + topicUserList);
+                        // Creates a list of themes
+                        topicUsers.addAll(topicUserList);
+                        Log.e("DEBUG", "taille de topicUsers :" + topicUsers.size());
+                        Log.e("DEBUG", "topicUsers :" + topicUsers);
+                    });
+        });
+        Log.e("DEBUG", "return de topicUsers :" + topicUsers);
+        return topicUsers;
+    }
+
+    private List<String> GetTopicNames(List<TopicUser> TopicUsers) {
+        List<String> topicNames = new ArrayList<>();
+        for (TopicUser topicUser : TopicUsers) {
+            topicNames.add(topicUser.getTopic().getName());
+        }
+        return topicNames;
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +141,9 @@ public class AccountActivity extends AppCompatActivity {
         Email email = new Email(userEmail);
         textViewName.setText(email.firstName() + " " + email.lastName());
         textViewMail.setText(email.getAddress());
+
         DisplayBio();
+
         // listener for editMdp button
         buttonEditMdp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -234,76 +270,98 @@ public class AccountActivity extends AppCompatActivity {
                         }
                     }
                 });
+
                 builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.cancel();
                     }
                 });
+
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
         });
+
+
         buttonEditFunctions.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(AccountActivity.this);
-                builder.setTitle("Modifiez votre fonction");
+            public void onClick(View view) {
+                // Récupérer l'utilisateur actuellement connecté
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user != null) {
+                    Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{"uid"}, new String[]{user.getUid()}).addOnSuccessListener(users -> {
+                        if (users.size() > 0) {
+                            userModel = users.get(0);
+                            // Récupérer la liste des thèmes auxquels l'utilisateur est abonné
+                            Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"user"}, new User[]{userModel}).addOnSuccessListener(topicUsers -> {
+                                // Créer le dialogue avec la liste des thèmes et les zones de texte
+                                AlertDialog.Builder builder = new AlertDialog.Builder(AccountActivity.this);
+                                builder.setTitle("Modifier sa fonction");
 
-                ScrollView scrollView = new ScrollView(AccountActivity.this);
-                LinearLayout layout = new LinearLayout(AccountActivity.this);
-                layout.setOrientation(LinearLayout.VERTICAL);
+                                LinearLayout layout = new LinearLayout(AccountActivity.this);
+                                layout.setOrientation(LinearLayout.VERTICAL);
 
-                scrollView.addView(layout);
+                                // Ajouter les thèmes et les zones de texte à la disposition linéaire
+                                for (int t = 0; t < topicUsers.size(); t++) {
+                                    TextView textView = new TextView(AccountActivity.this);
+                                    String topicName = topicUsers.get(t).getTopic().getName();
+                                    textView.setText(topicName);
+                                    layout.addView(textView);
 
-                // Récupérer les TopicUser de l'utilisateur actuel
-                Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"user"}, new Object[]{user})
-                        .addOnSuccessListener(topicUsers -> {
-                            List<Topic> themes = new ArrayList<>();
-                            // Parcourir les TopicUser et récupérer les thèmes correspondants
-                            for (TopicUser topicUser : topicUsers) {
-                                Topic topic = topicUser.getTopic();
-                                themes.add(topic);
-                            }
-                            // Parcourir la liste des thèmes et ajouter des champs de texte pour chacun
-                            for (Topic theme : themes) {
-                                TextView textViewTheme = new TextView(AccountActivity.this);
-                                textViewTheme.setText(theme.getName());
-                                layout.addView(textViewTheme);
-                                EditText editTextContent = new EditText(AccountActivity.this);
-                                editTextContent.setHint("Modifier votre fonction pour " + theme.getName());
-                                layout.addView(editTextContent);
-                            }
-                            builder.setView(scrollView);
-                            builder.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // Récupérer les valeurs saisies par l'utilisateur pour chaque thème
-                                    for (int i = 0; i < themes.size(); i++) {
-                                        Topic topic = themes.get(i);
-                                        EditText editTextContent = (EditText) layout.getChildAt(i * 2 + 1);
-                                        String fonction = editTextContent.getText().toString();
-                                        if (!fonction.isEmpty()) {
-                                            // Rechercher l'utilisateur actuel dans les TopicUser correspondants au thème
-                                            for (TopicUser topicUser : topicUsers) {
-                                                if (topic.equals(topicUser.getTopic())) {
-                                                    // Mettre à jour la fonction de TopicUser
-                                                    topicUser.setFonction(fonction);
-                                                    // Mettre à jour TopicUser dans la base de données
-                                                    Database.getInstance().update(Table.TOPIC_USERS.getName(), topicUser, topicUser);
-                                                    break;
-                                                }
+                                    EditText editText = new EditText(AccountActivity.this);
+                                    layout.addView(editText);
+                                }
+
+                                builder.setView(layout);
+
+                                // Ajouter le bouton "Enregistrer"
+                                builder.setPositiveButton("Enregistrer", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        // Parcourir les zones de texte et mettre à jour les objets TopicUser
+                                        for (int j = 0; j < topicUsers.size(); j++) {
+                                            EditText editText = (EditText) layout.getChildAt(j * 2 + 1);
+                                            String fonction = editText.getText().toString();
+                                            Log.e("DEBUG", "fonction " + fonction);
+                                            if (fonction.length() > 0) {
+                                                // Mettre à jour la fonction pour l'objet TopicUser correspondant
+                                                TopicUser topicUser = topicUsers.get(j);
+                                                Log.e("DEBUG", "TopicUser " + topicUser.getTopic().getName());
+                                                TopicUser newTopicUser = new TopicUser(topicUser.getTopic(), topicUser.getUser(), topicUser.getRole(), fonction);
+
+                                                // Enregistrer la modification dans la base de données
+                                                Database.getInstance().update(Table.TOPIC_USERS.getName(), newTopicUser, new String[]{"topic", "user"}, new Object[]{topicUser.getTopic(),topicUser.getUser()});
                                             }
                                         }
+
+                                        // Afficher un message de succès
+                                        Toast.makeText(AccountActivity.this, "Fonctions enregistrées", Toast.LENGTH_SHORT).show();
                                     }
-                                }
+                                });
+
+
+                                // Ajouter le bouton "Annuler"
+                                builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.cancel();
+                                    }
+                                });
+
+                                AlertDialog dialog = builder.create();
+                                dialog.show();
                             });
-                            builder.setNegativeButton("Annuler", null);
-                            AlertDialog dialog = builder.create();
-                            dialog.show();
-                        });
+                        }
+                    });
+                }
             }
         });
+
+
+
+
+
 
 
         buttonDeleteAccount.setOnClickListener(new View.OnClickListener() {
