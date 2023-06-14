@@ -169,6 +169,37 @@ public class AddPostActivity extends AppCompatActivity {
 
             TopicUser topicUser = (TopicUser) extras.get("topicUser");
 
+            Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{"uid"}, new String[]{user.getUid()}).addOnSuccessListener(users -> {
+                if (users.size() > 0) {
+                    User userModel = users.get(0);
+                    // On récupère la liste des topics auquel l'user est abonné
+                    Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"user"}, new User[]{userModel}).addOnSuccessListener(topics -> {
+                        List<Button> buttons = new ArrayList<>();
+                        if (topics.size() > 0) {
+                            LinearLayout themesBar = findViewById(R.id.theme_bar);
+                            themesBar.removeAllViews();
+                            for (int i = 0; i < topics.size(); i++) {
+                                if (topics.get(i).getRole().getRole() >= 2) {
+                                    Button button = new Button(this);
+                                    TopicUser btnTopic = topics.get(i);
+                                    button.setText(btnTopic.getTopic().getName());
+                                    button.setOnClickListener(v -> {
+                                        button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
+                                        for (Button otherButton : buttons) {
+                                            if (otherButton != button) {
+                                                otherButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#444444"))); // Change to desired color
+                                            }
+                                        }
+                                    });
+                                    themesBar.addView(button);
+                                    buttons.add(button);
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+
             Button addImage = findViewById(R.id.buttonAddImage);
             Button addText = findViewById(R.id.buttonAddText);
             Button addVideo = findViewById(R.id.buttonAddVideo);
