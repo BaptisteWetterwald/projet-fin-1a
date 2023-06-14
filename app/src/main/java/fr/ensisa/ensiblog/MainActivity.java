@@ -243,6 +243,8 @@ public class MainActivity extends AppCompatActivity {
             DrawerLayout drawer = binding.drawerLayout;
             NavigationView navigationViewleft = binding.leftNavView.leftNavViewPane;
 
+            ((Button)findViewById(R.id.refresh_button)).setOnClickListener(click -> get_left_view());
+
             //Left menu Controller
             mAppBarConfigurationLeft = new AppBarConfiguration.Builder(R.id.nav_home).setOpenableLayout(drawer).build();
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
