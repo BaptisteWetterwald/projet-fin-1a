@@ -35,8 +35,8 @@ public class Database {
         void onResult(boolean alreadyExists);
     }
 
-    public void onModif(String tableName, String field, Object value, EventListener<QuerySnapshot> listener){
-        db.collection(tableName)
+    public ListenerRegistration onModif(String tableName, String field, Object value, EventListener<QuerySnapshot> listener){
+        return db.collection(tableName)
             .whereEqualTo(field, value)
             .addSnapshotListener(listener);
     }
