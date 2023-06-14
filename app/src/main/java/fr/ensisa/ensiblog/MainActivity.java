@@ -230,7 +230,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             });
             Button buttonDeco = (Button) findViewById(R.id.button_disconnect);
-
             buttonDeco.setOnClickListener(v -> {
                 new Authentication().signOut();
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
