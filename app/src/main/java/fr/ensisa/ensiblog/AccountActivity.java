@@ -36,12 +36,16 @@ import java.util.Objects;
 
 import fr.ensisa.ensiblog.models.Password;
 
-
+/**
+ * Activity used on the Account_management page of the application
+ **/
 public class AccountActivity extends AppCompatActivity {
 
     private User userModel;
 
-    // Méthode pour afficher la bio (appelée dans OnCreate et OnResume)
+    /**
+     * display the bio (called in OnCreate and OnResume)
+     **/
     private void DisplayBio() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
@@ -60,7 +64,9 @@ public class AccountActivity extends AppCompatActivity {
                 });
     }
 
-
+    /**
+     * Function called chen AccountActivity starts
+     **/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
