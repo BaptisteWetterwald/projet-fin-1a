@@ -9,56 +9,29 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import android.text.InputType;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.ScrollView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputConnection;
 
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import fr.ensisa.ensiblog.firebase.Database;
 import fr.ensisa.ensiblog.firebase.Table;
 import fr.ensisa.ensiblog.models.Email;
-import fr.ensisa.ensiblog.models.Role;
-import fr.ensisa.ensiblog.models.Topic;
 import fr.ensisa.ensiblog.models.TopicUser;
 import fr.ensisa.ensiblog.models.User;
 
-
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import fr.ensisa.ensiblog.models.Password;
@@ -66,7 +39,6 @@ import fr.ensisa.ensiblog.models.Password;
 
 public class AccountActivity extends AppCompatActivity {
 
-    private ArrayList<Topic> themes = new ArrayList<>();
     private User userModel;
 
     // Méthode pour afficher la bio (appelée dans OnCreate et OnResume)
@@ -89,36 +61,6 @@ public class AccountActivity extends AppCompatActivity {
     }
 
 
-    // Method to get a list of the user's subbed themes
-    private List<TopicUser> GetTopicUsers(String userUid) {
-        List<TopicUser> topicUsers = new ArrayList<>();
-        Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{"uid"}, new Object[]{userUid}).addOnSuccessListener(userList -> {
-            User ourUser = userList.get(0);
-            Log.e("DEBUG", "ourUser" + ourUser);
-            Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"user"}, new User[]{ourUser})
-                    .addOnSuccessListener(topicUserList -> {
-                        Log.e("DEBUG", "taille de topicUserList :" + topicUserList.size());
-                        Log.e("DEBUG", "topicUserList :" + topicUserList);
-                        // Creates a list of themes
-                        topicUsers.addAll(topicUserList);
-                        Log.e("DEBUG", "taille de topicUsers :" + topicUsers.size());
-                        Log.e("DEBUG", "topicUsers :" + topicUsers);
-                    });
-        });
-        Log.e("DEBUG", "return de topicUsers :" + topicUsers);
-        return topicUsers;
-    }
-
-    private List<String> GetTopicNames(List<TopicUser> TopicUsers) {
-        List<String> topicNames = new ArrayList<>();
-        for (TopicUser topicUser : TopicUsers) {
-            topicNames.add(topicUser.getTopic().getName());
-        }
-        return topicNames;
-    }
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,13 +70,11 @@ public class AccountActivity extends AppCompatActivity {
         Button buttonEditFunctions = findViewById(R.id.buttonEditFunctions);
         Button buttonEditBio = findViewById(R.id.buttonEditBio);
         Button buttonDeleteAccount = findViewById(R.id.buttonDeleteAccount);
-        ImageButton imageButtonEditPhoto = findViewById(R.id.imageButtonEditPhoto);
         TextView textViewName = findViewById(R.id.textViewName);
         TextView textViewMail = findViewById(R.id.textViewMail);
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
-        String userUid = user.getUid();
 
 
         String userEmail = user.getEmail();
@@ -186,7 +126,6 @@ public class AccountActivity extends AppCompatActivity {
                             Toast.makeText(AccountActivity.this, "Le mot de passe n'est pas assez sécurisé", Toast.LENGTH_SHORT).show();
                         } else {
                             // Check if current password is correct
-                            assert user != null;
                             AuthCredential credential = EmailAuthProvider.getCredential(Objects.requireNonNull(user.getEmail()), currentPassword);
                             user.reauthenticate(credential)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
