@@ -65,9 +65,7 @@ import fr.ensisa.ensiblog.models.Password;
 
 
 public class AccountActivity extends AppCompatActivity {
-
     private ArrayList<Topic> themes = new ArrayList<>();
-
     // Méthode pour afficher la bio (appelée dans OnCreate et OnResume)
     private void DisplayBio() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -109,9 +107,7 @@ public class AccountActivity extends AppCompatActivity {
         Email email = new Email(userEmail);
         textViewName.setText(email.firstName() + " " + email.lastName());
         textViewMail.setText(email.getAddress());
-
         DisplayBio();
-
         // listener for editMdp button
         buttonEditMdp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,20 +234,16 @@ public class AccountActivity extends AppCompatActivity {
                         }
                     }
                 });
-
                 builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.cancel();
                     }
                 });
-
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
         });
-
-
         buttonEditFunctions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -268,26 +260,21 @@ public class AccountActivity extends AppCompatActivity {
                 Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"user"}, new Object[]{user})
                         .addOnSuccessListener(topicUsers -> {
                             List<Topic> themes = new ArrayList<>();
-
                             // Parcourir les TopicUser et récupérer les thèmes correspondants
                             for (TopicUser topicUser : topicUsers) {
                                 Topic topic = topicUser.getTopic();
                                 themes.add(topic);
                             }
-
                             // Parcourir la liste des thèmes et ajouter des champs de texte pour chacun
                             for (Topic theme : themes) {
                                 TextView textViewTheme = new TextView(AccountActivity.this);
                                 textViewTheme.setText(theme.getName());
                                 layout.addView(textViewTheme);
-
                                 EditText editTextContent = new EditText(AccountActivity.this);
                                 editTextContent.setHint("Modifier votre fonction pour " + theme.getName());
                                 layout.addView(editTextContent);
                             }
-
                             builder.setView(scrollView);
-
                             builder.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -296,14 +283,12 @@ public class AccountActivity extends AppCompatActivity {
                                         Topic topic = themes.get(i);
                                         EditText editTextContent = (EditText) layout.getChildAt(i * 2 + 1);
                                         String fonction = editTextContent.getText().toString();
-
                                         if (!fonction.isEmpty()) {
                                             // Rechercher l'utilisateur actuel dans les TopicUser correspondants au thème
                                             for (TopicUser topicUser : topicUsers) {
                                                 if (topic.equals(topicUser.getTopic())) {
                                                     // Mettre à jour la fonction de TopicUser
                                                     topicUser.setFonction(fonction);
-
                                                     // Mettre à jour TopicUser dans la base de données
                                                     Database.getInstance().update(Table.TOPIC_USERS.getName(), topicUser, topicUser);
                                                     break;
@@ -313,9 +298,7 @@ public class AccountActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-
                             builder.setNegativeButton("Annuler", null);
-
                             AlertDialog dialog = builder.create();
                             dialog.show();
                         });

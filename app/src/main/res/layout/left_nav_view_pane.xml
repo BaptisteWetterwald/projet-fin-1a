@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+
     <com.google.android.material.navigation.NavigationView
         android:layout_width="235dp"
         android:id="@+id/left_nav_view_pane"
@@ -26,11 +27,20 @@
                 android:weightSum="1">
             </LinearLayout>
         </ScrollView>
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/refresh"
             android:layout_gravity="bottom"
-            android:id="@+id/refresh_button"/><!---->
+            android:id="@+id/refresh_button"/>
+        <Button
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/leftBack"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="55dp"
+            android:id="@+id/hide_button"/>
     </com.google.android.material.navigation.NavigationView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

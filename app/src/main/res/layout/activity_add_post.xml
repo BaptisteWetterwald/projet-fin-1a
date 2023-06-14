@@ -46,7 +46,7 @@
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/Ciel">
+            android:background="#015aa5">
 
             <HorizontalScrollView
                 android:layout_width="fill_parent"
@@ -64,21 +64,19 @@
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-
     <ScrollView
         android:id="@+id/scroll_View"
-        android:layout_width="380dp"
-        android:layout_height="389dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginHorizontal="8dp"
         android:layout_marginTop="70dp"
         android:layout_marginBottom="150dp"
-        android:background="@drawable/white_zone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
             android:id="@+id/list_content"
@@ -87,27 +85,18 @@
             android:orientation="vertical"></LinearLayout>
     </ScrollView>
 
+
     <ImageView
         android:id="@+id/imageViewUserPicture"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:layout_margin="10dp"
-        android:layout_marginTop="9dp"
-        android:layout_marginBottom="8dp"
-        android:adjustViewBounds="true"
-        android:background="@drawable/circle"
-        android:clipToOutline="true"
-        android:maxWidth="40dp"
-        android:maxHeight="40dp"
-        android:minWidth="40dp"
-        android:minHeight="40dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/profile_icon"
-        app:layout_constraintBottom_toTopOf="@+id/scroll_View"
+        android:layout_width="62dp"
+        android:layout_height="56dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.045"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:layout_constraintVertical_bias="0.025"
+        app:srcCompat="@drawable/ic_user" />
 
     <TextView
         android:id="@+id/textViewUsername"
@@ -117,60 +106,60 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/scroll_View"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.058"
         app:layout_constraintStart_toEndOf="@+id/imageViewUserPicture"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
         app:layout_constraintVertical_bias="0.044" />
 
-    <Button
-        android:id="@+id/buttonAddImage"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginBottom="78dp"
-        android:background="@drawable/btn_bg"
-        android:backgroundTint="@color/top"
-        android:text="@string/add_image"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="14dp" />
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/buttonPublish"
+        app:layout_constraintEnd_toEndOf="@+id/buttonPublish"
+        app:layout_constraintStart_toStartOf="@+id/buttonPublish"
+        tools:ignore="MissingConstraints">
 
-    <Button
-        android:id="@+id/buttonAddText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="151dp"
-        android:layout_marginBottom="90dp"
-        android:background="@drawable/btn_bg"
-        android:backgroundTint="@color/top"
-        android:text="@string/add_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/buttonAddImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_bg"
+            android:text="Add Image"
+            app:layout_constraintEnd_toStartOf="@+id/buttonAddText"
+            app:layout_constraintStart_toStartOf="@+id/buttonPublish"
+            tools:layout_editor_absoluteY="581dp" />
 
-    <Button
-        android:id="@+id/buttonAddVideo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginStart="281dp"
-        android:layout_marginBottom="78dp"
-        android:background="@drawable/btn_bg"
-        android:backgroundTint="@color/top"
-        android:text="@string/AjoutVideo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/buttonAddText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_bg"
+            android:text="Add Text"
+            app:layout_constraintBottom_toTopOf="@+id/buttonPublish"
+            tools:layout_editor_absoluteX="148dp" />
+
+        <Button
+            android:id="@+id/buttonAddVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_bg"
+            android:text="@string/AjoutVideo"
+            app:layout_constraintEnd_toEndOf="@+id/buttonPublish"
+            app:layout_constraintStart_toEndOf="@+id/buttonAddText"
+            tools:layout_editor_absoluteY="581dp" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/buttonPublish"
-        android:layout_width="match_parent"
+        android:layout_width="381dp"
         android:layout_height="63dp"
         android:layout_marginBottom="4dp"
-        android:backgroundTint="@color/top"
         android:text="@string/publier"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="14dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
