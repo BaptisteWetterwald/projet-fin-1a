@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
             Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{"uid"}, new String[]{user.getUid()}).addOnSuccessListener(users -> {
                 if (users.size() > 0) {
                     userModel = users.get(0);
+                    get_left_view();
                     AtomicBoolean isModo = new AtomicBoolean(false);
 
                     Button buttonModo = (Button) findViewById(R.id.button_moderation);
@@ -192,7 +193,6 @@ public class MainActivity extends AppCompatActivity {
             recyclerView.setAdapter(adapter);
             // Set a layout manager for the RecyclerView
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            get_left_view();
         }
     }
     private void get_left_view(){
@@ -272,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
                         });
                         left_view.addView(button);
 
-                    }else{continue;}
+                    }
                 }
             });
 
@@ -289,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadAllPosts() {
         postsWithFunctions = new ArrayList<>();
 
-        Topic currentTopic = new Topic("Resto U", new Role(2));
+        Topic currentTopic = new Topic("Kfet Lumière", new Role(2));
 
         // Get all existing posts once
         Database.getInstance().onModif(Table.POSTS.getName(), "topic", currentTopic, (snapshots, e) -> {
