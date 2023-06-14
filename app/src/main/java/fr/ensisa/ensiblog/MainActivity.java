@@ -85,6 +85,16 @@ public class MainActivity extends AppCompatActivity {
                     contains = true;
                     displayedTopics.remove(topic);
                     Objects.requireNonNull(topicsRegistered.get(topic)).remove();
+                    List<PostWithFunction> remove = new ArrayList<>();
+                    for (int i=0;i< postsWithFunctions.size();i++) {
+                        if(postsWithFunctions.get(i).getPost().getTopic().equals(btnTopic)){
+                            remove.add(postsWithFunctions.get(i));
+                        }
+                    }
+                    for (PostWithFunction ps: remove) {
+                        postsWithFunctions.remove(ps);
+                    }
+                    adapter.notifyDataSetChanged();
                     break;
                 }
             }
