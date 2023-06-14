@@ -127,7 +127,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_bg"
-            android:text="Add Image"
+            android:text="@string/add_image"
             app:layout_constraintEnd_toStartOf="@+id/buttonAddText"
             app:layout_constraintStart_toStartOf="@+id/buttonPublish"
             tools:layout_editor_absoluteY="581dp" />
@@ -137,7 +137,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_bg"
-            android:text="Add Text"
+            android:text="@string/add_text"
             app:layout_constraintBottom_toTopOf="@+id/buttonPublish"
             tools:layout_editor_absoluteX="148dp" />
 
@@ -162,4 +162,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
