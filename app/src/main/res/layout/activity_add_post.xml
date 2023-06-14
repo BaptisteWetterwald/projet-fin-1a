@@ -129,12 +129,17 @@
             android:background="@drawable/btn_bg"
             android:text="@string/add_image"
             app:layout_constraintEnd_toStartOf="@+id/buttonAddText"
+            android:textSize="15dp"
             app:layout_constraintStart_toStartOf="@+id/buttonPublish"
             tools:layout_editor_absoluteY="581dp" />
 
         <Button
             android:id="@+id/buttonAddText"
             android:layout_width="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="20dp"
+            android:textSize="15dp"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_bg"
             android:text="@string/add_text"
@@ -143,6 +148,7 @@
 
         <Button
             android:id="@+id/buttonAddVideo"
+            android:textSize="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_bg"

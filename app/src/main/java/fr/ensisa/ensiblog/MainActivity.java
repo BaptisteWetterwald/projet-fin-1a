@@ -229,29 +229,23 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
             });
-
             Button buttonNewPost = (Button) findViewById(R.id.fixedButton);
-
             buttonNewPost.setOnClickListener(v -> {
                 Intent intent = new Intent(MainActivity.this, AddPostActivity.class);
                 intent.putExtra("user",user);
                 intent.putExtra("User",userModel);
                 startActivity(intent);
             });
-
             // Passing each menu ID as a set of Ids because each
             // menu should be considered as top level destinations.
             DrawerLayout drawer = binding.drawerLayout;
             NavigationView navigationViewleft = binding.leftNavView.leftNavViewPane;
-
             ((Button)findViewById(R.id.refresh_button)).setOnClickListener(click -> get_left_view());
-
             //Left menu Controller
             mAppBarConfigurationLeft = new AppBarConfiguration.Builder(R.id.nav_home).setOpenableLayout(drawer).build();
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
             NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfigurationLeft);
             NavigationUI.setupWithNavController(navigationViewleft, navController);
-
             RecyclerView recyclerView = findViewById(R.id.recyclerView);
             //loadAllPosts();
             // Create an instance of the PostAdapter
@@ -332,7 +326,6 @@ public class MainActivity extends AppCompatActivity {
                                         Button button_tp = new Button(MainActivity.this);
                                         button_tp.setText(btnTopic.getName());
                                         LinearLayout themesBar = findViewById(R.id.main_topics);
-
                                         addListener(button_tp,topics.get(0));
                                         themesBar.addView(button_tp);
                                         buttons.add(button_tp);
@@ -353,7 +346,6 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfigurationLeft)
                 || super.onSupportNavigateUp();
     }
-
     private void DisplayBio() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
@@ -371,6 +363,4 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
-
-
 }
