@@ -50,7 +50,7 @@
                     android:background="@color/Ciel" />
 
                 <TextView
-                    android:id="@+id/editTextBio1"
+                    android:id="@+id/editTextBio"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:background="@drawable/et"

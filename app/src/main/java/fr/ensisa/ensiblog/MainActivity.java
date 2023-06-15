@@ -261,8 +261,6 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     });
-
-
                     Database.getInstance().alreadyIn(Table.ADMINS.getName(), new String[]{"email"}, new Email[]{userModel.getEmail()}, alreadyExists -> {
                         if(alreadyExists) {
                             MaterialButton buttonAdmin = createButton(this, "Administration");
@@ -273,7 +271,6 @@ public class MainActivity extends AppCompatActivity {
                             });
                         }
                     });
-
                     MaterialButton buttonGestionCompte = createButton(this, "Gestion Compte");
                     buttonsLayout.addView(buttonGestionCompte);
                     buttonGestionCompte.setOnClickListener(v -> {
@@ -282,7 +279,6 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("User",userModel);
                         startActivity(intent);
                     });
-
                     Button buttonNewPost = (Button) findViewById(R.id.fixedButton);
                     buttonNewPost.setOnClickListener(v -> {
                         Intent intent = new Intent(MainActivity.this, AddPostActivity.class);
@@ -293,7 +289,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             setSupportActionBar(binding.appBarMain.toolbar);
-
             Button buttonDeco = (Button) findViewById(R.id.button_disconnect);
             buttonDeco.setOnClickListener(v -> {
                 new Authentication().signOut();
@@ -320,14 +315,11 @@ public class MainActivity extends AppCompatActivity {
         }
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         DisplayBio();
-
     }
-
     /**
      * Function that manages the subscription part of the app
      **/
     private void get_left_view(){
-
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -349,7 +341,6 @@ public class MainActivity extends AppCompatActivity {
                     button.setTextOff(btnTopic.getTopic().getName());
                     button.setText(btnTopic.getTopic().getName());
                     button.setChecked(true);
-
                     button.setLayoutParams(layoutParams);
                     button.setOnClickListener(v -> {
                         showInfoBox("Warning", "Se désabonner de " + btnTopic.getTopic().getName() + " ?", "OK","Annuler", this, (dialog, which) -> {
@@ -416,7 +407,6 @@ public class MainActivity extends AppCompatActivity {
             });
         });
     }
-
     /**
      * Function that manages the swipe in the app
      **/
@@ -426,7 +416,6 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfigurationLeft)
                 || super.onSupportNavigateUp();
     }
-
     /**
      * Function that displays the bio of a user
      **/
