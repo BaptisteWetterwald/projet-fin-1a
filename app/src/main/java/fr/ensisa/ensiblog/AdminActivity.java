@@ -143,144 +143,149 @@ public class AdminActivity extends AppCompatActivity {
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
 
-                    View view = super.getView(position, convertView, parent);
+                    View view = convertView;
+                     if(view == null)
+                         view = super.getView(position, convertView, parent);
+
+                    View finalView = view;
                     Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"topic"}, new Topic[]{themes.get(position)}).addOnSuccessListener(topicUsers -> {
 
-                        TextView themeTitle = view.findViewById(R.id.itemTextView);
-                        themeTitle.setText(themes.get(position).getName());
+                            TextView themeTitle = finalView.findViewById(R.id.itemTextView);
+                            themeTitle.setText(themes.get(position).getName());
 
-                        TextView moderatorName = view.findViewById(R.id.moderatorNameTextView);
-                        for (TopicUser tu : topicUsers) {
-                            if (tu.getRole().getRole() == 4) {
-                                moderatorName.setText(tu.getUser().getEmail().firstName() + " " + tu.getUser().getEmail().lastName());
-                                break;
-                            }
-                        }
-                        Button editButton = view.findViewById(R.id.editButton);
-                        Button deleteButton = view.findViewById(R.id.deleteButton);
-                        Button changeModeratorButton = view.findViewById(R.id.changeModeratorButton);
+                            TextView moderatorName = finalView.findViewById(R.id.moderatorNameTextView);
 
-                        // listener for the Theme Name Edit button
-                        editButton.setOnClickListener(v -> {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
-                            builder.setTitle("Changer nom du thème");
-                            builder.setMessage("Entrez le nouveau nom du thème");
-
-                            final EditText input = new EditText(AdminActivity.this);
-                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                            input.setLayoutParams(layoutParams);
-                            builder.setView(input);
-
-                            builder.setPositiveButton("Valider", (dialog, which) -> {
-                                String newThemeName = input.getText().toString();
-                                if (newThemeName.isEmpty()) {
-                                    Toast.makeText(AdminActivity.this, "Un nom de thème est requis", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Database.getInstance().alreadyIn(Table.TOPICS.getName(), new String[]{"name"}, new String[]{newThemeName}, alreadyExists -> {
-                                        if (alreadyExists) {
-                                            Toast.makeText(AdminActivity.this, "Thème déjà existant", Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            int pos = listView.getPositionForView(v);
-                                            Topic topic = adapter.getItem(pos);
-                                            Topic newTopic = new Topic(newThemeName, topic.getDefaultRole());
-                                            Database.getInstance().update(Table.TOPICS.getName(), newTopic, new String[]{"name"}, new String[]{topic.getName()});
-                                            Database.getInstance().get(Table.POSTS.getName(), Post.class, new String[]{"topic"}, new Topic[]{topic}).addOnSuccessListener(posts -> {
-                                                for (Post post: posts) {
-                                                    post.setTopic(newTopic);
-                                                    Database.getInstance().update(Table.POSTS.getName(), post, new String[]{"creation","content"}, new Object[]{post.getCreation(),post.getContent()});
-                                                }
-                                                TextView themeName = ((LinearLayout) v.getParent().getParent()).findViewById(R.id.itemTextView);
-                                                themeName.setText(newThemeName);
-                                            });
-
-                                        }
-                                    });
+                            for (TopicUser tu : topicUsers) {
+                                if (tu.getRole().getRole() == 4) {
+                                    moderatorName.setText(tu.getUser().getEmail().firstName() + " " + tu.getUser().getEmail().lastName());
+                                    break;
                                 }
-                            });
+                            }
+                            Button editButton = finalView.findViewById(R.id.editButton);
+                            Button deleteButton = finalView.findViewById(R.id.deleteButton);
+                            Button changeModeratorButton = finalView.findViewById(R.id.changeModeratorButton);
 
-                            builder.setNegativeButton("Annuler", null);
+                            // listener for the Theme Name Edit button
+                            editButton.setOnClickListener(v -> {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
+                                builder.setTitle("Changer nom du thème");
+                                builder.setMessage("Entrez le nouveau nom du thème");
 
-                            AlertDialog dialog = builder.create();
-                            dialog.show();
-                        });
+                                final EditText input = new EditText(AdminActivity.this);
+                                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                                input.setLayoutParams(layoutParams);
+                                builder.setView(input);
 
-                        // listener for the delete theme button
-                        deleteButton.setOnClickListener(v -> {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                            builder.setTitle("Confirmation");
-                            builder.setMessage("Êtes-vous sûr de vouloir supprimer ce thème ?");
-                            builder.setPositiveButton("Oui", (dialog, which) -> {
-                                int pos = listView.getPositionForView(v);
-                                Topic topic = adapter.getItem(pos);
-                                Database.getInstance().removeFrom(Table.TOPICS.getName(), new String[]{"name"}, new String[]{topic.getName()}).addOnCompleteListener(task -> {
-                                    if (task.isSuccessful()) {
-                                        Database.getInstance().removeFrom(Table.TOPIC_USERS.getName(), new String[]{"topic"}, new Topic[]{topic}).addOnCompleteListener(task2 -> {
-                                            if (task2.isSuccessful()){
-                                                int p = listView.getPositionForView((LinearLayout)v.getParent().getParent());
-                                                themes.remove(p);
-                                                adapter.notifyDataSetChanged();
-                                            } else
-                                                Toast.makeText(AdminActivity.this, "Erreur lors de la suppression des utilisateurs du thème", Toast.LENGTH_SHORT).show();
+                                builder.setPositiveButton("Valider", (dialog, which) -> {
+                                    String newThemeName = input.getText().toString();
+                                    if (newThemeName.isEmpty()) {
+                                        Toast.makeText(AdminActivity.this, "Un nom de thème est requis", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Database.getInstance().alreadyIn(Table.TOPICS.getName(), new String[]{"name"}, new String[]{newThemeName}, alreadyExists -> {
+                                            if (alreadyExists) {
+                                                Toast.makeText(AdminActivity.this, "Thème déjà existant", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                int pos = listView.getPositionForView(v);
+                                                Topic topic = adapter.getItem(pos);
+                                                Topic newTopic = new Topic(newThemeName, topic.getDefaultRole());
+                                                Database.getInstance().update(Table.TOPICS.getName(), newTopic, new String[]{"name"}, new String[]{topic.getName()});
+                                                Database.getInstance().get(Table.POSTS.getName(), Post.class, new String[]{"topic"}, new Topic[]{topic}).addOnSuccessListener(posts -> {
+                                                    for (Post post : posts) {
+                                                        post.setTopic(newTopic);
+                                                        Database.getInstance().update(Table.POSTS.getName(), post, new String[]{"creation", "content"}, new Object[]{post.getCreation(), post.getContent()});
+                                                    }
+                                                    TextView themeName = ((LinearLayout) v.getParent().getParent()).findViewById(R.id.itemTextView);
+                                                    themeName.setText(newThemeName);
+                                                });
+
+                                            }
                                         });
-                                    } else
-                                        Toast.makeText(AdminActivity.this, "Erreur lors de la suppression du thème", Toast.LENGTH_SHORT).show();
+                                    }
                                 });
+
+                                builder.setNegativeButton("Annuler", null);
+
+                                AlertDialog dialog = builder.create();
+                                dialog.show();
                             });
-                            builder.setNegativeButton("Non", null);
-                            AlertDialog dialog = builder.create();
-                            dialog.show();
-                        });
 
-                        // listener for change super moderator button
-                        changeModeratorButton.setOnClickListener(v -> {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
-                            builder.setTitle("Changer de Super-Modérateur");
-                            builder.setMessage("Entrez le mail du nouveau Super-Modérateur");
-
-                            // Création d'un EditText pour saisir le nom du nouveau Super-Modérateur
-                            final EditText input = new EditText(AdminActivity.this);
-                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                            input.setLayoutParams(layoutParams);
-                            builder.setView(input);
-
-                            builder.setPositiveButton("Valider", (dialog, which) -> {
-                                String newModerator = input.getText().toString().toLowerCase();
-                                if (newModerator.isEmpty() || !Email.isValid(newModerator)) {
-                                    Toast.makeText(AdminActivity.this, "Un email valide est requis", Toast.LENGTH_SHORT).show();
-                                } else {
+                            // listener for the delete theme button
+                            deleteButton.setOnClickListener(v -> {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                builder.setTitle("Confirmation");
+                                builder.setMessage("Êtes-vous sûr de vouloir supprimer ce thème ?");
+                                builder.setPositiveButton("Oui", (dialog, which) -> {
                                     int pos = listView.getPositionForView(v);
                                     Topic topic = adapter.getItem(pos);
-                                    Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"topic"}, new Topic[]{topic}).addOnSuccessListener(topicUsers2 -> {
-                                        User superModo = null;
-                                        User futurSuperModo = null;
-                                        for (TopicUser tpUsr : topicUsers2) {
-                                            if (tpUsr.getRole().getRole() == 4) {
-                                                superModo = tpUsr.getUser();
-                                            } else if (tpUsr.getUser().getEmail().getAddress().equals(newModerator)) {
-                                                futurSuperModo = tpUsr.getUser();
-                                            }
-                                        }
-                                        if (superModo != null && futurSuperModo != null) {
-                                            TopicUser newSuperModo = new TopicUser(topic, futurSuperModo, new Role(4), "Super-Modo");
-                                            TopicUser oldSuperModo = new TopicUser(topic, superModo, new Role(3), "old Super-Modo");
-                                            Database.getInstance().update(Table.TOPIC_USERS.getName(), newSuperModo, new String[]{"topic", "user"}, new Object[]{topic, futurSuperModo});
-                                            Database.getInstance().update(Table.TOPIC_USERS.getName(), oldSuperModo, new String[]{"topic", "user"}, new Object[]{topic, superModo});
-                                            // Met à jours le texte sur la vue
-                                            TextView modoName = ((LinearLayout) v.getParent()).findViewById(R.id.moderatorNameTextView);
-                                            modoName.setText(futurSuperModo.getEmail().firstName()+" "+futurSuperModo.getEmail().lastName());
-                                        } else {
-                                            Toast.makeText(AdminActivity.this, "User not found in topic", Toast.LENGTH_SHORT).show();
-                                        }
+                                    Database.getInstance().removeFrom(Table.TOPICS.getName(), new String[]{"name"}, new String[]{topic.getName()}).addOnCompleteListener(task -> {
+                                        if (task.isSuccessful()) {
+                                            Database.getInstance().removeFrom(Table.TOPIC_USERS.getName(), new String[]{"topic"}, new Topic[]{topic}).addOnCompleteListener(task2 -> {
+                                                if (task2.isSuccessful()) {
+                                                    int p = listView.getPositionForView((LinearLayout) v.getParent().getParent());
+                                                    themes.remove(p);
+                                                    adapter.notifyDataSetChanged();
+                                                } else
+                                                    Toast.makeText(AdminActivity.this, "Erreur lors de la suppression des utilisateurs du thème", Toast.LENGTH_SHORT).show();
+                                            });
+                                        } else
+                                            Toast.makeText(AdminActivity.this, "Erreur lors de la suppression du thème", Toast.LENGTH_SHORT).show();
                                     });
-                                }
+                                });
+                                builder.setNegativeButton("Non", null);
+                                AlertDialog dialog = builder.create();
+                                dialog.show();
                             });
 
-                            builder.setNegativeButton("Annuler", null);
+                            // listener for change super moderator button
+                            changeModeratorButton.setOnClickListener(v -> {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
+                                builder.setTitle("Changer de Super-Modérateur");
+                                builder.setMessage("Entrez le mail du nouveau Super-Modérateur");
 
-                            AlertDialog dialog = builder.create();
-                            dialog.show();
+                                // Création d'un EditText pour saisir le nom du nouveau Super-Modérateur
+                                final EditText input = new EditText(AdminActivity.this);
+                                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                                input.setLayoutParams(layoutParams);
+                                builder.setView(input);
+
+                                builder.setPositiveButton("Valider", (dialog, which) -> {
+                                    String newModerator = input.getText().toString().toLowerCase();
+                                    if (newModerator.isEmpty() || !Email.isValid(newModerator)) {
+                                        Toast.makeText(AdminActivity.this, "Un email valide est requis", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        int pos = listView.getPositionForView(v);
+                                        Topic topic = adapter.getItem(pos);
+                                        Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"topic"}, new Topic[]{topic}).addOnSuccessListener(topicUsers2 -> {
+                                            User superModo = null;
+                                            User futurSuperModo = null;
+                                            for (TopicUser tpUsr : topicUsers2) {
+                                                if (tpUsr.getRole().getRole() == 4) {
+                                                    superModo = tpUsr.getUser();
+                                                } else if (tpUsr.getUser().getEmail().getAddress().equals(newModerator)) {
+                                                    futurSuperModo = tpUsr.getUser();
+                                                }
+                                            }
+                                            if (superModo != null && futurSuperModo != null) {
+                                                TopicUser newSuperModo = new TopicUser(topic, futurSuperModo, new Role(4), "Super-Modo");
+                                                TopicUser oldSuperModo = new TopicUser(topic, superModo, new Role(3), "old Super-Modo");
+                                                Database.getInstance().update(Table.TOPIC_USERS.getName(), newSuperModo, new String[]{"topic", "user"}, new Object[]{topic, futurSuperModo});
+                                                Database.getInstance().update(Table.TOPIC_USERS.getName(), oldSuperModo, new String[]{"topic", "user"}, new Object[]{topic, superModo});
+                                                // Met à jours le texte sur la vue
+                                                TextView modoName = ((LinearLayout) v.getParent()).findViewById(R.id.moderatorNameTextView);
+                                                modoName.setText(futurSuperModo.getEmail().firstName() + " " + futurSuperModo.getEmail().lastName());
+                                            } else {
+                                                Toast.makeText(AdminActivity.this, "User not found in topic", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                });
+
+                                builder.setNegativeButton("Annuler", null);
+
+                                AlertDialog dialog = builder.create();
+                                dialog.show();
+                            });
                         });
-                    });
 
                     return view;
                 }
