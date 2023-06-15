@@ -210,6 +210,7 @@ public class AddPostActivity extends AppCompatActivity {
                 EditText editText = new EditText(AddPostActivity.this);
                 editText.setTextColor(Color.rgb(0,0,0));
                 list_content.addView(editText);
+                editText.requestFocus();
             });
             addVideo.setOnClickListener(v -> {
                 pickVideo.launch(new PickVisualMediaRequest.Builder()
