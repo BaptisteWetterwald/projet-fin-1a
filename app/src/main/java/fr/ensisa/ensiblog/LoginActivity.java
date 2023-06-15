@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
 
            /* btnFr = (Button) findViewById(R.id.francais);
             btnFr.setOnClickListener(v -> {
-                setAppLocale("fr");                               IN PROCESS !!!!!!!!!!!!!!!
+                setAppLocale("fr");
             });
             btnEng = (Button) findViewById(R.id.anglais);
             btnEng.setOnClickListener(v -> {
@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
 
             buttonLog.setOnClickListener(v -> {
 
-                String email = edUsername.getText().toString();
+                String email = edUsername.getText().toString().toLowerCase();
                 String password = edPassword.getText().toString();
 
                 if(!Email.isValid(email)) {

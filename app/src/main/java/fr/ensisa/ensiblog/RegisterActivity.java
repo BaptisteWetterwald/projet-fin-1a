@@ -37,7 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
         Button buttonLog = (Button) findViewById(R.id.buttonLogin);
 
         buttonReg.setOnClickListener(v -> {
-            String email = edUsername.getText().toString();
+            String email = edUsername.getText().toString().toLowerCase();
             String password = edPassword.getText().toString();
 
             if(!Email.isValid(email)) {

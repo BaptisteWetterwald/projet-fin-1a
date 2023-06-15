@@ -1,5 +1,7 @@
 package fr.ensisa.ensiblog;
 
+import static fr.ensisa.ensiblog.Utils.getFilePathFromUri;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -98,23 +100,6 @@ public class AddPostActivity extends AppCompatActivity {
     }
 
     /**
-     * traduce an unusable Uri to a usable Path
-     @param uri : the unusable uri
-     **/
-    private String getFilePathFromUri(Uri uri) {
-        String filePath = null;
-        String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
-        if (cursor != null) {
-            int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            filePath = cursor.getString(columnIndex);
-            cursor.close();
-        }
-        return filePath;
-    }
-
-    /**
      * Function called when AddPostActivity starts
      **/
     @Override
@@ -155,7 +140,7 @@ public class AddPostActivity extends AppCompatActivity {
                         if(parcelFileDescriptor.getStatSize() < VIDEO_MAX_SIZE){
                             VideoView videoView = new VideoView(AddPostActivity.this);
                             videoView.setVideoURI(uri);
-                            videoView.setContentDescription(getFilePathFromUri(uri));
+                            videoView.setContentDescription(getFilePathFromUri(getContentResolver(),uri));
                             MediaController mediaController = new MediaController(AddPostActivity.this);
                             mediaController.setAnchorView(videoView);
                             mediaController.setMediaPlayer(videoView);
@@ -197,7 +182,7 @@ public class AddPostActivity extends AppCompatActivity {
                             button.setText(btnTopic.getTopic().getName());
                             button.setOnClickListener(v -> {
                                 currentTopic=btnTopic.getTopic();
-                                button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
+                                button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#66A0B1")));
                                 for (Button otherButton : buttons) {
                                     if (otherButton != button) {
                                         otherButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#444444"))); // Change to desired color
