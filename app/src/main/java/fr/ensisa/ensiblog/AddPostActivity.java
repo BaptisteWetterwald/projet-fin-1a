@@ -168,6 +168,9 @@ public class AddPostActivity extends AppCompatActivity {
             Email usrEmail = new Email(user.getEmail());
             userName.setText(usrEmail.firstName() + " " + usrEmail.lastName());
 
+            ImageView img =  findViewById(R.id.imageViewUserPicture);
+            if(userModel.getPhotoUrl() != null)
+                Picasso.get().load(userModel.getPhotoUrl()).into(img);
 
             // On récupère la liste des topics auquel l'user est abonné
             Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"user"}, new User[]{userModel}).addOnSuccessListener(topics -> {
