@@ -61,6 +61,10 @@ public class TopicUser implements Serializable {
         this.fonction = fonction;
     }
 
+    /**
+     * Overwrite the basic equals function to adapt it for our app
+     @param obj : param of the basic equals function
+     **/
     @Override
     public boolean equals(Object obj) {
         if (obj == null) return false;

@@ -67,6 +67,10 @@ public class User implements Serializable {
         return photoUrl;
     }
 
+    /**
+     * Overwrite the basic equals function to adapt it for our app
+     @param obj : param of the basic equals function
+     **/
     @Override
     public boolean equals(Object obj) {
         if (obj == null) return false;
