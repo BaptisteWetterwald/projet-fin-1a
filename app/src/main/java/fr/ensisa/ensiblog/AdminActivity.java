@@ -137,6 +137,9 @@ public class AdminActivity extends AppCompatActivity {
                 themes.add(topics.get(i));
             }
             adapter = new ArrayAdapter<Topic>(AdminActivity.this, R.layout.list_item, R.id.itemTextView, themes) {
+                /**
+                 * Override the basic getView method and adapt it to our project
+                 **/
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
 

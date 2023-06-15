@@ -1,5 +1,7 @@
 package fr.ensisa.ensiblog.models;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 /**
@@ -41,7 +43,7 @@ public class Topic implements Serializable {
     }
 
     /**
-     * Overwrite the basic equals function to adapt it for our app
+     * Override the basic equals function to adapt it for our app
      @param obj : param of the basic equals function
      **/
     @Override
@@ -54,8 +56,9 @@ public class Topic implements Serializable {
         return this.getName().equals(((Topic) obj).getName()) && this.getDefaultRole().equals(((Topic) obj).getDefaultRole());
     }
 
+    @NonNull
     /**
-     * Overwrite the basic toString function to adapt it for our app
+     * Override the basic toString function to adapt it for our app
      **/
     @Override
     public String toString() {

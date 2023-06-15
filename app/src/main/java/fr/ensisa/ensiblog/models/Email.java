@@ -1,4 +1,6 @@
 package fr.ensisa.ensiblog.models;
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.regex.Pattern;
 
@@ -19,7 +21,7 @@ public class Email implements Serializable {
 
     /**
      * verify if the mail is conform
-     @param address : mail ot verify
+     @param address : mail to verify
      **/
     public static boolean isValid(String address){
         String emailRegex = "^[a-zA-Z]+\\.[a-zA-Z]+[0-9]?+@uha\\.fr$";
@@ -74,7 +76,7 @@ public class Email implements Serializable {
     }
 
     /**
-     * Overwrite the basic equals function to adapt it for our app
+     * Override the basic equals function to adapt it for our app
      @param obj : param of the basic equals function
      **/
     @Override
@@ -85,5 +87,13 @@ public class Email implements Serializable {
         if (obj == this)
             return true;
         return this.getAddress().equals(((Email) obj).getAddress());
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Email{" +
+                "address='" + address + '\'' +
+                '}';
     }
 }

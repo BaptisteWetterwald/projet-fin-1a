@@ -1,5 +1,7 @@
 package fr.ensisa.ensiblog.models;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 /**
@@ -19,5 +21,13 @@ public class Admin implements Serializable {
 
     public void setEmail(Email email) {
         this.email = email;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Admin{" +
+                "email='" + email + '\'' +
+                '}';
     }
 }

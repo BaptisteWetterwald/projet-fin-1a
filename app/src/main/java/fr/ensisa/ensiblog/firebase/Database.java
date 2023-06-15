@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import okhttp3.internal.cache.DiskLruCache;
-
 /**
  * Class containing all functions needed to work with the database
  **/
@@ -91,9 +89,23 @@ public class Database {
                 });
     }
 
-    public void remove(String tableName, Object object){
-        CollectionReference dbTable = db.collection(tableName);
-        dbTable.document(object.toString()).delete();
+    public Task<Void> remove(String tableName, Object object){
+        // for each attribute of the object, if it is not null, add it to the query after casting it to the right type
+        String[] fields = new String[object.getClass().getDeclaredFields().length];
+        Object[] values = new Object[object.getClass().getDeclaredFields().length];
+
+        for (int i = 0; i < object.getClass().getDeclaredFields().length; i++) {
+            Field field = object.getClass().getDeclaredFields()[i];
+            field.setAccessible(true);
+            try {
+                fields[i] = field.getName();
+                values[i] = field.get(object);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return removeFrom(tableName, fields, values);
     }
 
     public void update(String tableName, Object old, Object newObject){
@@ -155,11 +167,11 @@ public class Database {
     }
 
     /**
-     * method to update lines in the database with fields and values parameters as new values and object as the object to update
+     * method to update lines in the database with fields and values parameters
      @param tableName : select the collection you want to change object
      @param object : object to update
      @param fields : fields to filter with
-     @param values : fields to filter with
+     @param values : new values of the object
      **/
     public void update(String tableName, Object object, String[] fields, Object[] values) throws IllegalArgumentException {
         CollectionReference dbTable = db.collection(tableName);
@@ -269,7 +281,7 @@ public class Database {
      @param tableName : name of the table you want to add a line
      @param object : object you want to add to the database
      @param objectClass : class of the object you want to add
-     @param unique : used to see if the object already exist in the database
+     @param unique : used to ad the object if he does not already exist in the database
      **/
     public void add(String tableName, Object object, Class objectClass, boolean unique) {
 
