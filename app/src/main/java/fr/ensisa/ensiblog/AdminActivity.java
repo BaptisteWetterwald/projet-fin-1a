@@ -60,6 +60,11 @@ public class AdminActivity extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         Button newThemeButton = findViewById(R.id.newThemeButton);
 
+        Bundle extras = getIntent().getExtras();
+
+        if (extras != null) {
+            User currentUser = (User)extras.get("User");
+
         // listener for New Theme button
         newThemeButton.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
@@ -112,6 +117,7 @@ public class AdminActivity extends AppCompatActivity {
                     Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{"email"}, new Email[]{new Email(moderatorEmail)}).addOnSuccessListener(users -> {
                         if(users.size()>0) {
                             Database.getInstance().add(Table.TOPIC_USERS.getName(), new TopicUser(newTopic, users.get(0), new Role(4)), TopicUser.class);
+                            Database.getInstance().add(Table.TOPIC_USERS.getName(), new TopicUser(newTopic, currentUser, new Role(4)), TopicUser.class);
 
                             // On affiche le thème créé à la vue
                             themes.add(newTopic);
@@ -156,7 +162,7 @@ public class AdminActivity extends AppCompatActivity {
                             TextView moderatorName = finalView.findViewById(R.id.moderatorNameTextView);
 
                             for (TopicUser tu : topicUsers) {
-                                if (tu.getRole().getRole() == 4) {
+                                if (tu.getRole().getRole() == 4 && tu.getUser().getEmail().getAddress() != currentUser.getEmail().getAddress()) {
                                     moderatorName.setText(tu.getUser().getEmail().firstName() + " " + tu.getUser().getEmail().lastName());
                                     break;
                                 }
@@ -293,5 +299,6 @@ public class AdminActivity extends AppCompatActivity {
 
             listView.setAdapter(adapter);
         });
+    }
     }
 }

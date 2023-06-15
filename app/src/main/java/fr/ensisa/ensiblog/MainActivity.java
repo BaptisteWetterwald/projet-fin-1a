@@ -256,6 +256,7 @@ public class MainActivity extends AppCompatActivity {
                             buttonsLayout.addView(buttonAdmin);
                             buttonAdmin.setOnClickListener(v -> {
                                 Intent intent = new Intent(MainActivity.this, AdminActivity.class);
+                                intent.putExtra("User",userModel);
                                 startActivity(intent);
                             });
                         }
