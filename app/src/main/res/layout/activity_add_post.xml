@@ -46,7 +46,7 @@
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#015aa5">
+            android:background="@color/Ciel">
 
             <HorizontalScrollView
                 android:layout_width="fill_parent"
@@ -71,6 +71,8 @@
         android:layout_marginHorizontal="8dp"
         android:layout_marginTop="70dp"
         android:layout_marginBottom="150dp"
+        android:background="@drawable/input_bg"
+        android:backgroundTint="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -82,21 +84,11 @@
             android:id="@+id/list_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"></LinearLayout>
+            android:layout_marginTop="40dp"
+            android:orientation="vertical">
+        </LinearLayout>
     </ScrollView>
 
-
-    <ImageView
-        android:id="@+id/imageViewUserPicture"
-        android:layout_width="62dp"
-        android:layout_height="56dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.045"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-        app:layout_constraintVertical_bias="0.025"
-        app:srcCompat="@drawable/ic_user" />
 
     <TextView
         android:id="@+id/textViewUsername"
@@ -108,58 +100,90 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/scroll_View"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.058"
+        app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toEndOf="@+id/imageViewUserPicture"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-        app:layout_constraintVertical_bias="0.044" />
+        app:layout_constraintVertical_bias="0.302" />
+
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/buttonPublish"
         app:layout_constraintEnd_toEndOf="@+id/buttonPublish"
         app:layout_constraintStart_toStartOf="@+id/buttonPublish"
+        app:layout_constraintTop_toBottomOf="@+id/scroll_View"
         tools:ignore="MissingConstraints">
 
         <Button
             android:id="@+id/buttonAddImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
             android:background="@drawable/btn_bg"
+            android:backgroundTint="@color/top"
             android:text="Add Image"
             app:layout_constraintEnd_toStartOf="@+id/buttonAddText"
+            app:layout_constraintHorizontal_bias="0.765"
             app:layout_constraintStart_toStartOf="@+id/buttonPublish"
-            tools:layout_editor_absoluteY="581dp" />
+            app:layout_constraintTop_toBottomOf="@+id/scroll_View" />
 
         <Button
             android:id="@+id/buttonAddText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
             android:background="@drawable/btn_bg"
+            android:backgroundTint="@color/top"
             android:text="Add Text"
-            app:layout_constraintBottom_toTopOf="@+id/buttonPublish"
-            tools:layout_editor_absoluteX="148dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/scroll_View"
+            app:layout_constraintVertical_bias="0.07" />
 
         <Button
             android:id="@+id/buttonAddVideo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
             android:background="@drawable/btn_bg"
+            android:backgroundTint="@color/top"
             android:text="@string/AjoutVideo"
             app:layout_constraintEnd_toEndOf="@+id/buttonPublish"
+            app:layout_constraintHorizontal_bias="0.271"
             app:layout_constraintStart_toEndOf="@+id/buttonAddText"
-            tools:layout_editor_absoluteY="581dp" />
+            app:layout_constraintTop_toBottomOf="@+id/scroll_View" />
+
+
     </LinearLayout>
 
     <Button
         android:id="@+id/buttonPublish"
-        android:layout_width="381dp"
-        android:layout_height="63dp"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
         android:layout_marginBottom="4dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="@color/red"
         android:text="@string/publier"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageViewUserPicture"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="115dp"
+        android:src="@drawable/profile_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="16dp"
+        tools:ignore="MissingConstraints" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

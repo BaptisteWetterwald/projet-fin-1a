@@ -3,9 +3,16 @@ package fr.ensisa.ensiblog.models;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+/**
+ * Class used to verify passwords
+ **/
 public class Password {
     private String password;
 
+    /**
+     * verify if the password is conform
+     @param password : password to verify
+     **/
     public static boolean isValid(String password){
         if (password.length() < 8) {
             return false;

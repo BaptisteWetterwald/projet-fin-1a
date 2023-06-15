@@ -1,5 +1,6 @@
 package fr.ensisa.ensiblog;
 
+import android.util.Log;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,13 +12,20 @@ import fr.ensisa.ensiblog.firebase.Authentication;
 import fr.ensisa.ensiblog.firebase.Database;
 import fr.ensisa.ensiblog.firebase.Table;
 import fr.ensisa.ensiblog.models.Email;
+import fr.ensisa.ensiblog.models.Password;
 import fr.ensisa.ensiblog.models.User;
 
 import static fr.ensisa.ensiblog.Utils.showInfoBox;
 
+/**
+ * Activity used on the register page of the application
+ **/
 public class RegisterActivity extends AppCompatActivity {
     EditText edUsername, edPassword;
 
+    /**
+     * Function called when RegisterActivity starts
+     **/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -29,8 +37,17 @@ public class RegisterActivity extends AppCompatActivity {
         Button buttonLog = (Button) findViewById(R.id.buttonLogin);
 
         buttonReg.setOnClickListener(v -> {
-            String email = edUsername.getText().toString();
+            String email = edUsername.getText().toString().toLowerCase();
             String password = edPassword.getText().toString();
+
+            if(!Email.isValid(email)) {
+                Toast.makeText(getApplicationContext(), "Invalid uha email", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(!Password.isValid(password)) {
+                Toast.makeText(getApplicationContext(), "Invalid password", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             Authentication auth = new Authentication();
 
@@ -43,6 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
                             showInfoBox("Alert !","Please verify your email","OK",RegisterActivity.this ,(dialog, which) -> {
                                 dialog.cancel();
                                 user.sendEmailVerification();
+                                Log.i("n6a","GO to login !");
                                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                                 intent.putExtra("user",user);
                                 startActivity(intent);

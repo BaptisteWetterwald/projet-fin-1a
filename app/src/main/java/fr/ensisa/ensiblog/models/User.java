@@ -1,10 +1,15 @@
 package fr.ensisa.ensiblog.models;
 
+import androidx.annotation.NonNull;
+
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Class representing the basic user on the application
+ **/
 public class User implements Serializable {
 
     private Email email;
@@ -64,6 +69,10 @@ public class User implements Serializable {
         return photoUrl;
     }
 
+    /**
+     * Override the basic equals function to adapt it for our app
+     @param obj : param of the basic equals function
+     **/
     @Override
     public boolean equals(Object obj) {
         if (obj == null) return false;
@@ -72,5 +81,16 @@ public class User implements Serializable {
         if (obj == this)
             return true;
         return this.getEmail().equals(((User) obj).getEmail());
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "User{" +
+                "email=" + email +
+                ", biographie='" + biographie + '\'' +
+                ", uid='" + uid + '\'' +
+                ", photoUrl='" + photoUrl + '\'' +
+                '}';
     }
 }

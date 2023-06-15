@@ -1,7 +1,12 @@
 package fr.ensisa.ensiblog.models;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
+/**
+ * Class used for the database that links a user and a topic
+ **/
 public class TopicUser implements Serializable {
     private Topic topic;
     private User user;
@@ -58,6 +63,10 @@ public class TopicUser implements Serializable {
         this.fonction = fonction;
     }
 
+    /**
+     * Override the basic equals function to adapt it for our app
+     @param obj : param of the basic equals function
+     **/
     @Override
     public boolean equals(Object obj) {
         if (obj == null) return false;
@@ -66,5 +75,15 @@ public class TopicUser implements Serializable {
         if (obj == this)
             return true;
         return this.getTopic().equals(((TopicUser) obj).getTopic()) && this.getUser().equals(((TopicUser) obj).getUser()) && this.getRole().equals(((TopicUser) obj).getRole());
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "TopicUser{" +
+                "topic='" + topic + '\'' +
+                ", user='" + user + '\'' +
+                ", role='" + role + '\'' +
+                '}';
     }
 }

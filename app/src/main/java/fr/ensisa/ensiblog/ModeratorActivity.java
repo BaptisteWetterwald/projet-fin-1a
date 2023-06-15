@@ -29,9 +29,15 @@ import fr.ensisa.ensiblog.models.Topic;
 import fr.ensisa.ensiblog.models.TopicUser;
 import fr.ensisa.ensiblog.models.User;
 
-
+/**
+ * Activity used on the moderator page of the application
+ **/
 public class ModeratorActivity extends AppCompatActivity {
 
+    /**
+     * Display all members of the selected topic
+     * @param currentTopic : topic selected
+     **/
     private void loadMembers(TopicUser currentTopic){
 
         Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"topic"}, new Topic[]{currentTopic.getTopic()}).addOnSuccessListener(topicUsers -> {
@@ -48,7 +54,8 @@ public class ModeratorActivity extends AppCompatActivity {
                     RadioGroup radioGroup = componentView.findViewById(R.id.list_members_radioGroup);
                     TopicUser tpUsr = topicUsers.get(i);
 
-                    if(!Objects.equals(tpUsr.getUser().getEmail().getAddress(), currentTopic.getUser().getEmail().getAddress())){
+                    if(!Objects.equals(tpUsr.getUser().getEmail().getAddress(), currentTopic.getUser().getEmail().getAddress()) &&
+                    tpUsr.getRole().getRole() < currentTopic.getRole().getRole()){
 
                         Email members_email = tpUsr.getUser().getEmail();
                         // Modify the views as needed
@@ -92,6 +99,9 @@ public class ModeratorActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Function called when the ModeratorActivity starts
+     **/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

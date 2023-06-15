@@ -15,8 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import okhttp3.internal.cache.DiskLruCache;
-
+/**
+ * Class containing all functions needed to work with the database
+ **/
 public class Database {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static Database instance;
@@ -35,12 +36,25 @@ public class Database {
         void onResult(boolean alreadyExists);
     }
 
+    /**
+     * Used to listen if there is modification in the database
+     @param tableName : collection to listen in the database
+     @param field : filter what you want to listen by a field
+     @param value : filter what you want to listen by an Object
+     @param listener : listener on modifications
+     **/
     public ListenerRegistration onModif(String tableName, String field, Object value, EventListener<QuerySnapshot> listener){
         return db.collection(tableName)
             .whereEqualTo(field, value)
             .addSnapshotListener(listener);
     }
 
+    /**
+     * check if an object already exist in the database
+     @param tableName : select the collection you want to check
+     @param fields : select the field you want to check
+     @param values : select the object you want to check
+     **/
     public void alreadyIn(String tableName, String[] fields, Object[] values, AlreadyInCallback callback) throws IllegalArgumentException {
 
         if (fields.length != values.length) {
@@ -75,9 +89,23 @@ public class Database {
                 });
     }
 
-    public void remove(String tableName, Object object){
-        CollectionReference dbTable = db.collection(tableName);
-        dbTable.document(object.toString()).delete();
+    public Task<Void> remove(String tableName, Object object){
+        // for each attribute of the object, if it is not null, add it to the query after casting it to the right type
+        String[] fields = new String[object.getClass().getDeclaredFields().length];
+        Object[] values = new Object[object.getClass().getDeclaredFields().length];
+
+        for (int i = 0; i < object.getClass().getDeclaredFields().length; i++) {
+            Field field = object.getClass().getDeclaredFields()[i];
+            field.setAccessible(true);
+            try {
+                fields[i] = field.getName();
+                values[i] = field.get(object);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return removeFrom(tableName, fields, values);
     }
 
     public void update(String tableName, Object old, Object newObject){
@@ -85,7 +113,13 @@ public class Database {
         dbTable.document(old.toString()).set(newObject);
     }
 
-
+    /**
+     * Used to get an element from the database
+     @param tableName : name of the table where the element is
+     @param objectClass : class of the element
+     @param fields : name of the field where the element is
+     @param values : name of table the object
+     **/
     public <T> Task<List<T>> get(String tableName, final Class<T> objectClass, String[] fields, Object[] values) throws IllegalArgumentException {
         final TaskCompletionSource<List<T>> taskCompletionSource = new TaskCompletionSource<>();
 
@@ -132,7 +166,13 @@ public class Database {
         return taskCompletionSource.getTask();
     }
 
-    // method to update lines in the database with fields and values parameters as new values and object as the object to update
+    /**
+     * method to update lines in the database with fields and values parameters
+     @param tableName : select the collection you want to change object
+     @param object : object to update
+     @param fields : fields to filter with
+     @param values : new values of the object
+     **/
     public void update(String tableName, Object object, String[] fields, Object[] values) throws IllegalArgumentException {
         CollectionReference dbTable = db.collection(tableName);
 
@@ -161,7 +201,12 @@ public class Database {
         }
     }
 
-    // Method to remove lines in the database with fields and values as parameters
+    /**
+     * Method to remove lines in the database with fields and values as parameters
+     @param tableName : name of the table
+     @param fields : name of the field
+     @param values : name of the object
+     **/
     public Task<Void> removeFrom(String tableName, String[] fields, Object[] values) throws IllegalArgumentException {
         final TaskCompletionSource<Void> taskCompletionSource = new TaskCompletionSource<>();
 
@@ -231,6 +276,13 @@ public class Database {
         return dbTable.add(Objects.requireNonNull((objectClass).cast(object)));
     }
 
+    /**
+     * Method to add lines in the database
+     @param tableName : name of the table you want to add a line
+     @param object : object you want to add to the database
+     @param objectClass : class of the object you want to add
+     @param unique : used to ad the object if he does not already exist in the database
+     **/
     public void add(String tableName, Object object, Class objectClass, boolean unique) {
 
         CollectionReference dbTable = db.collection(tableName);
@@ -268,6 +320,12 @@ public class Database {
         }
     }
 
+    /**
+     * Method to add lines in the database
+     @param tableName : name of the table you want to add a line
+     @param object : object you want to add to the database
+     @param objectClass : class of the object you want to add
+     **/
     public void add(String tableName, Object object, Class objectClass, String[] uniqueFields) {
 
         CollectionReference dbTable = db.collection(tableName);

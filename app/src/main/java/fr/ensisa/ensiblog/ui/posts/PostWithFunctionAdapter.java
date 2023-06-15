@@ -1,22 +1,29 @@
 package fr.ensisa.ensiblog.ui.posts;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -24,8 +31,13 @@ import java.util.List;
 import java.util.Objects;
 
 import fr.ensisa.ensiblog.FullScreenVideoActivity;
+import fr.ensisa.ensiblog.MainActivity;
 import fr.ensisa.ensiblog.R;
+import fr.ensisa.ensiblog.firebase.Database;
+import fr.ensisa.ensiblog.firebase.Table;
 import fr.ensisa.ensiblog.models.Email;
+import fr.ensisa.ensiblog.models.TopicUser;
+import fr.ensisa.ensiblog.models.User;
 import fr.ensisa.ensiblog.models.posts.Content;
 import fr.ensisa.ensiblog.models.posts.ContentType;
 import fr.ensisa.ensiblog.models.posts.Post;
@@ -113,18 +125,31 @@ public class PostWithFunctionAdapter extends RecyclerView.Adapter<PostWithFuncti
                         textView.setText(content.getData());
                         textView.setTextColor(Color.parseColor("#606060"));
                         textView.setGravity(Gravity.CENTER);
+                        textView.setAutoLinkMask(Linkify.ALL);
+                        textView.setMovementMethod(LinkMovementMethod.getInstance());
+                        textView.setPadding(0, 0, 0, 20);
                         layoutContent.addView(textView);
                         break;
                     case IMAGE:
                         ImageView imageView = new ImageView(itemView.getContext());
                         imageView.setAdjustViewBounds(true);
                         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                         imageView.setLayoutParams(params);
                         imageView.setBackgroundResource(R.drawable.round_outline);
                         imageView.setClipToOutline(true);
-                        Picasso.get().load(Uri.parse(content.getData())).into(imageView);
-                        layoutContent.addView(imageView);
+                        String photoUrl = content.getData();
+                        Log.d("n6a", "ICI photoUrl : " + photoUrl + ", gif:" + photoUrl.contains(".gif"));
+                        if (photoUrl.contains(".gif"))
+                            Glide.with(imageView.getContext()).asGif().load(photoUrl).into(imageView);
+                        else
+                            Glide.with(imageView.getContext()).load(photoUrl).into(imageView);
+                        // gravity center for imageView
+                        LinearLayout linearLayout = new LinearLayout(itemView.getContext());
+                        linearLayout.setGravity(Gravity.CENTER);
+                        linearLayout.addView(imageView);
+                        imageView.setPadding(0, 0, 0, 20);
+                        layoutContent.addView(linearLayout);
                         break;
                     case VIDEO:
                         VideoView videoView = new VideoView(itemView.getContext());
@@ -139,7 +164,13 @@ public class PostWithFunctionAdapter extends RecyclerView.Adapter<PostWithFuncti
                         frameLayout.setClipToOutline(true);
                         frameLayout.addView(videoView);
 
-                        layoutContent.addView(frameLayout);
+                        // gravity center
+                        LinearLayout linearLayout2 = new LinearLayout(itemView.getContext());
+                        linearLayout2.setGravity(Gravity.CENTER);
+                        linearLayout2.addView(frameLayout);
+                        linearLayout2.setPadding(0, 0, 0, 20);
+
+                        layoutContent.addView(linearLayout2);
                         videoView.setOnPreparedListener(mp -> {
                             videoView.start();
                             videoView.pause();
@@ -178,9 +209,56 @@ public class PostWithFunctionAdapter extends RecyclerView.Adapter<PostWithFuncti
                                 v.postDelayed(() -> isDoubleClick = false, 300);
                             }
                         });
-
                 }
             }
+
+            // add a delete button if the user is the author of the post or has a role >= 3
+
+            Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"topic", "user"}, new Object[]{post.getTopic(), MainActivity.getUserModel()}).addOnSuccessListener(topicUsers -> {
+                if (topicUsers.isEmpty()) {
+                    Toast.makeText(itemView.getContext(), "Erreur lors de la récupération de l'utilisateur", Toast.LENGTH_SHORT).show();
+                    Log.d("n6a", "Error : no user found");
+                    return;
+                }
+
+                if (topicUsers.size() > 1) {
+                    Toast.makeText(itemView.getContext(), "Erreur : plusieurs utilisateurs trouvés", Toast.LENGTH_SHORT).show();
+                    Log.d("n6a", "Error : multiple users found");
+                    return;
+                }
+
+                TopicUser currentTopicUser = topicUsers.get(0);
+
+                boolean isModerator = currentTopicUser.getRole().getRole() >= 3;
+                boolean isAuthor = post.getAuthor().equals(MainActivity.getUserModel());
+
+                if (isModerator || isAuthor) {
+                    Log.d("n6a", "Creating delete button for post " + post);
+                    Button deleteButton = new Button(itemView.getContext());
+                    deleteButton.setText("Supprimer");
+                    deleteButton.setOnClickListener(v -> {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
+                        builder.setTitle("Supprimer le post");
+                        builder.setMessage("Êtes-vous sûr de vouloir supprimer ce post ?");
+                        builder.setPositiveButton("Oui", (dialog, which) -> {
+                            String[] fields = new String[]{"topic", "author", "creation"};
+                            Object[] values = new Object[]{post.getTopic(), post.getAuthor(), post.getCreation()};
+                            Database.getInstance().removeFrom(Table.POSTS.getName(), fields, values).addOnSuccessListener(aVoid -> {
+                                Toast.makeText(itemView.getContext(), "Post supprimé", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }).addOnFailureListener(e -> {
+                                Toast.makeText(itemView.getContext(), "Erreur lors de la suppression du post", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            });
+                        });
+                        builder.setNegativeButton("Non", (dialog, which) -> dialog.dismiss());
+                        builder.show();
+                    });
+                    layoutContent.addView(deleteButton);
+                }
+            }).addOnFailureListener(e -> {
+                Log.e("n6a", "Error getting topic user", e);
+            });
         }
     }
 }

@@ -1,5 +1,7 @@
 package fr.ensisa.ensiblog;
 
+import static fr.ensisa.ensiblog.Utils.getFilePathFromUri;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -31,6 +33,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -73,13 +76,21 @@ import fr.ensisa.ensiblog.models.posts.ContentType;
 import fr.ensisa.ensiblog.models.posts.Post;
 import fr.ensisa.ensiblog.models.posts.TextContent;
 
+/**
+ * Activity used on the AddPost page of the application
+ **/
 public class AddPostActivity extends AppCompatActivity {
 
     private final long IMAGE_MAX_SIZE = 1_000_000;
-
     private final long VIDEO_MAX_SIZE = 10_000_000;
-    private Topic currentTopic;
+    private final String IMAGE_MAX_SIZE_STRING = "1Mo";
+    private final String VIDEO_MAX_SIZE_STRING = "10Mo";
+    private Topic currentTopic = null;
 
+    /**
+     * check if there is a boolean false in an array of boolean
+     @param array : the array to check
+     **/
     private static boolean isFull(boolean[] array) {
         for (int i = 0; i < array.length; i++) {
             if (!array[i]) {
@@ -89,19 +100,9 @@ public class AddPostActivity extends AppCompatActivity {
         return true;
     }
 
-    private String getFilePathFromUri(Uri uri) {
-        String filePath = null;
-        String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
-        if (cursor != null) {
-            int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            filePath = cursor.getString(columnIndex);
-            cursor.close();
-        }
-        return filePath;
-    }
-
+    /**
+     * Function called when AddPostActivity starts
+     **/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,10 +122,14 @@ public class AddPostActivity extends AppCompatActivity {
                         if(parcelFileDescriptor.getStatSize() < IMAGE_MAX_SIZE){
                             ImageView imgView = new ImageView(AddPostActivity.this);
                             imgView.setContentDescription(uri.toString());
-                            Picasso.get().load(uri).into(imgView);
+                            //Picasso.get().load(uri).into(imgView);
+                            if (uri.toString().contains(".gif"))
+                                Glide.with(AddPostActivity.this).asGif().load(uri.toString()).into(imgView);
+                            else
+                                Glide.with(AddPostActivity.this).load(uri.toString()).into(imgView);
                             list_content.addView(imgView);
                         } else {
-                            Toast.makeText(AddPostActivity.this,"Error, image is too big must be < "+IMAGE_MAX_SIZE,Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddPostActivity.this,"Error, image is too big must be < "+IMAGE_MAX_SIZE_STRING,Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -140,8 +145,7 @@ public class AddPostActivity extends AppCompatActivity {
                         if(parcelFileDescriptor.getStatSize() < VIDEO_MAX_SIZE){
                             VideoView videoView = new VideoView(AddPostActivity.this);
                             videoView.setVideoURI(uri);
-                            Log.i("n6a","URI :"+getFilePathFromUri(uri));
-                            videoView.setContentDescription(getFilePathFromUri(uri));
+                            videoView.setContentDescription(getFilePathFromUri(getContentResolver(),uri));
                             MediaController mediaController = new MediaController(AddPostActivity.this);
                             mediaController.setAnchorView(videoView);
                             mediaController.setMediaPlayer(videoView);
@@ -156,7 +160,7 @@ public class AddPostActivity extends AppCompatActivity {
                             list_content.addView(frameLayout);
                             videoView.start();
                         } else {
-                            Toast.makeText(AddPostActivity.this,"Error, video is to big must be < "+VIDEO_MAX_SIZE,Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddPostActivity.this,"Error, video is to big must be < "+VIDEO_MAX_SIZE_STRING,Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -169,6 +173,9 @@ public class AddPostActivity extends AppCompatActivity {
             Email usrEmail = new Email(user.getEmail());
             userName.setText(usrEmail.firstName() + " " + usrEmail.lastName());
 
+            ImageView img =  findViewById(R.id.imageViewUserPicture);
+            if(userModel.getPhotoUrl() != null)
+                Glide.with(AddPostActivity.this).load(userModel.getPhotoUrl()).into(img);
 
             // On récupère la liste des topics auquel l'user est abonné
             Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"user"}, new User[]{userModel}).addOnSuccessListener(topics -> {
@@ -183,7 +190,7 @@ public class AddPostActivity extends AppCompatActivity {
                             button.setText(btnTopic.getTopic().getName());
                             button.setOnClickListener(v -> {
                                 currentTopic=btnTopic.getTopic();
-                                button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
+                                button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#66A0B1")));
                                 for (Button otherButton : buttons) {
                                     if (otherButton != button) {
                                         otherButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#444444"))); // Change to desired color
@@ -208,6 +215,7 @@ public class AddPostActivity extends AppCompatActivity {
                 EditText editText = new EditText(AddPostActivity.this);
                 editText.setTextColor(Color.rgb(0,0,0));
                 list_content.addView(editText);
+                editText.requestFocus();
             });
             addVideo.setOnClickListener(v -> {
                 pickVideo.launch(new PickVisualMediaRequest.Builder()
@@ -216,80 +224,78 @@ public class AddPostActivity extends AppCompatActivity {
             });
             Button buttonPublish = findViewById(R.id.buttonPublish);
             buttonPublish.setOnClickListener(v -> {
-                Log.i("n6a","CLICK");
-                FirebaseStorage storage = FirebaseStorage.getInstance();
-                StorageReference storageRef = storage.getReference();
-                Content[] listContent = new Content[list_content.getChildCount()];
-                // Create a list of tasks
-                List<UploadTask> tasks = new ArrayList<>();
-                for (int i = 0; i < list_content.getChildCount(); i++) {
-                    View element = list_content.getChildAt(i);
-                    Log.i("n6a","content ??");
-                    if (element instanceof TextView) {
-                        listContent[i] = new Content(ContentType.TEXT, ((TextView) element).getText().toString());
-                    } else if (element instanceof ImageView) {
-                        StorageReference ref = storageRef.child("images/" + UUID.randomUUID().toString() + ".jpg");
-                        ((ImageView) element).setDrawingCacheEnabled(true);
-                        ((ImageView) element).buildDrawingCache();
-                        Bitmap bitmap = ((BitmapDrawable) ((ImageView) element).getDrawable()).getBitmap();
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
-                        byte[] data = baos.toByteArray();
-                        tasks.add(ref.putBytes(data));
-                        listContent[i] = new Content();
-                        listContent[i].setType(ContentType.IMAGE.getType());
+                if(currentTopic != null){
+                    FirebaseStorage storage = FirebaseStorage.getInstance();
+                    StorageReference storageRef = storage.getReference();
+                    Content[] listContent = new Content[list_content.getChildCount()];
+                    // Create a list of tasks
+                    List<UploadTask> tasks = new ArrayList<>();
+                    for (int i = 0; i < list_content.getChildCount(); i++) {
+                        View element = list_content.getChildAt(i);
+                        Log.i("n6a","content ??");
+                        if (element instanceof TextView) {
+                            listContent[i] = new Content(ContentType.TEXT, ((TextView) element).getText().toString());
+                        } else if (element instanceof ImageView) {
+                            String uri = (String) element.getContentDescription();
+                            String path = getFilePathFromUri(getContentResolver(), Uri.parse(uri));
+                            StorageReference ref = storageRef.child("images/" + UUID.randomUUID().toString() + ".jpg");
+                            if(path.contains(".gif")) ref = storageRef.child("images/" + UUID.randomUUID().toString() + ".gif");
 
-                    } else if (element instanceof FrameLayout) {
-                        String uri = (String) ((VideoView)((FrameLayout) element).getChildAt(0)).getContentDescription();
-                        StorageReference ref = storageRef.child("videos/" + UUID.randomUUID().toString() + ".mp4");
-                        tasks.add(ref.putFile(Uri.fromFile(new File(uri))));
-                        listContent[i] = new Content();
-                        listContent[i].setType(ContentType.VIDEO.getType());
-                    }
-                }
-                if(!tasks.isEmpty()){
-                    boolean[] urls = new boolean[tasks.size()];
-                    int j = 0;
-                    for (int i = 0; i < listContent.length; i++) {
-                        if(listContent[i].getType() != ContentType.TEXT.getType()){
-                            int finalJ = j;
-                            int finalI = i;
-                            tasks.get(j).continueWithTask(task -> {
-                                if (!task.isSuccessful()) {
-                                    Toast.makeText(AddPostActivity.this, "Error while uploading video", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    task.getResult().getStorage().getDownloadUrl().addOnSuccessListener(downloadUrl -> {
-                                        listContent[finalI].setData(downloadUrl.toString());
-                                        urls[finalJ] = true;
-                                        if(isFull(urls)) {
-                                            Post newPost = new Post(new Date(), currentTopic, userModel, Arrays.asList(listContent), new Date());
-                                            Database.getInstance().add(Table.POSTS.getName(), newPost, Post.class).addOnCompleteListener(task2 -> {
-                                                if(task2.isSuccessful()){
-                                                    Intent intent = new Intent(AddPostActivity.this, MainActivity.class);
-                                                    intent.putExtra("user",user);
-                                                    //intent.putExtra("User",userModel);
-                                                    startActivity(intent);
-                                                } else Toast.makeText(AddPostActivity.this, "Erreur lors de la publication du post", Toast.LENGTH_SHORT).show();
-                                            });
-                                        }
-                                    });
-                                }
-                                return null;
-                            });
-                            j++;
+                            tasks.add(ref.putFile(Uri.fromFile(new File(path))));
+                            listContent[i] = new Content();
+                            listContent[i].setType(ContentType.IMAGE.getType());
+
+                        } else if (element instanceof FrameLayout) {
+                            String uri = (String) ((VideoView)((FrameLayout) element).getChildAt(0)).getContentDescription();
+                            StorageReference ref = storageRef.child("videos/" + UUID.randomUUID().toString() + ".mp4");
+                            tasks.add(ref.putFile(Uri.fromFile(new File(uri))));
+                            listContent[i] = new Content();
+                            listContent[i].setType(ContentType.VIDEO.getType());
                         }
                     }
-                } else {
-                    Log.i("n6a","HEY");
-                    Post newPost = new Post(new Date(), currentTopic, userModel, Arrays.asList(listContent), new Date());
-                    Database.getInstance().add(Table.POSTS.getName(), newPost, Post.class).addOnCompleteListener(task2 -> {
-                        if(task2.isSuccessful()){
-                            Intent intent = new Intent(AddPostActivity.this, MainActivity.class);
-                            intent.putExtra("user",user);
-                            startActivity(intent);
-                        } else Toast.makeText(AddPostActivity.this, "Erreur lors de la publication du post", Toast.LENGTH_SHORT).show();
-                    });
-                }
+                    if(!tasks.isEmpty()){
+                        boolean[] urls = new boolean[tasks.size()];
+                        int j = 0;
+                        for (int i = 0; i < listContent.length; i++) {
+                            if(listContent[i].getType() != ContentType.TEXT.getType()){
+                                int finalJ = j;
+                                int finalI = i;
+                                tasks.get(j).continueWithTask(task -> {
+                                    if (!task.isSuccessful()) {
+                                        Toast.makeText(AddPostActivity.this, "Error while uploading video", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        task.getResult().getStorage().getDownloadUrl().addOnSuccessListener(downloadUrl -> {
+                                            listContent[finalI].setData(downloadUrl.toString());
+                                            urls[finalJ] = true;
+                                            if(isFull(urls)) {
+                                                Post newPost = new Post(new Date(), currentTopic, userModel, Arrays.asList(listContent), new Date());
+                                                Database.getInstance().add(Table.POSTS.getName(), newPost, Post.class).addOnCompleteListener(task2 -> {
+                                                    if(task2.isSuccessful()){
+                                                        Intent intent = new Intent(AddPostActivity.this, MainActivity.class);
+                                                        intent.putExtra("user",user);
+                                                        //intent.putExtra("User",userModel);
+                                                        startActivity(intent);
+                                                    } else Toast.makeText(AddPostActivity.this, "Erreur lors de la publication du post", Toast.LENGTH_SHORT).show();
+                                                });
+                                            }
+                                        });
+                                    }
+                                    return null;
+                                });
+                                j++;
+                            }
+                        }
+                    } else {
+                        Post newPost = new Post(new Date(), currentTopic, userModel, Arrays.asList(listContent), new Date());
+                        Database.getInstance().add(Table.POSTS.getName(), newPost, Post.class).addOnCompleteListener(task2 -> {
+                            if(task2.isSuccessful()){
+                                Intent intent = new Intent(AddPostActivity.this, MainActivity.class);
+                                intent.putExtra("user",user);
+                                startActivity(intent);
+                            } else Toast.makeText(AddPostActivity.this, "Erreur lors de la publication du post", Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                } else Toast.makeText(AddPostActivity.this, "Veuillez choisir un thème dans lequel publier votre post", Toast.LENGTH_SHORT).show();
             });
         }
     }
