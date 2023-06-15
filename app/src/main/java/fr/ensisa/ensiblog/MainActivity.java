@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                 );
                 //return;
             }
-            button.setBackgroundTintList(displayedTopics.contains(btnTopic) ? ColorStateList.valueOf(Color.parseColor("#FF0000")) : ColorStateList.valueOf(Color.parseColor("#444444")));
+            button.setBackgroundTintList(displayedTopics.contains(btnTopic) ? ColorStateList.valueOf(Color.parseColor("#539AC1")) : ColorStateList.valueOf(Color.parseColor("#444444")));
 
             Collections.sort(postsWithFunctions, (o1, o2) -> o2.getPost().getCreation().compareTo(o1.getPost().getCreation()));
             adapter.notifyDataSetChanged();

@@ -182,7 +182,7 @@ public class AddPostActivity extends AppCompatActivity {
                             button.setText(btnTopic.getTopic().getName());
                             button.setOnClickListener(v -> {
                                 currentTopic=btnTopic.getTopic();
-                                button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
+                                button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#66A0B1")));
                                 for (Button otherButton : buttons) {
                                     if (otherButton != button) {
                                         otherButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#444444"))); // Change to desired color
