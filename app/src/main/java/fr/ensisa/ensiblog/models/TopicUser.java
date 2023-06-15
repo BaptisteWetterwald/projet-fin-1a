@@ -62,7 +62,7 @@ public class TopicUser implements Serializable {
     }
 
     /**
-     * Overwrite the basic equals function to adapt it for our app
+     * Override the basic equals function to adapt it for our app
      @param obj : param of the basic equals function
      **/
     @Override
