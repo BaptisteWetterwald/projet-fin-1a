@@ -188,36 +188,27 @@ public class MainActivity extends AppCompatActivity {
         );
         params.setMargins(10, 20, 10, 20); // Set margins for the buttons
         button.setLayoutParams(params);
-
         Drawable background = getResources().getDrawable(R.drawable.btn_bg); // Set the background drawable for the button
         button.setBackground(background);
-
         button.setTextColor(Color.WHITE); // Set the text color for the button
         button.setText(buttonText); // Set the text for the button
-
         return button;
     }
-
     /**
      * Function called when MainActivity starts
      **/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         Bundle extras = getIntent().getExtras();
-
         if (extras != null) {
-
             FirebaseUser user = (FirebaseUser) extras.get("user");
             TextView textUserName = findViewById(R.id.user_name);
             Email usrEmail = new Email(user.getEmail());
             textUserName.setText(usrEmail.firstName() + " " + usrEmail.lastName());
-
             LinearLayout buttonsLayout = findViewById(R.id.buttons_right_panel);
-
             // On commence par récupérer l'user courant dans notre DB pour filtrer les topics
             Database.getInstance().get(Table.USERS.getName(), User.class, new String[]{"uid"}, new String[]{user.getUid()}).addOnSuccessListener(users -> {
                 if (users.size() > 0) {
@@ -226,10 +217,8 @@ public class MainActivity extends AppCompatActivity {
                         ImageView avatar = findViewById(R.id.img_avatar);
                         Picasso.get().load(userModel.getPhotoUrl()).into(avatar);
                     }
-
                     get_left_view();
                     AtomicBoolean isModo = new AtomicBoolean(false);
-
                     // On récupère la liste des topics auquel l'user est abonné
                     Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"user"}, new User[]{userModel}).addOnSuccessListener(topics -> {
                         if (topics.size() > 0) {
