@@ -57,7 +57,6 @@ import fr.ensisa.ensiblog.models.User;
 import fr.ensisa.ensiblog.models.posts.Post;
 import fr.ensisa.ensiblog.models.posts.PostWithFunction;
 import fr.ensisa.ensiblog.ui.posts.PostWithFunctionAdapter;
-
 public class MainActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
     private ActivityMainBinding binding;
@@ -70,9 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Button> buttons = new ArrayList<>();
     private TopicUser currentTopicUser = null;
     private List<Topic> displayedTopics = new ArrayList<>();
-
     private Map<Topic,ListenerRegistration> topicsRegistered = new HashMap<>();
-
     private void removeListener(Button btn){
         btn.setOnClickListener(null);
         for (Topic t : displayedTopics)
@@ -407,7 +404,7 @@ public class MainActivity extends AppCompatActivity {
                         if (user1.getUid() != null) {
                             if (user1.getUid().equals(userUid)) {
                                 String currentBio = user1.getBiographie();
-                                TextView editTextBio = findViewById(R.id.editTextBio);
+                                TextView editTextBio = findViewById(R.id.editTextBio1);
                                 editTextBio.setText(currentBio);
                             }
                         }
