@@ -63,15 +63,24 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private AppBarConfiguration mAppBarConfigurationLeft;
     private List<PostWithFunction> postsWithFunctions = new ArrayList<>();
-    private PostWithFunctionAdapter adapter;
+    private static PostWithFunctionAdapter adapter;
     private QuerySnapshot postsSnapshot;
     private Boolean already_exist;
-    private User userModel;
+    private static User userModel;
     private List<Button> buttons = new ArrayList<>();
     private TopicUser currentTopicUser = null;
     private List<Topic> displayedTopics = new ArrayList<>();
 
     private Map<Topic,ListenerRegistration> topicsRegistered = new HashMap<>();
+
+    public static PostWithFunctionAdapter getAdapter() {
+        return adapter;
+    }
+
+    public static User getUserModel() {
+        return userModel;
+    }
+
 
     private void removeListener(Button btn){
         btn.setOnClickListener(null);

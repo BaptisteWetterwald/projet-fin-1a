@@ -1,5 +1,7 @@
 package fr.ensisa.ensiblog.models;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 /**
@@ -73,5 +75,15 @@ public class TopicUser implements Serializable {
         if (obj == this)
             return true;
         return this.getTopic().equals(((TopicUser) obj).getTopic()) && this.getUser().equals(((TopicUser) obj).getUser()) && this.getRole().equals(((TopicUser) obj).getRole());
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "TopicUser{" +
+                "topic='" + topic + '\'' +
+                ", user='" + user + '\'' +
+                ", role='" + role + '\'' +
+                '}';
     }
 }

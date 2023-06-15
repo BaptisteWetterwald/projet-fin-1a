@@ -1,22 +1,28 @@
 package fr.ensisa.ensiblog.ui.posts;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -24,8 +30,13 @@ import java.util.List;
 import java.util.Objects;
 
 import fr.ensisa.ensiblog.FullScreenVideoActivity;
+import fr.ensisa.ensiblog.MainActivity;
 import fr.ensisa.ensiblog.R;
+import fr.ensisa.ensiblog.firebase.Database;
+import fr.ensisa.ensiblog.firebase.Table;
 import fr.ensisa.ensiblog.models.Email;
+import fr.ensisa.ensiblog.models.TopicUser;
+import fr.ensisa.ensiblog.models.User;
 import fr.ensisa.ensiblog.models.posts.Content;
 import fr.ensisa.ensiblog.models.posts.ContentType;
 import fr.ensisa.ensiblog.models.posts.Post;
@@ -92,7 +103,6 @@ public class PostWithFunctionAdapter extends RecyclerView.Adapter<PostWithFuncti
             firstName.setText(email.firstName());
             lastName.setText(email.lastName());
             String functionText = postWithFunction.getFunction();
-            Log.d("n6a", "Post " + post + " function " + functionText);
             function.setText(functionText == null ? "Membre" : functionText);
             topic.setText(post.getTopic().getName());
             String creation = simpleDateFormat.format(post.getCreation());
@@ -114,6 +124,8 @@ public class PostWithFunctionAdapter extends RecyclerView.Adapter<PostWithFuncti
                         textView.setText(content.getData());
                         textView.setTextColor(Color.parseColor("#606060"));
                         textView.setGravity(Gravity.CENTER);
+                        textView.setAutoLinkMask(Linkify.ALL);
+                        textView.setMovementMethod(LinkMovementMethod.getInstance());
                         layoutContent.addView(textView);
                         break;
                     case IMAGE:
@@ -182,6 +194,62 @@ public class PostWithFunctionAdapter extends RecyclerView.Adapter<PostWithFuncti
 
                 }
             }
+
+            // add a delete button if the user is the author of the post or has a role >= 3
+
+            Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"topic", "user"}, new Object[]{post.getTopic(), MainActivity.getUserModel()}).addOnSuccessListener(topicUsers -> {
+                Log.d("n6a", "************ Checking a post ************");
+                if (topicUsers.isEmpty()) {
+                    Toast.makeText(itemView.getContext(), "Erreur lors de la récupération de l'utilisateur", Toast.LENGTH_SHORT).show();
+                    Log.d("n6a", "Error : no user found");
+                    return;
+                }
+
+                if (topicUsers.size() > 1) {
+                    Toast.makeText(itemView.getContext(), "Erreur : plusieurs utilisateurs trouvés", Toast.LENGTH_SHORT).show();
+                    Log.d("n6a", "Error : multiple users found");
+                    return;
+                }
+
+                TopicUser currentTopicUser = topicUsers.get(0);
+                Log.d("n6a", "Current topic user " + currentTopicUser);
+                Log.d("n6a", "Author : " + post.getAuthor());
+                Log.d("n6a", "Current user " + MainActivity.getUserModel());
+
+                boolean isModerator = currentTopicUser.getRole().getRole() >= 3;
+                boolean isAuthor = post.getAuthor().equals(MainActivity.getUserModel());
+                Log.d("n6a", "Moderator ? " + isModerator);
+                Log.d("n6a", "Author ? " + isAuthor);
+
+                if (isModerator || isAuthor) {
+                    Log.d("n6a", "Creating delete button for post " + post);
+                    Button deleteButton = new Button(itemView.getContext());
+                    deleteButton.setText("Supprimer");
+                    deleteButton.setOnClickListener(v -> {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
+                        builder.setTitle("Supprimer le post");
+                        builder.setMessage("Êtes-vous sûr de vouloir supprimer ce post ?");
+                        builder.setPositiveButton("Oui", (dialog, which) -> {
+                            String[] fields = new String[]{"topic", "author", "creation"};
+                            Object[] values = new Object[]{post.getTopic(), post.getAuthor(), post.getCreation()};
+                            Database.getInstance().removeFrom(Table.POSTS.getName(), fields, values).addOnSuccessListener(aVoid -> {
+                                Toast.makeText(itemView.getContext(), "Post supprimé", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }).addOnFailureListener(e -> {
+                                Toast.makeText(itemView.getContext(), "Erreur lors de la suppression du post", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            });
+                        });
+                        builder.setNegativeButton("Non", (dialog, which) -> dialog.dismiss());
+                        builder.show();
+                    });
+                    layoutContent.addView(deleteButton);
+                }
+            }).addOnFailureListener(e -> {
+                Log.e("n6a", "Error getting topic user", e);
+            }).addOnCompleteListener(task -> {
+                Log.d("n6a", "************ End of checking a post ************");
+            });
         }
     }
 }

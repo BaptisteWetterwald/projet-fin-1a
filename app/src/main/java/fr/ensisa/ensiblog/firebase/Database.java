@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import okhttp3.internal.cache.DiskLruCache;
-
 /**
  * Class containing all functions needed to work with the database
  **/
@@ -91,9 +89,23 @@ public class Database {
                 });
     }
 
-    public void remove(String tableName, Object object){
-        CollectionReference dbTable = db.collection(tableName);
-        dbTable.document(object.toString()).delete();
+    public Task<Void> remove(String tableName, Object object){
+        // for each attribute of the object, if it is not null, add it to the query after casting it to the right type
+        String[] fields = new String[object.getClass().getDeclaredFields().length];
+        Object[] values = new Object[object.getClass().getDeclaredFields().length];
+
+        for (int i = 0; i < object.getClass().getDeclaredFields().length; i++) {
+            Field field = object.getClass().getDeclaredFields()[i];
+            field.setAccessible(true);
+            try {
+                fields[i] = field.getName();
+                values[i] = field.get(object);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return removeFrom(tableName, fields, values);
     }
 
     public void update(String tableName, Object old, Object newObject){

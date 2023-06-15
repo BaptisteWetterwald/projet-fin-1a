@@ -1,4 +1,6 @@
 package fr.ensisa.ensiblog.models;
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.regex.Pattern;
 
@@ -85,5 +87,13 @@ public class Email implements Serializable {
         if (obj == this)
             return true;
         return this.getAddress().equals(((Email) obj).getAddress());
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Email{" +
+                "address='" + address + '\'' +
+                '}';
     }
 }

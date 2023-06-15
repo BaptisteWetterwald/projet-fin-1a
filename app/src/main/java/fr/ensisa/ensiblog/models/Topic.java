@@ -1,5 +1,7 @@
 package fr.ensisa.ensiblog.models;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 /**
@@ -54,6 +56,7 @@ public class Topic implements Serializable {
         return this.getName().equals(((Topic) obj).getName()) && this.getDefaultRole().equals(((Topic) obj).getDefaultRole());
     }
 
+    @NonNull
     /**
      * Override the basic toString function to adapt it for our app
      **/

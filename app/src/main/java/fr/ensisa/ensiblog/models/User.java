@@ -1,5 +1,7 @@
 package fr.ensisa.ensiblog.models;
 
+import androidx.annotation.NonNull;
+
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.Serializable;
@@ -79,5 +81,16 @@ public class User implements Serializable {
         if (obj == this)
             return true;
         return this.getEmail().equals(((User) obj).getEmail());
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "User{" +
+                "email=" + email +
+                ", biographie='" + biographie + '\'' +
+                ", uid='" + uid + '\'' +
+                ", photoUrl='" + photoUrl + '\'' +
+                '}';
     }
 }

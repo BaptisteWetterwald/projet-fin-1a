@@ -1,5 +1,7 @@
 package fr.ensisa.ensiblog.models.posts;
 
+import androidx.annotation.NonNull;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.ObjectOutputStream;
@@ -42,6 +44,15 @@ public class Content {
         if (obj == this)
             return true;
         return this.getData().equals(((Content) obj).getData()) && this.getType().equals(((Content) obj).getType());
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Content{" +
+                "type='" + type + '\'' +
+                ", data='" + data + '\'' +
+                '}';
     }
 
 }

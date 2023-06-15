@@ -1,5 +1,7 @@
 package fr.ensisa.ensiblog.models;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 /**
@@ -41,5 +43,13 @@ public class Role implements Serializable {
         if (obj == this)
             return true;
         return this.getRole() == ((Role) obj).getRole();
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Role{" +
+                "role='" + role + '\'' +
+                '}';
     }
 }
