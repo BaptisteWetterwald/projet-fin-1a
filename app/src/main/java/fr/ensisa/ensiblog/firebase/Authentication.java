@@ -22,6 +22,11 @@ public class Authentication {
         return mAuth.getCurrentUser();
     }
 
+    /**
+     * create a FireBase user authenticate
+     @param email : email of the new FireBase user
+     @param password : password of the new FireBase user
+     **/
     public Task<AuthResult> createUser(String email, String password) throws RuntimeException {
         if(!(Email.isValid(email) && Password.isValid(password))){
             throw new RuntimeException();
@@ -29,6 +34,11 @@ public class Authentication {
         return mAuth.createUserWithEmailAndPassword(email, password);
     }
 
+    /**
+     * Used to authenticate a user
+     @param email : email of the user
+     @param password : password of the user
+     **/
     public Task<AuthResult> signInUser(String email, String password) {
         return mAuth.signInWithEmailAndPassword(email, password);
     }
@@ -37,6 +47,9 @@ public class Authentication {
         return getCurrentUser().updatePassword(password);
     }
 
+    /**
+     * disconnect from your account
+     **/
     public void signOut(){
         mAuth.signOut();
     }

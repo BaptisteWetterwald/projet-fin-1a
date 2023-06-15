@@ -19,7 +19,7 @@ public class Email implements Serializable {
 
     /**
      * verify if the mail is conform
-     @param address : mail ot verify
+     @param address : mail to verify
      **/
     public static boolean isValid(String address){
         String emailRegex = "^[a-zA-Z]+\\.[a-zA-Z]+[0-9]?+@uha\\.fr$";
