@@ -17,6 +17,10 @@ public class Email implements Serializable {
         this.address = address;
     }
 
+    /**
+     * verify if the mail is conform
+     @param address : mail ot verify
+     **/
     public static boolean isValid(String address){
         String emailRegex = "^[a-zA-Z]+\\.[a-zA-Z]+[0-9]?+@uha\\.fr$";
         Pattern pattern = Pattern.compile(emailRegex);
@@ -31,6 +35,9 @@ public class Email implements Serializable {
         this.address = address;
     }
 
+    /**
+     * get the firstname and lastname of a user by using his mail
+     **/
     public String[] names(){
         // baptiste.wetterwald-ad@uha.fr should return : ["Baptiste", "Wetterwald-Ad"]
         // split with @
@@ -66,6 +73,10 @@ public class Email implements Serializable {
         return names()[1];
     }
 
+    /**
+     * Overwrite the basic equals function to adapt it for our app
+     @param obj : param of the basic equals function
+     **/
     @Override
     public boolean equals(Object obj) {
         if (obj == null) return false;

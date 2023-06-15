@@ -40,6 +40,10 @@ public class Topic implements Serializable {
         this.defaultRole = defaultRole;
     }
 
+    /**
+     * Overwrite the basic equals function to adapt it for our app
+     @param obj : param of the basic equals function
+     **/
     @Override
     public boolean equals(Object obj) {
         if (obj == null) return false;
@@ -50,6 +54,9 @@ public class Topic implements Serializable {
         return this.getName().equals(((Topic) obj).getName()) && this.getDefaultRole().equals(((Topic) obj).getDefaultRole());
     }
 
+    /**
+     * Overwrite the basic toString function to adapt it for our app
+     **/
     @Override
     public String toString() {
         return "Topic{" +
