@@ -84,8 +84,8 @@
             android:id="@+id/list_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
             android:orientation="vertical">
-
         </LinearLayout>
     </ScrollView>
 
@@ -164,9 +164,11 @@
 
     <Button
         android:id="@+id/buttonPublish"
-        android:layout_width="474dp"
+        android:layout_width="match_parent"
         android:layout_height="68dp"
         android:layout_marginBottom="4dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:backgroundTint="@color/red"
         android:text="@string/publier"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -178,13 +180,10 @@
         android:id="@+id/imageViewUserPicture"
         android:layout_width="65dp"
         android:layout_height="65dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="115dp"
         android:src="@drawable/profile_icon"
-        app:layout_constraintBottom_toTopOf="@+id/scroll_View"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.037"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="16dp"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
