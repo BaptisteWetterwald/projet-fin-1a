@@ -117,16 +117,6 @@ public class AdminActivity extends AppCompatActivity {
                             themes.add(newTopic);
                             adapter.notifyDataSetChanged();
                             listView.smoothScrollToPosition(listView.getCount() - 1);
-                            /*LayoutInflater inflater = LayoutInflater.from(AdminActivity.this);
-                            View view = inflater.inflate(R.layout.list_item, listView);
-                            TextView themeTitle = view.findViewById(R.id.itemTextView);
-                            themeTitle.setText(themeName);
-
-                            TextView moderatorName = view.findViewById(R.id.moderatorNameTextView);
-                            Email e = new Email(moderatorEmail);
-                            moderatorName.setText(e.firstName()+" "+e.lastName());
-
-                            listView.addView(view);*/
                         } else {
                             Utils.showInfoBox("Alert !","User not found with email","OK",AdminActivity.this, (dialog2, which2) -> {
                                 dialog2.cancel();
