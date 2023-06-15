@@ -33,6 +33,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -121,7 +122,11 @@ public class AddPostActivity extends AppCompatActivity {
                         if(parcelFileDescriptor.getStatSize() < IMAGE_MAX_SIZE){
                             ImageView imgView = new ImageView(AddPostActivity.this);
                             imgView.setContentDescription(uri.toString());
-                            Picasso.get().load(uri).into(imgView);
+                            //Picasso.get().load(uri).into(imgView);
+                            if (uri.toString().contains(".gif"))
+                                Glide.with(AddPostActivity.this).asGif().load(uri.toString()).into(imgView);
+                            else
+                                Glide.with(AddPostActivity.this).load(uri.toString()).into(imgView);
                             list_content.addView(imgView);
                         } else {
                             Toast.makeText(AddPostActivity.this,"Error, image is too big must be < "+IMAGE_MAX_SIZE_STRING,Toast.LENGTH_SHORT).show();
@@ -170,7 +175,7 @@ public class AddPostActivity extends AppCompatActivity {
 
             ImageView img =  findViewById(R.id.imageViewUserPicture);
             if(userModel.getPhotoUrl() != null)
-                Picasso.get().load(userModel.getPhotoUrl()).into(img);
+                Glide.with(AddPostActivity.this).load(userModel.getPhotoUrl()).into(img);
 
             // On récupère la liste des topics auquel l'user est abonné
             Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"user"}, new User[]{userModel}).addOnSuccessListener(topics -> {
@@ -231,14 +236,12 @@ public class AddPostActivity extends AppCompatActivity {
                         if (element instanceof TextView) {
                             listContent[i] = new Content(ContentType.TEXT, ((TextView) element).getText().toString());
                         } else if (element instanceof ImageView) {
+                            String uri = (String) element.getContentDescription();
+                            String path = getFilePathFromUri(getContentResolver(), Uri.parse(uri));
                             StorageReference ref = storageRef.child("images/" + UUID.randomUUID().toString() + ".jpg");
-                            ((ImageView) element).setDrawingCacheEnabled(true);
-                            ((ImageView) element).buildDrawingCache();
-                            Bitmap bitmap = ((BitmapDrawable) ((ImageView) element).getDrawable()).getBitmap();
-                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
-                            byte[] data = baos.toByteArray();
-                            tasks.add(ref.putBytes(data));
+                            if(path.contains(".gif")) ref = storageRef.child("images/" + UUID.randomUUID().toString() + ".gif");
+
+                            tasks.add(ref.putFile(Uri.fromFile(new File(path))));
                             listContent[i] = new Content();
                             listContent[i].setType(ContentType.IMAGE.getType());
 

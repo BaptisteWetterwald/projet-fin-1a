@@ -22,6 +22,7 @@ import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
@@ -126,18 +127,29 @@ public class PostWithFunctionAdapter extends RecyclerView.Adapter<PostWithFuncti
                         textView.setGravity(Gravity.CENTER);
                         textView.setAutoLinkMask(Linkify.ALL);
                         textView.setMovementMethod(LinkMovementMethod.getInstance());
+                        textView.setPadding(0, 0, 0, 20);
                         layoutContent.addView(textView);
                         break;
                     case IMAGE:
                         ImageView imageView = new ImageView(itemView.getContext());
                         imageView.setAdjustViewBounds(true);
                         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                         imageView.setLayoutParams(params);
                         imageView.setBackgroundResource(R.drawable.round_outline);
                         imageView.setClipToOutline(true);
-                        Picasso.get().load(Uri.parse(content.getData())).into(imageView);
-                        layoutContent.addView(imageView);
+                        String photoUrl = content.getData();
+                        Log.d("n6a", "ICI photoUrl : " + photoUrl + ", gif:" + photoUrl.contains(".gif"));
+                        if (photoUrl.contains(".gif"))
+                            Glide.with(imageView.getContext()).asGif().load(photoUrl).into(imageView);
+                        else
+                            Glide.with(imageView.getContext()).load(photoUrl).into(imageView);
+                        // gravity center for imageView
+                        LinearLayout linearLayout = new LinearLayout(itemView.getContext());
+                        linearLayout.setGravity(Gravity.CENTER);
+                        linearLayout.addView(imageView);
+                        imageView.setPadding(0, 0, 0, 20);
+                        layoutContent.addView(linearLayout);
                         break;
                     case VIDEO:
                         VideoView videoView = new VideoView(itemView.getContext());
@@ -152,7 +164,13 @@ public class PostWithFunctionAdapter extends RecyclerView.Adapter<PostWithFuncti
                         frameLayout.setClipToOutline(true);
                         frameLayout.addView(videoView);
 
-                        layoutContent.addView(frameLayout);
+                        // gravity center
+                        LinearLayout linearLayout2 = new LinearLayout(itemView.getContext());
+                        linearLayout2.setGravity(Gravity.CENTER);
+                        linearLayout2.addView(frameLayout);
+                        linearLayout2.setPadding(0, 0, 0, 20);
+
+                        layoutContent.addView(linearLayout2);
                         videoView.setOnPreparedListener(mp -> {
                             videoView.start();
                             videoView.pause();
@@ -191,14 +209,12 @@ public class PostWithFunctionAdapter extends RecyclerView.Adapter<PostWithFuncti
                                 v.postDelayed(() -> isDoubleClick = false, 300);
                             }
                         });
-
                 }
             }
 
             // add a delete button if the user is the author of the post or has a role >= 3
 
             Database.getInstance().get(Table.TOPIC_USERS.getName(), TopicUser.class, new String[]{"topic", "user"}, new Object[]{post.getTopic(), MainActivity.getUserModel()}).addOnSuccessListener(topicUsers -> {
-                Log.d("n6a", "************ Checking a post ************");
                 if (topicUsers.isEmpty()) {
                     Toast.makeText(itemView.getContext(), "Erreur lors de la récupération de l'utilisateur", Toast.LENGTH_SHORT).show();
                     Log.d("n6a", "Error : no user found");
@@ -212,14 +228,9 @@ public class PostWithFunctionAdapter extends RecyclerView.Adapter<PostWithFuncti
                 }
 
                 TopicUser currentTopicUser = topicUsers.get(0);
-                Log.d("n6a", "Current topic user " + currentTopicUser);
-                Log.d("n6a", "Author : " + post.getAuthor());
-                Log.d("n6a", "Current user " + MainActivity.getUserModel());
 
                 boolean isModerator = currentTopicUser.getRole().getRole() >= 3;
                 boolean isAuthor = post.getAuthor().equals(MainActivity.getUserModel());
-                Log.d("n6a", "Moderator ? " + isModerator);
-                Log.d("n6a", "Author ? " + isAuthor);
 
                 if (isModerator || isAuthor) {
                     Log.d("n6a", "Creating delete button for post " + post);
@@ -247,8 +258,6 @@ public class PostWithFunctionAdapter extends RecyclerView.Adapter<PostWithFuncti
                 }
             }).addOnFailureListener(e -> {
                 Log.e("n6a", "Error getting topic user", e);
-            }).addOnCompleteListener(task -> {
-                Log.d("n6a", "************ End of checking a post ************");
             });
         }
     }

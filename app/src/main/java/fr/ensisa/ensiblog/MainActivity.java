@@ -29,6 +29,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
@@ -222,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
                     userModel = users.get(0);
                     if(userModel.getPhotoUrl() != null){
                         ImageView avatar = findViewById(R.id.img_avatar);
-                        Picasso.get().load(userModel.getPhotoUrl()).into(avatar);
+                        Glide.with(this).load(userModel.getPhotoUrl()).into(avatar);
                     }
                     get_left_view();
                     AtomicBoolean isModo = new AtomicBoolean(false);
