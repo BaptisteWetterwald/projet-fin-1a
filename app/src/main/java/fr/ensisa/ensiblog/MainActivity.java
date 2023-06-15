@@ -81,6 +81,12 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
     }
+
+    /**
+     * Function that manages topics in the topics Bar of the app
+     @param button : button in the topic bar
+     @param btnTopic : topic link to this button
+     **/
     private void addListener(Button button,Topic btnTopic){
         button.setOnClickListener(v -> {
             // check if displayedTopics contains a topic with name button.getText()
@@ -160,7 +166,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * Function that creates a button in a specific context
+     @param context : where you want to add the button
+     @param buttonText : text on the button you are creating
+     **/
     private MaterialButton createButton(Context context, String buttonText) {
         MaterialButton button = new MaterialButton(context);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -179,7 +189,9 @@ public class MainActivity extends AppCompatActivity {
         return button;
     }
 
-
+    /**
+     * Function called when MainActivity starts
+     **/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -301,6 +313,10 @@ public class MainActivity extends AppCompatActivity {
         DisplayBio();
 
     }
+
+    /**
+     * Function that manages the subscription part of the app
+     **/
     private void get_left_view(){
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -391,12 +407,20 @@ public class MainActivity extends AppCompatActivity {
             });
         });
     }
+
+    /**
+     * Function that manages the swipe in the app
+     **/
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfigurationLeft)
                 || super.onSupportNavigateUp();
     }
+
+    /**
+     * Function that displays the bio of a user
+     **/
     private void DisplayBio() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();

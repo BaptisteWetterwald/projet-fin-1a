@@ -155,11 +155,11 @@ public class Database {
     }
 
     /**
-     * method to update lines in the database with fields and values parameters as new values and object as the object to update
+     * method to update lines in the database with fields and values parameters
      @param tableName : select the collection you want to change object
      @param object : object to update
      @param fields : fields to filter with
-     @param values : fields to filter with
+     @param values : new values of the object
      **/
     public void update(String tableName, Object object, String[] fields, Object[] values) throws IllegalArgumentException {
         CollectionReference dbTable = db.collection(tableName);
@@ -269,7 +269,7 @@ public class Database {
      @param tableName : name of the table you want to add a line
      @param object : object you want to add to the database
      @param objectClass : class of the object you want to add
-     @param unique : used to see if the object already exist in the database
+     @param unique : used to ad the object if he does not already exist in the database
      **/
     public void add(String tableName, Object object, Class objectClass, boolean unique) {
 
