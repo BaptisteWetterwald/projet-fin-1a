@@ -8,6 +8,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -182,9 +183,15 @@ public class MainActivity extends AppCompatActivity {
      **/
     private MaterialButton createButton(Context context, String buttonText) {
         MaterialButton button = new MaterialButton(context);
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        int screenHeight = displayMetrics.heightPixels;
+
+
+        int desiredButtonHeight = (int) (screenHeight * 0.05);
+
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                100
+                desiredButtonHeight
         );
         params.setMargins(10, 20, 10, 20); // Set margins for the buttons
         button.setLayoutParams(params);
